@@ -1,0 +1,1 @@
+export const navigationItems=[{label:'Home',path:'/',icon:'dashboard'},{label:'Test Series',path:'/test-series',icon:'test'},{label:'Quizzes',path:'/quizzes',icon:'quizzes'},{label:'Notes',path:'/notes',icon:'notes'},{label:'Abstractions',path:'/abstractions',icon:'abstractions'},{label:'Cheat Sheets',path:'/cheat-sheets',icon:'sheets'}] as const;
