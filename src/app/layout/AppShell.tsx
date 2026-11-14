@@ -1,7 +1,7 @@
 import {type ReactNode} from 'react';
 import {NavLink} from 'react-router-dom';
-import {BookOpen,BrainCircuit,CalendarDays,ClipboardCheck,ClipboardList,FileText,GraduationCap,Layers3,LayoutDashboard} from 'lucide-react';
+import {BookOpen,BrainCircuit,CalendarDays,ClipboardCheck,ClipboardList,FileText,GraduationCap,Layers3,LayoutDashboard,Library} from 'lucide-react';
 import {Countdown} from '../../shared/components/Countdown';
 import {navigationItems} from '../../shared/config/navigation';
-const icons={dashboard:LayoutDashboard,test:ClipboardList,quizzes:BrainCircuit,notes:BookOpen,abstractions:Layers3,sheets:FileText,counseling:GraduationCap,tracking:ClipboardCheck,reminders:CalendarDays,courses:GraduationCap};
+const icons={dashboard:LayoutDashboard,test:ClipboardList,quizzes:BrainCircuit,notes:BookOpen,mistakes:Library,abstractions:Layers3,sheets:FileText,counseling:GraduationCap,tracking:ClipboardCheck,reminders:CalendarDays,courses:GraduationCap};
 export function AppShell({children}:{children:ReactNode}){return <div className="app-shell"><header className="topbar"><NavLink className="brand" to="/"><span className="brand-mark">G</span><span>GATE <strong>PREP</strong></span></NavLink><div className="topbar-right"><span className="exam-label"><i/>GATE CSE 2027</span><Countdown/></div></header><nav className="main-nav" aria-label="Main navigation">{navigationItems.map(item=>{const Icon=icons[item.icon];return <NavLink key={item.path} to={item.path} end={item.path==='/'} className={({isActive})=>'nav-link'+(isActive?' active':'')}><Icon size={16}/><span>{item.label}</span></NavLink>;})}</nav><main className="main-content">{children}</main><footer className="app-footer"><span>GATE PREP</span><span>One concept at a time.</span></footer></div>;}
