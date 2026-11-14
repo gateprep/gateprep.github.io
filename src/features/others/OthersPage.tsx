@@ -1,5 +1,5 @@
-import {useEffect,useMemo,useState} from 'react';
-import {Bell,BookOpen,CalendarDays,ChevronDown,ExternalLink,Lock,LockOpen,Plus,Search,SlidersHorizontal,Trash2,Unlock,GraduationCap,Building2,ClipboardList,Save} from 'lucide-react';
+import {useEffect,useMemo,useState,type ReactNode} from 'react';
+import {Bell,BookOpen,CalendarDays,ChevronDown,ExternalLink,Lock,LockOpen,Plus,Search,SlidersHorizontal,Trash2,,Building2,Save} from 'lucide-react';
 
 type Track='M.Tech'|'Ph.D.';
 type Institute={id:string;name:string;url:string;mtechUrl:string;phdUrl:string;description:string;mtechWatch:string;phdWatch:string;mtechNotes:string;phdNotes:string;locked:boolean};
@@ -18,7 +18,7 @@ const seedInstitutes:Institute[]=[
 ];
 const uid=()=>globalThis.crypto?.randomUUID?.()??String(Date.now()+Math.random());
 function readStore(){try{const v=JSON.parse(localStorage.getItem(KEY)||'{}');return {institutes:Array.isArray(v.institutes)?v.institutes:seedInstitutes,applications:Array.isArray(v.applications)?v.applications:[],reminders:Array.isArray(v.reminders)?v.reminders:[],courses:Array.isArray(v.courses)?v.courses:[]};}catch{return {institutes:seedInstitutes,applications:[],reminders:[],courses:[]};}}
-function Field({label,children}:{label:string;children:React.ReactNode}){return <label className="adm-field"><span>{label}</span>{children}</label>}
+function Field({label,children}:{label:string;children:ReactNode}){return <label className="adm-field"><span>{label}</span>{children}</label>}
 function LockButton({locked,onClick}:{locked:boolean;onClick:()=>void}){return <button className={'adm-icon-btn '+(locked?'is-locked':'')} onClick={onClick} title={locked?'Unlock to edit':'Lock this item'} aria-label={locked?'Unlock item':'Lock item'}>{locked?<Lock size={15}/>:<LockOpen size={15}/>}</button>}
 function SectionTitle({eyebrow,title,copy}:{eyebrow:string;title:string;copy:string}){return <div className="adm-heading"><span className="section-kicker">{eyebrow}</span><h1>{title}<i>.</i></h1><p>{copy}</p></div>}
 export function OthersPage({section}:{section:'Counseling'|'Keep Track'|'Reminders'|'Eligible Courses'}) {
@@ -27,12 +27,12 @@ export function OthersPage({section}:{section:'Counseling'|'Keep Track'|'Reminde
  const [query,setQuery]=useState('');
  const [sort,setSort]=useState('cutoff');
  const [showForm,setShowForm]=useState(false);
- const [editing,setEditing]=useState<string|null>(null);
+
  const [draft,setDraft]=useState<Record<string,string>>({});
  useEffect(()=>{localStorage.setItem(KEY,JSON.stringify(data));},[data]);
  const patch=<T extends {id:string;locked:boolean}>(key:'institutes'|'applications'|'reminders'|'courses',id:string,changes:Partial<T>)=>setData(d=>({...d,[key]:(d[key] as T[]).map(x=>x.id===id?{...x,...changes}:x)}));
  const remove=(key:'institutes'|'applications'|'reminders'|'courses',id:string)=>setData(d=>({...d,[key]:d[key].filter(x=>x.id!==id)}));
- const start=(values:Record<string,string>={})=>{setDraft(values);setEditing(null);setShowForm(true);};
+ const start=(values:Record<string,string>={})=>{setDraft(values);setShowForm(true);};
  const saveInstitute=()=>{const v=draft as Record<string,string>;if(!v.name?.trim())return;const item:Institute={id:uid(),name:v.name,url:v.url||'',mtechUrl:v.mtechUrl||v.url||'',phdUrl:v.phdUrl||v.url||'',description:v.description||'',mtechWatch:v.mtechWatch||'2027-03-01',phdWatch:v.phdWatch||'2027-01-15',mtechNotes:v.mtechNotes||'',phdNotes:v.phdNotes||'',locked:false};setData(d=>({...d,institutes:[...d.institutes,item]}));setShowForm(false);};
  const saveApp=()=>{if(!draft.title?.trim())return;setData(d=>({...d,applications:[...d.applications,{id:uid(),title:draft.title,institute:draft.institute||'',track:(draft.track||'M.Tech') as Track,status:draft.status||'Researching',date:draft.date||'',notes:draft.notes||'',locked:false}]}));setShowForm(false);};
  const saveReminder=()=>{if(!draft.title?.trim())return;setData(d=>({...d,reminders:[...d.reminders,{id:uid(),title:draft.title,date:draft.date||'',notes:draft.notes||'',done:false,locked:false}]}));setShowForm(false);};
