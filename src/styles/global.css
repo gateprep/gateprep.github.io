@@ -46,3 +46,14 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .exam-window>.exam-question{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain!important;padding:clamp(20px,4vh,42px) clamp(18px,6vw,76px)!important}
 .exam-window>footer{flex:0 0 auto!important;padding:14px clamp(16px,3vw,36px)!important;padding-bottom:max(14px,env(safe-area-inset-bottom))!important}
 @media(max-width:760px){.exam-window>header{padding:12px 14px!important}.exam-window>.exam-question{padding:18px 16px!important}.exam-window>footer{padding:10px 14px!important;padding-bottom:max(10px,env(safe-area-inset-bottom))!important}}
+
+.subject-expand>summary:after{content:none!important;display:none!important}
+.subject-expand>summary{position:relative;padding-right:48px!important}
+.subject-summary{position:relative;padding-right:30px}
+.subject-chevron{position:absolute;right:0;top:50%;transform:translateY(-50%);color:var(--accent);transition:transform .2s ease;pointer-events:none}
+.subject-expand[open] .subject-chevron{transform:translateY(-50%) rotate(180deg)}
+/* Portal escapes app-shell/page animation containing blocks and covers the actual viewport. */
+.exam-overlay{position:fixed!important;inset:0!important;z-index:2147483647!important;width:100vw!important;height:100vh!important;height:100dvh!important;min-height:100vh!important;min-height:100dvh!important;padding:0!important;margin:0!important;display:grid!important;place-items:stretch!important;overflow:hidden!important;background:rgba(3,6,12,.38)!important;backdrop-filter:blur(28px) brightness(.28) saturate(.45)!important;-webkit-backdrop-filter:blur(28px) brightness(.28) saturate(.45)!important}
+.exam-window{position:absolute!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;max-height:none!important;min-height:0!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;background:#111925!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
+.exam-window>.exam-question{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain!important}
+@media(max-width:760px){.exam-window{inset:0!important;width:100vw!important;height:100dvh!important}.exam-window>header{padding:12px 14px!important}.exam-window>.exam-question{padding:18px 16px!important}.exam-window>footer{padding:10px 14px!important;padding-bottom:max(10px,env(safe-area-inset-bottom))!important}}
