@@ -31,8 +31,8 @@ export function OthersPage({section}:{section:'Counseling'|'Keep Track'|'Reminde
 
  const [draft,setDraft]=useState<Record<string,string>>({});
  useEffect(()=>{localStorage.setItem(KEY,JSON.stringify(data));},[data]);
- const patch=<T extends {id:string;locked:boolean}>(key:'institutes'|'applications'|'reminders'|'courses',id:string,changes:Partial<T>)=>setData(d=>({...d,[key]:(d[key] as T[]).map(x=>x.id===id?{...x,...changes}:x)}));
- const remove=(key:'institutes'|'applications'|'reminders'|'courses',id:string)=>setData(d=>({...d,[key]:d[key].filter(x=>x.id!==id)}));
+ const patch=(key:'institutes'|'applications'|'reminders'|'courses',id:string,changes:Record<string,unknown>)=>setData(d=>({...d,[key]:(d[key] as Array<{id:string}>).map(x=>x.id===id?{...x,...changes}:x)} as typeof d));
+ const remove=(key:'institutes'|'applications'|'reminders'|'courses',id:string)=>setData(d=>({...d,[key]:d[key].filter(x=>x.id!==id)} as typeof d));
  const start=(values:Record<string,string>={},id:string|null=null)=>{setDraft(values);setEditingId(id);setShowForm(true);};
  const saveInstitute=()=>{const v=draft as Record<string,string>;if(!v.name?.trim())return;const item:Institute={id:editingId||uid(),name:v.name,url:v.url||'',mtechUrl:v.mtechUrl||v.url||'',phdUrl:v.phdUrl||v.url||'',description:v.description||'',mtechWatch:v.mtechWatch||'2027-03-01',phdWatch:v.phdWatch||'2027-01-15',mtechNotes:v.mtechNotes||'',phdNotes:v.phdNotes||'',locked:false};setData(d=>({...d,institutes:editingId?d.institutes.map(x=>x.id===editingId?{...item,locked:x.locked}:x):[...d.institutes,item]}));setShowForm(false);setEditingId(null);};
  const saveApp=()=>{if(!draft.title?.trim())return;const item:Application={id:editingId||uid(),title:draft.title,institute:draft.institute||'',track:(draft.track||'M.Tech') as Track,status:draft.status||'Researching',date:draft.date||'',notes:draft.notes||'',locked:false};setData(d=>({...d,applications:editingId?d.applications.map(x=>x.id===editingId?{...item,locked:x.locked}:x):[...d.applications,item]}));setShowForm(false);setEditingId(null);};
