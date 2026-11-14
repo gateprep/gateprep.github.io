@@ -1,4 +1,4 @@
-import {useEffect,useMemo,useState,type ClipboardEvent,type ChangeEvent} from 'react';
+import {useEffect,useMemo,useState,type ClipboardEvent} from 'react';
 import {useSearchParams} from 'react-router-dom';
 import {Plus,Lock,LockOpen,Save,Trash2,ImagePlus,Eye,X} from 'lucide-react';
 type Kind='note'|'abstraction'|'cheat';
