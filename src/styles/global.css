@@ -223,3 +223,32 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .question-form .option-editor{min-width:0}
 .question-form textarea{min-height:54px}
 @media(max-width:700px){.question-form{width:calc(100vw - 16px)!important;max-height:calc(100dvh - 16px)!important;padding:14px!important}.question-form .learning-form-grid{grid-template-columns:minmax(0,1fr)}.question-form>.adm-modal-head{top:-14px}.question-form .adm-modal-actions{bottom:-14px;flex-wrap:wrap}}
+
+
+/* Route changes: consistent subtle rise-and-fade on every page, not only learning pages. */
+.route-transition{min-width:0;animation:route-enter .28s cubic-bezier(.2,.7,.25,1) both}
+@keyframes route-enter{from{opacity:0;transform:translate3d(0,9px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
+@media(prefers-reduced-motion:reduce){.route-transition{animation:none}}
+/* Rounded app frame so page edges and the home/footer do not look abruptly clipped. */
+.app-shell{border-radius:26px;overflow:clip}
+@media(max-width:760px){.app-shell{border-radius:0 0 22px 22px}}
+/* Add/Edit Question is a true full-screen workspace, matching the attempt and knowledge editors. */
+.adm-modal-backdrop:has(>.question-form){position:fixed!important;inset:0!important;z-index:2147482000!important;display:block!important;width:100vw!important;height:100vh!important;height:100dvh!important;min-height:100vh!important;min-height:100dvh!important;margin:0!important;padding:0!important;overflow:hidden!important;background:#070a10f5!important;backdrop-filter:blur(8px)!important}
+.question-form{display:flex!important;flex-direction:column!important;width:100vw!important;max-width:none!important;height:100vh!important;height:100dvh!important;max-height:none!important;min-height:100vh!important;min-height:100dvh!important;margin:0!important;padding:clamp(16px,3vw,42px)!important;overflow-y:auto!important;overflow-x:hidden!important;border:0!important;border-radius:0!important;box-shadow:none!important;scrollbar-width:none!important;overscroll-behavior:contain!important}
+.question-form::-webkit-scrollbar{display:none!important}
+.question-form>.adm-modal-head{position:sticky!important;top:calc(clamp(16px,3vw,42px) * -1)!important;z-index:8!important;flex:0 0 auto!important;min-height:48px!important;padding:8px 0 16px!important;margin:0 0 14px!important;background:#171e2a!important;border-bottom:1px solid var(--border)!important}
+.question-form>.adm-modal-head .adm-icon-btn{display:grid!important;place-items:center!important;flex:0 0 38px!important;width:38px!important;height:38px!important;padding:0!important;margin:0!important;line-height:0!important}
+.question-form>.adm-modal-head .adm-icon-btn svg{display:block!important;width:19px!important;height:19px!important;margin:0!important}
+.question-form>.adm-modal-actions{position:sticky!important;bottom:calc(clamp(16px,3vw,42px) * -1)!important;z-index:8!important;flex:0 0 auto!important;margin-top:auto!important;padding:16px 0 4px!important;background:#171e2a!important;border-top:1px solid var(--border)!important}
+.app-shell[data-theme="light"] .question-form>.adm-modal-head,.app-shell[data-theme="light"] .question-form>.adm-modal-actions{background:#f8fafc!important}
+.app-shell[data-theme="sepia"] .question-form>.adm-modal-head,.app-shell[data-theme="sepia"] .question-form>.adm-modal-actions{background:#f2e5ce!important}
+@media(max-width:700px){.question-form{padding:14px!important}.question-form>.adm-modal-head{top:-14px!important}.question-form>.adm-modal-actions{bottom:-14px!important}.question-form .learning-form-grid{grid-template-columns:minmax(0,1fr)!important}}
+/* Mistake category pills: no browser-default scrollbar; subtle thin gray track when overflow exists. */
+.learning-page .learning-tabs{max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:#7b879866 transparent;overscroll-behavior-x:contain}
+.learning-page .learning-tabs::-webkit-scrollbar{height:3px}
+.learning-page .learning-tabs::-webkit-scrollbar-track{background:transparent}
+.learning-page .learning-tabs::-webkit-scrollbar-thumb{background:#7b879866;border-radius:999px}
+.learning-page .learning-tabs::-webkit-scrollbar-thumb:hover{background:#9aa5b477}
+@media(max-width:760px){.learning-page .learning-tabs{scrollbar-width:none}.learning-page .learning-tabs::-webkit-scrollbar{display:none!important}}
+/* At narrow/zoomed layouts, remove nav fade masks and any edge overlays completely. */
+@media(max-width:900px){.main-nav-wrap::before,.main-nav-wrap::after,.main-nav::before,.main-nav::after{display:none!important;content:none!important;background:none!important;box-shadow:none!important;mask-image:none!important;-webkit-mask-image:none!important}}
