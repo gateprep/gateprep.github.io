@@ -200,3 +200,26 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .mistake-trend-track i.good{background:#55bd83}
 .mistake-trend-bars small{font-size:8px;white-space:nowrap;color:var(--muted)}
 @media(max-width:600px){.mistake-trend-bars{gap:2px;padding-inline:3px}.mistake-trend-bars small{font-size:7px}}
+
+
+/* Navigation: paging buttons are desktop-only, bounded, and inert at either end. */
+.main-nav-wrap .nav-shift{opacity:0;pointer-events:none}
+.main-nav-wrap .nav-shift:not(:disabled){opacity:.22;pointer-events:auto}
+.main-nav-wrap:hover .nav-shift:not(:disabled),.nav-shift:not(:disabled):focus-visible{opacity:1}
+.nav-shift:disabled{cursor:default;opacity:0!important;pointer-events:none}
+.main-nav-wrap .main-nav{scroll-behavior:smooth;scroll-snap-type:x proximity}
+.main-nav-wrap .main-nav .nav-link{scroll-snap-align:center}
+@media(max-width:760px){.main-nav-wrap .nav-shift{display:none!important}.main-nav-wrap .main-nav{padding-inline:18px!important;margin:0!important}}
+/* Question editor fills the available screen; keep scrolling possible without a visible scrollbar. */
+.adm-modal-backdrop:has(>.question-form){display:flex!important;align-items:center!important;justify-content:center!important;padding:12px!important;overflow:auto!important}
+.question-form{width:min(1120px,calc(100vw - 24px))!important;max-width:none!important;height:auto!important;max-height:calc(100dvh - 24px)!important;overflow-y:auto!important;overflow-x:hidden!important;scrollbar-width:none!important;padding:clamp(14px,2vw,24px)!important}
+.question-form::-webkit-scrollbar{display:none!important}
+.question-form>.adm-modal-head{position:sticky;top:calc(clamp(14px,2vw,24px) * -1);z-index:5;display:flex!important;align-items:center!important;justify-content:space-between!important;min-height:42px;padding:6px 0 12px!important;margin:0 0 10px!important;background:#171e2a}
+.question-form>.adm-modal-head .adm-icon-btn{flex:0 0 32px;width:32px;height:32px;display:grid!important;place-items:center!important;padding:0!important;line-height:0!important}
+.question-form>.adm-modal-head .adm-icon-btn svg{display:block;width:17px;height:17px;margin:0}
+.question-form .adm-modal-actions{position:sticky;bottom:calc(clamp(14px,2vw,24px) * -1);z-index:4;background:#171e2a;padding:12px 0 4px;margin-top:14px}
+.question-form .learning-form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.question-form .learning-options{margin:10px 0}
+.question-form .option-editor{min-width:0}
+.question-form textarea{min-height:54px}
+@media(max-width:700px){.question-form{width:calc(100vw - 16px)!important;max-height:calc(100dvh - 16px)!important;padding:14px!important}.question-form .learning-form-grid{grid-template-columns:minmax(0,1fr)}.question-form>.adm-modal-head{top:-14px}.question-form .adm-modal-actions{bottom:-14px;flex-wrap:wrap}}
