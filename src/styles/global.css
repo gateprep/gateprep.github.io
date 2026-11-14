@@ -230,7 +230,7 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 @keyframes route-enter{from{opacity:0;transform:translate3d(0,9px,0)}to{opacity:1;transform:translate3d(0,0,0)}}
 @media(prefers-reduced-motion:reduce){.route-transition{animation:none}}
 /* Rounded app frame so page edges and the home/footer do not look abruptly clipped. */
-.app-shell{border-radius:26px;overflow:clip}
+.app-shell{border-radius:26px;overflow:visible}
 @media(max-width:760px){.app-shell{border-radius:0 0 22px 22px}}
 /* Add/Edit Question is a true full-screen workspace, matching the attempt and knowledge editors. */
 .adm-modal-backdrop:has(>.question-form){position:fixed!important;inset:0!important;z-index:2147482000!important;display:block!important;width:100vw!important;height:100vh!important;height:100dvh!important;min-height:100vh!important;min-height:100dvh!important;margin:0!important;padding:0!important;overflow:hidden!important;background:#070a10f5!important;backdrop-filter:blur(8px)!important}
