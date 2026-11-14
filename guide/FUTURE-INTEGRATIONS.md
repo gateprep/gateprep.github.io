@@ -1,3 +1,0 @@
-# Future integrations
-
-No backend or persistence provider is implemented. When local data is introduced, define domain types independently of storage technology, create small repository interfaces around real user operations, implement a browser-local adapter first (for example IndexedDB), and keep React components dependent on interfaces rather than storage SDKs. Add Firebase or another remote adapter only if sync or multi-device access is explicitly required. Avoid speculative provider classes, sync engines, authentication, or cloud configuration.
