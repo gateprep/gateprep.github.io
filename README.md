@@ -183,6 +183,12 @@ guide/
 
 ---
 
+## Automated testing
+
+Automated tests run directly in GitHub Actions using GitHub-hosted runners; no separate testing service is required. Vitest and jsdom exercise the app shell, routes, shared configuration, learning and assessment workflows, knowledge editor, admissions trackers, dashboard and workspace pages. Pull requests targeting `main` run tests and TypeScript checks without deploying. Pushes to `main` must pass the same checks before the production build and GitHub Pages deployment proceed.
+
+Run locally with `npm test` (one-shot) or `npm run test:watch` (watch mode). The suite provides component and route smoke tests plus selected persistence/interaction checks; it is a regression baseline, not exhaustive branch coverage or a replacement for real-browser/device testing.
+
 ## Local development
 
 Requirements: **Node.js 20.19+** and npm. The deployment workflow currently uses Node.js 22.

@@ -38,6 +38,12 @@ GATEPrep is a static client-side single-page application built with React 19, Ty
 
 The stores are separate today. The backup workflow assembles their data into a single portable archive.
 
+## Automated tests and CI
+
+Vitest runs in jsdom with React Testing Library. Tests cover shared exam/navigation configuration, countdown, app composition and shell, route resolution, dashboard, learning hub, assessment engine, knowledge workspace, admissions workflows, and the generic workspace page. GitHub Actions runs `npm test` and `npm run typecheck` for pull requests and pushes to `main`; production build and Pages deployment run only after checks pass on a main-branch push. No external CI/testing service is involved.
+
+These are component/route smoke tests and selected workflow/persistence checks. Domain edge cases, archive fixtures, full assessment scoring permutations, accessibility, real-device layouts, and offline browser behaviour still need deeper automated or manual coverage.
+
 ## Architectural strengths
 
 - Feature and route boundaries are understandable.

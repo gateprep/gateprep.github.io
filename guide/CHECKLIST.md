@@ -9,6 +9,13 @@
 - [ ] Verify duplicate handling and image/attachment references.
 - [ ] Confirm backup inventory counts and restore previews remain accurate.
 
+## Automated test coverage
+- [ ] Run `npm test` locally when changing feature behaviour.
+- [ ] Add or update a module-level test for each changed feature.
+- [ ] Cover normal, empty, invalid and persistence/error paths where relevant.
+- [ ] Keep tests independent of real network services and user data.
+- [ ] Confirm GitHub Actions test and TypeScript-check jobs pass on the pull request.
+
 ## Before merging
 - [ ] Run `npm run typecheck`.
 - [ ] Run `npm run build`.
