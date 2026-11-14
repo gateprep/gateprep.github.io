@@ -6,6 +6,7 @@ type Institute={id:string;name:string;url:string;mtechUrl:string;phdUrl:string;d
 type Application={id:string;title:string;institute:string;track:Track;status:string;date:string;notes:string;locked:boolean};
 type Reminder={id:string;title:string;date:string;notes:string;done:boolean;locked:boolean};
 type Course={id:string;institute:string;program:string;specialization:string;cutoff:string;eligibility:string;url:string;notes:string;locked:boolean};
+type Store={institutes:Institute[];applications:Application[];reminders:Reminder[];courses:Course[]};
 const KEY='gateprep-admissions-v1';
 const seedInstitutes:Institute[]=[
 {id:'iitb',name:'IIT Bombay',url:'https://www.iitb.ac.in/',mtechUrl:'https://acad.iitb.ac.in/admissions/masters/mtech',phdUrl:'https://acad.iitb.ac.in/admissions/research',description:'M.Tech and doctoral admissions are handled through the Academic Office. TA/RA M.Tech offers use COAP where applicable.',mtechWatch:'2027-03-01',phdWatch:'2027-01-15',mtechNotes:'2026 cycle: online application deadline without late fine was 10 April 2026. Track the Academic Office page and COAP separately.',phdNotes:'Ph.D. admissions are semester-wise. The Spring 2026–27 cycle advertised on 4 Sep 2026; forms opened 16 Sep and regular deadline was 17 Oct 2026. Check department-specific notices.',locked:false},
@@ -17,12 +18,12 @@ const seedInstitutes:Institute[]=[
 {id:'iitg',name:'IIT Guwahati',url:'https://www.iitg.ac.in/',mtechUrl:'https://www.iitg.ac.in/acad/admission',phdUrl:'https://www.iitg.ac.in/acad/admission',description:'Academic Affairs admission portal for M.Tech and doctoral programmes.',mtechWatch:'2027-03-01',phdWatch:'2027-01-15',mtechNotes:'Expected monitoring window only: March–April for the July intake. Verify the official notice and programme-specific GATE requirements.',phdNotes:'Monitor the Academic Affairs portal for semester-wise Ph.D. admission notices and department-specific criteria.',locked:false}
 ];
 const uid=()=>globalThis.crypto?.randomUUID?.()??String(Date.now()+Math.random());
-function readStore(){try{const v=JSON.parse(localStorage.getItem(KEY)||'{}');return {institutes:Array.isArray(v.institutes)?v.institutes:seedInstitutes,applications:Array.isArray(v.applications)?v.applications:[],reminders:Array.isArray(v.reminders)?v.reminders:[],courses:Array.isArray(v.courses)?v.courses:[]};}catch{return {institutes:seedInstitutes,applications:[],reminders:[],courses:[]};}}
+function readStore():Store{try{const v=JSON.parse(localStorage.getItem(KEY)||'{}') as Partial<Store>;return {institutes:Array.isArray(v.institutes)?v.institutes:seedInstitutes,applications:Array.isArray(v.applications)?v.applications:[],reminders:Array.isArray(v.reminders)?v.reminders:[],courses:Array.isArray(v.courses)?v.courses:[]};}catch{return {institutes:seedInstitutes,applications:[],reminders:[],courses:[]};}}
 function Field({label,children}:{label:string;children:ReactNode}){return <label className="adm-field"><span>{label}</span>{children}</label>}
 function LockButton({locked,onClick}:{locked:boolean;onClick:()=>void}){return <button className={'adm-icon-btn '+(locked?'is-locked':'')} onClick={onClick} title={locked?'Unlock to edit':'Lock this item'} aria-label={locked?'Unlock item':'Lock item'}>{locked?<Lock size={15}/>:<LockOpen size={15}/>}</button>}
 function SectionTitle({eyebrow,title,copy}:{eyebrow:string;title:string;copy:string}){return <div className="adm-heading"><span className="section-kicker">{eyebrow}</span><h1>{title}<i>.</i></h1><p>{copy}</p></div>}
 export function OthersPage({section}:{section:'Counseling'|'Keep Track'|'Reminders'|'Eligible Courses'}) {
- const [data,setData]=useState(readStore);
+ const [data,setData]=useState<Store>(readStore);
  const [track,setTrack]=useState<Track>('M.Tech');
  const [query,setQuery]=useState('');
  const [sort,setSort]=useState('cutoff');
@@ -31,8 +32,8 @@ export function OthersPage({section}:{section:'Counseling'|'Keep Track'|'Reminde
 
  const [draft,setDraft]=useState<Record<string,string>>({});
  useEffect(()=>{localStorage.setItem(KEY,JSON.stringify(data));},[data]);
- const patch=(key:'institutes'|'applications'|'reminders'|'courses',id:string,changes:Record<string,unknown>)=>setData(d=>({...d,[key]:(d[key] as Array<{id:string}>).map(x=>x.id===id?{...x,...changes}:x)} as typeof d));
- const remove=(key:'institutes'|'applications'|'reminders'|'courses',id:string)=>setData(d=>({...d,[key]:d[key].filter(x=>x.id!==id)} as typeof d));
+ const patch=(key:keyof Store,id:string,changes:Record<string,unknown>)=>setData(d=>({...d,[key]:(d[key] as Array<{id:string}>).map((x:{id:string})=>x.id===id?{...x,...changes}:x)} as Store));
+ const remove=(key:keyof Store,id:string)=>setData(d=>({...d,[key]:(d[key] as Array<{id:string}>).filter((x:{id:string})=>x.id!==id)} as Store));
  const start=(values:Record<string,string>={},id:string|null=null)=>{setDraft(values);setEditingId(id);setShowForm(true);};
  const saveInstitute=()=>{const v=draft as Record<string,string>;if(!v.name?.trim())return;const item:Institute={id:editingId||uid(),name:v.name,url:v.url||'',mtechUrl:v.mtechUrl||v.url||'',phdUrl:v.phdUrl||v.url||'',description:v.description||'',mtechWatch:v.mtechWatch||'2027-03-01',phdWatch:v.phdWatch||'2027-01-15',mtechNotes:v.mtechNotes||'',phdNotes:v.phdNotes||'',locked:false};setData(d=>({...d,institutes:editingId?d.institutes.map(x=>x.id===editingId?{...item,locked:x.locked}:x):[...d.institutes,item]}));setShowForm(false);setEditingId(null);};
  const saveApp=()=>{if(!draft.title?.trim())return;const item:Application={id:editingId||uid(),title:draft.title,institute:draft.institute||'',track:(draft.track||'M.Tech') as Track,status:draft.status||'Researching',date:draft.date||'',notes:draft.notes||'',locked:false};setData(d=>({...d,applications:editingId?d.applications.map(x=>x.id===editingId?{...item,locked:x.locked}:x):[...d.applications,item]}));setShowForm(false);setEditingId(null);};
