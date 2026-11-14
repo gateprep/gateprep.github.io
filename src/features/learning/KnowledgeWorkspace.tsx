@@ -2,6 +2,7 @@ import {useEffect,useMemo,useState,useRef,type ClipboardEvent,type ReactNode} fr
 import {createPortal} from 'react-dom';
 import {useSearchParams} from 'react-router-dom';
 import {Plus,Lock,LockOpen,Save,Trash2,ImagePlus,Eye,X,BookOpen,Calculator,Network,Binary,Cpu,Code2,GitBranch,Workflow,FileCode,Monitor,Database,Globe,ChevronLeft,ChevronRight,Paperclip,Pencil} from 'lucide-react';
+import {buildKnowledgeRevision,canSaveKnowledgeTitle} from './knowledgeLogic';
 type Kind='note'|'abstraction'|'cheat';
 type Entry={id:string;kind:Kind;title:string;subject:string;topic:string;body:string;locked:boolean;updatedAt:string;versions:{at:string;body:string;title:string}[];files:{name:string;type:string;data:string}[]};
 const subjects=['Engineering Mathematics','Discrete Mathematics','Digital Logic','Computer Organization & Architecture','C Programming','Programming & Data Structures','Algorithms','Theory of Computation','Compiler Design','Operating Systems','Databases','Computer Networks'];
@@ -22,7 +23,7 @@ export function KnowledgeWorkspace({mode}:{mode:'notes'|'abstractions'|'cheat'})
  const start=(entry?:Entry)=>{const base=entry||{id:uid(),kind,title:'',subject:filterSubject==='All subjects'?subjects[0]:filterSubject,topic:(topics[filterSubject==='All subjects'?subjects[0]:filterSubject]||topics[subjects[0]])[0],body:'',locked:false,updatedAt:stamp(),versions:[],files:[]};setDraft({...base,locked:false,files:[...base.files],versions:[...base.versions]});setPreview(false);setEditing(true);};
  const patch=(v:Partial<Entry>)=>setDraft(x=>x?{...x,...v}:x);
  const highlightSelection=()=>{const el=editorRef.current;if(!el||!draft)return;const a=el.selectionStart,b=el.selectionEnd;if(a===b)return;const selected=draft.body.slice(a,b);patch({body:draft.body.slice(0,a)+'=='+selected+'=='+draft.body.slice(b)});requestAnimationFrame(()=>{el.focus();el.setSelectionRange(a+2,b+2);});};
- const save=()=>{if(!draft||!draft.title.trim())return;const old=items.find(x=>x.id===draft.id),versions=old&&old.body!==draft.body?[{at:stamp(),body:old.body,title:old.title},...old.versions].slice(0,100):draft.versions;const next={...draft,locked:true,updatedAt:stamp(),versions};setItems(x=>old?x.map(y=>y.id===old.id?next:y):[next,...x]);setReadingId(next.id);setEditing(false);setDraft(null);};
+ const save=()=>{if(!draft||!canSaveKnowledgeTitle(draft.title))return;const old=items.find(x=>x.id===draft.id),versions=old?buildKnowledgeRevision(old.versions,old.body,old.title,draft.body,stamp()):draft.versions;const next={...draft,locked:true,updatedAt:stamp(),versions};setItems(x=>old?x.map(y=>y.id===old.id?next:y):[next,...x]);setReadingId(next.id);setEditing(false);setDraft(null);};
  const addFile=async(f:File)=>{if(!draft)return;const data=await dataUrl(f);setDraft(x=>x?{...x,files:[...x.files,{name:f.name,type:f.type,data}]}:x);};
  const onPaste=(e:ClipboardEvent<HTMLTextAreaElement>)=>{const f=Array.from(e.clipboardData.items).find(x=>x.type.startsWith('image/'))?.getAsFile();if(f){e.preventDefault();void dataUrl(f).then(setPaste);setPasteName(f.name||'Pasted image');}};
  const confirmPaste=()=>{if(!paste||!draft)return;patch({files:[...draft.files,{name:pasteName,type:'image/png',data:paste}],body:draft.body+'\n\n![ '+pasteName+' ](attachment:'+draft.files.length+' )\n'});setPaste(null);};
