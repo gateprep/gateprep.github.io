@@ -1,0 +1,4 @@
+export type ApplicationRecord={id:string;title:string;institute:string;track:'M.Tech'|'Ph.D.';status:string;date:string;notes:string;locked:boolean};
+export function buildApplicationRecord(draft:Record<string,string>,id:string,previous?:Pick<ApplicationRecord,'locked'>):ApplicationRecord|null{if(!draft.title?.trim())return null;return {id,title:draft.title,institute:draft.institute||'',track:(draft.track||'M.Tech') as 'M.Tech'|'Ph.D.',status:draft.status||'Researching',date:draft.date||'',notes:draft.notes||'',locked:previous?.locked??false};}
+export function patchRecord<T extends {id:string}>(items:T[],id:string,changes:Partial<T>){return items.map(item=>item.id===id?{...item,...changes}:item);}
+export function removeRecord<T extends {id:string}>(items:T[],id:string){return items.filter(item=>item.id!==id);}

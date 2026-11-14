@@ -1,4 +1,5 @@
 import {useEffect,useMemo,useState,type ReactNode} from 'react';
+import {buildApplicationRecord,patchRecord,removeRecord} from './admissionsLogic';
 import {CalendarDays,ExternalLink,Lock,LockOpen,Plus,Search,SlidersHorizontal,Trash2,Building2,Save,Pencil} from 'lucide-react';
 
 type Track='M.Tech'|'Ph.D.';
@@ -32,11 +33,11 @@ export function OthersPage({section}:{section:'Counseling'|'Keep Track'|'Reminde
 
  const [draft,setDraft]=useState<Record<string,string>>({});
  useEffect(()=>{localStorage.setItem(KEY,JSON.stringify(data));},[data]);
- const patch=(key:keyof Store,id:string,changes:Record<string,unknown>)=>setData(d=>({...d,[key]:(d[key] as Array<{id:string}>).map((x:{id:string})=>x.id===id?{...x,...changes}:x)} as Store));
- const remove=(key:keyof Store,id:string)=>setData(d=>({...d,[key]:(d[key] as Array<{id:string}>).filter((x:{id:string})=>x.id!==id)} as Store));
+ const patch=(key:keyof Store,id:string,changes:Record<string,unknown>)=>setData(d=>({...d,[key]:patchRecord(d[key] as Array<{id:string}>,id,changes)} as Store));
+ const remove=(key:keyof Store,id:string)=>setData(d=>({...d,[key]:removeRecord(d[key] as Array<{id:string}>,id)} as Store));
  const start=(values:Record<string,string>={},id:string|null=null)=>{setDraft(values);setEditingId(id);setShowForm(true);};
  const saveInstitute=()=>{const v=draft as Record<string,string>;if(!v.name?.trim())return;const item:Institute={id:editingId||uid(),name:v.name,url:v.url||'',mtechUrl:v.mtechUrl||v.url||'',phdUrl:v.phdUrl||v.url||'',description:v.description||'',mtechWatch:v.mtechWatch||'2027-03-01',phdWatch:v.phdWatch||'2027-01-15',mtechNotes:v.mtechNotes||'',phdNotes:v.phdNotes||'',locked:false};setData(d=>({...d,institutes:editingId?d.institutes.map(x=>x.id===editingId?{...item,locked:x.locked}:x):[...d.institutes,item]}));setShowForm(false);setEditingId(null);};
- const saveApp=()=>{if(!draft.title?.trim())return;const item:Application={id:editingId||uid(),title:draft.title,institute:draft.institute||'',track:(draft.track||'M.Tech') as Track,status:draft.status||'Researching',date:draft.date||'',notes:draft.notes||'',locked:false};setData(d=>({...d,applications:editingId?d.applications.map(x=>x.id===editingId?{...item,locked:x.locked}:x):[...d.applications,item]}));setShowForm(false);setEditingId(null);};
+ const saveApp=()=>{const previous=data.applications.find(x=>x.id===editingId),item=buildApplicationRecord(draft,editingId||uid(),previous);if(!item)return;setData(d=>({...d,applications:editingId?d.applications.map(x=>x.id===editingId?item:x):[...d.applications,item]}));setShowForm(false);setEditingId(null);};
  const saveReminder=()=>{if(!draft.title?.trim())return;const item:Reminder={id:editingId||uid(),title:draft.title,date:draft.date||'',notes:draft.notes||'',done:false,locked:false};setData(d=>({...d,reminders:editingId?d.reminders.map(x=>x.id===editingId?{...item,done:x.done,locked:x.locked}:x):[...d.reminders,item]}));setShowForm(false);setEditingId(null);};
  const saveCourse=()=>{if(!draft.institute?.trim()||!draft.program?.trim())return;const item:Course={id:editingId||uid(),institute:draft.institute,program:draft.program,specialization:draft.specialization||'Computer Science',cutoff:draft.cutoff||'',eligibility:draft.eligibility||'',url:draft.url||'',notes:draft.notes||'',locked:false};setData(d=>({...d,courses:editingId?d.courses.map(x=>x.id===editingId?{...item,locked:x.locked}:x):[...d.courses,item]}));setShowForm(false);setEditingId(null);};
  const institutes=data.institutes.filter(i=>(i.name+' '+i.description).toLowerCase().includes(query.toLowerCase()));
