@@ -57,3 +57,5 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .exam-window{position:absolute!important;inset:0!important;width:100vw!important;height:100vh!important;height:100dvh!important;max-width:none!important;max-height:none!important;min-height:0!important;margin:0!important;border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;background:#111925!important;backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
 .exam-window>.exam-question{flex:1 1 auto!important;min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain!important}
 @media(max-width:760px){.exam-window{inset:0!important;width:100vw!important;height:100dvh!important}.exam-window>header{padding:12px 14px!important}.exam-window>.exam-question{padding:18px 16px!important}.exam-window>footer{padding:10px 14px!important;padding-bottom:max(10px,env(safe-area-inset-bottom))!important}}
+
+.learning-filters .learning-search{flex-direction:row!important;align-items:center!important}
