@@ -1,0 +1,7 @@
+import {Navigate,Route,Routes} from 'react-router-dom';
+import {DashboardPage} from '../features/dashboard/DashboardPage';
+
+import {OthersPage} from '../features/others/OthersPage';
+import {LearningHub} from '../features/learning/LearningHub';
+import {KnowledgeWorkspace} from '../features/learning/KnowledgeWorkspace';
+export function AppRouter(){return <Routes><Route path="/" element={<DashboardPage/>}/><Route path="/test-series" element={<LearningHub mode="tests"/>}/><Route path="/quizzes" element={<LearningHub mode="quizzes"/>}/><Route path="/pyqs" element={<LearningHub mode="pyqs"/>}/><Route path="/subjects" element={<LearningHub mode="subjects"/>}/><Route path="/statistics" element={<LearningHub mode="statistics"/>}/><Route path="/mistake-library" element={<LearningHub mode="mistakes"/>}/><Route path="/history" element={<LearningHub mode="history"/>}/><Route path="/backup" element={<LearningHub mode="backup"/>}/><Route path="/notes" element={<KnowledgeWorkspace mode="notes"/>}/><Route path="/abstractions" element={<KnowledgeWorkspace mode="abstractions"/>}/><Route path="/cheat-sheets" element={<KnowledgeWorkspace mode="cheat"/>}/><Route path="/others/counseling" element={<OthersPage section="Counseling"/>}/><Route path="/others/keep-track" element={<OthersPage section="Keep Track"/>}/><Route path="/others/reminders" element={<OthersPage section="Reminders"/>}/><Route path="/others/eligible-courses" element={<OthersPage section="Eligible Courses"/>}/><Route path="*" element={<Navigate to="/" replace/>}/></Routes>;}
