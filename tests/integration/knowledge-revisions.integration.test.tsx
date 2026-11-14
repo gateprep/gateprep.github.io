@@ -12,7 +12,8 @@ describe('knowledge revision integration',()=>{
   fireEvent.click(screen.getByRole('button',{name:/Save & lock/}));
   expect(await screen.findByRole('heading',{name:'Binary search'})).toBeInTheDocument();
   await waitFor(()=>expect(JSON.parse(localStorage.getItem('gateprep-knowledge-v1')||'[]')[0]).toMatchObject({locked:true,body:'Original explanation',versions:[]}));
-  fireEvent.click(screen.getByTitle('Lock entry'));
+  await waitFor(()=>expect(screen.getByRole('dialog')).toBeInTheDocument());
+  fireEvent.click(screen.getByTitle('Unlock entry'));
   fireEvent.click(screen.getByTitle('Edit note'));
   fireEvent.change(screen.getByPlaceholderText(/Write notes in Markdown/),{target:{value:'Revised explanation'}});
   fireEvent.click(screen.getByRole('button',{name:/Save & lock/}));

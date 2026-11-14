@@ -10,9 +10,8 @@ describe('admissions persistence integration',()=>{
   fireEvent.change(screen.getByPlaceholderText('Institute name'),{target:{value:'IISc Bengaluru'}});
   fireEvent.click(screen.getByRole('button',{name:/Save/}));
   expect(await screen.findByText('M.Tech CSE 2027')).toBeInTheDocument();
-  const status=screen.getByLabelText('Status');
-  fireEvent.change(status,{target:{value:'Preparing documents'}});
-  fireEvent.click(screen.getByRole('button',{name:'Unlock item'}));
+  fireEvent.change(screen.getByLabelText('Status'),{target:{value:'Preparing documents'}});
+  fireEvent.click(screen.getByRole('button',{name:'Lock item'}));
   await waitFor(()=>{
    const saved=JSON.parse(localStorage.getItem('gateprep-admissions-v1')||'{}').applications[0];
    expect(saved).toMatchObject({title:'M.Tech CSE 2027',institute:'IISc Bengaluru',status:'Preparing documents',locked:true});
