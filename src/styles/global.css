@@ -59,3 +59,88 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 @media(max-width:760px){.exam-window{inset:0!important;width:100vw!important;height:100dvh!important}.exam-window>header{padding:12px 14px!important}.exam-window>.exam-question{padding:18px 16px!important}.exam-window>footer{padding:10px 14px!important;padding-bottom:max(10px,env(safe-area-inset-bottom))!important}}
 
 .learning-filters .learning-search{flex-direction:row!important;align-items:center!important}
+
+
+/* Responsive navigation: keep every tab at its natural width and make the row scrollable. */
+.main-nav{justify-content:flex-start;max-width:100%;min-width:0;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scrollbar-color:#667184 transparent;overscroll-behavior-x:contain}
+.main-nav .nav-link{flex:0 0 auto;white-space:nowrap}
+.app-shell{min-width:0}
+.main-content{min-width:0}
+@media(min-width:761px){.main-nav{scrollbar-width:thin}.main-nav::-webkit-scrollbar{height:5px}.main-nav::-webkit-scrollbar-thumb{background:#66718466;border-radius:8px}}
+@media(max-width:760px){.main-nav{scrollbar-width:none}.main-nav::-webkit-scrollbar{display:none}}
+
+/* Knowledge list, reader and editor were missing their layout rules. */
+.knowledge-page{min-width:0}
+.knowledge-page .learning-heading{align-items:center}
+.knowledge-toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.knowledge-filter{min-width:0;max-width:100%;flex:0 1 220px}
+.knowledge-search{min-width:180px;flex:1 1 220px}
+.knowledge-rows{display:grid;gap:8px;min-width:0}
+.knowledge-row{display:flex;align-items:center;gap:10px;min-width:0;padding:10px 12px;border:1px solid var(--border);border-radius:9px;background:#ffffff05}
+.knowledge-row-open{display:flex;align-items:center;gap:11px;flex:1;min-width:0;padding:0;border:0;background:transparent;color:inherit;text-align:left;cursor:pointer}
+.knowledge-subject-icon{display:grid;place-items:center;flex:0 0 36px;width:36px;height:36px;border:1px solid var(--border);border-radius:8px;color:var(--accent)}
+.knowledge-row-main{display:flex;flex-direction:column;gap:4px;min-width:0}
+.knowledge-row-main strong{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px}
+.knowledge-row-main small,.knowledge-row-meta{color:var(--muted);font-size:10px}
+.knowledge-row-meta{white-space:nowrap}
+.knowledge-row-actions{display:flex;gap:5px;flex:0 0 auto}
+.knowledge-overlay{position:fixed;inset:0;z-index:2147483000;display:flex;align-items:stretch;justify-content:center;padding:0;background:#05080df2;backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px)}
+.knowledge-reader{display:flex;flex-direction:column;width:100%;height:100%;min-width:0;min-height:0;overflow:hidden;background:#111925;color:#e9edf3}
+.knowledge-reader>header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex:0 0 auto;padding:14px 22px;border-bottom:1px solid var(--border);background:#151d2a}
+.knowledge-reader-heading{display:flex;align-items:center;gap:12px;min-width:0}
+.knowledge-reader-heading>div{min-width:0}
+.knowledge-reader-heading h2,.knowledge-edit-reader>header h2{margin:5px 0 0;font:600 18px Manrope,sans-serif;overflow-wrap:anywhere}
+.knowledge-reader-actions{display:flex;align-items:center;gap:7px;flex-wrap:wrap}
+.knowledge-reader-scroll{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;padding:24px clamp(16px,5vw,64px)}
+.knowledge-reader-meta{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:10px;padding-bottom:15px;border-bottom:1px solid var(--border)}
+.knowledge-reader>footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:0 0 auto;padding:12px 22px;border-top:1px solid var(--border);background:#151d2a;color:var(--muted);font-size:10px}
+.knowledge-edit-reader{width:min(980px,100%);height:100%;margin:0 auto}
+.knowledge-edit-scroll{padding:18px clamp(14px,4vw,42px)}
+.knowledge-markdown{display:block;width:100%;min-height:38vh;max-height:58vh;resize:vertical;padding:16px;border:1px solid var(--border);border-radius:9px;background:#0b111b;color:#e5ebf4;font:12px/1.8 var(--mono);tab-size:2}
+.knowledge-tools{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+.knowledge-tools>span{color:var(--muted);font-size:10px}
+.knowledge-tools input{display:none}
+.knowledge-attachments{display:flex;gap:10px;flex-wrap:wrap;margin:12px 0}
+.knowledge-attachments>div{display:flex;align-items:center;gap:8px;padding:8px;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:10px}
+.knowledge-attachments img{max-width:130px;max-height:90px;object-fit:contain}
+.knowledge-history{margin:14px 0;padding:12px;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:10px}
+.knowledge-history summary{cursor:pointer;color:var(--accent)}
+.md-preview{min-height:180px;padding:18px;border:1px solid var(--border);border-radius:9px;background:#ffffff05;color:#dce3ec;line-height:1.7;overflow-wrap:anywhere}
+.md-preview h1,.md-preview h2,.md-preview h3{color:var(--accent)}
+.md-preview p{white-space:pre-wrap}
+.md-preview mark{padding:1px 3px;border-radius:3px;background:#b9f27c;color:#172114}
+.md-preview blockquote{margin:12px 0;padding:8px 14px;border-left:3px solid var(--accent);background:#ffffff08}
+.md-preview pre{padding:12px;background:#090e16;border-radius:7px;overflow:auto}
+.knowledge-paste-modal{width:min(520px,calc(100vw - 28px));max-height:88dvh;overflow:auto;margin:auto;padding:18px;border:1px solid var(--border);border-radius:12px;background:#171e2a}
+.knowledge-paste-modal>img{display:block;max-width:100%;max-height:52vh;object-fit:contain;margin:12px auto}
+@media(max-width:760px){
+ .knowledge-page .learning-heading{align-items:flex-start;flex-direction:column}
+ .knowledge-row{align-items:flex-start;flex-wrap:wrap}
+ .knowledge-row-open{flex-basis:calc(100% - 2px)}
+ .knowledge-row-meta{margin-left:47px}
+ .knowledge-reader>header{align-items:flex-start;padding:12px;flex-wrap:wrap}
+ .knowledge-reader-actions{width:100%;justify-content:flex-end}
+ .knowledge-reader-scroll{padding:16px}
+ .knowledge-reader>footer{padding:10px 12px}
+ .knowledge-reader>footer>span{max-width:55%;line-height:1.5}
+}
+
+/* Study activity charts: explicit grid and track sizing keeps labels and bars from collapsing into text. */
+.study-panel-heading{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap}
+.study-panel-heading .learning-tabs{flex:0 0 auto}
+.study-summary{display:flex;gap:22px;flex-wrap:wrap;margin:8px 0 16px}
+.study-summary>div{display:flex;align-items:baseline;gap:7px}
+.study-summary strong{color:var(--accent);font:600 13px var(--mono)}
+.study-summary span{color:var(--muted);font-size:10px}
+.study-bars{display:grid;grid-template-columns:repeat(24,minmax(0,1fr));gap:5px;align-items:stretch;height:190px;min-width:0;padding:12px 8px 0;border:1px solid var(--border);border-radius:8px;background:#ffffff03}
+.study-bars.monthly-bars{grid-template-columns:repeat(30,minmax(0,1fr));gap:3px}
+.study-bar-group{display:grid;grid-template-rows:minmax(0,1fr) minmax(0,1fr) 16px;gap:5px;min-width:0;height:100%;text-align:center}
+.study-bar-track{display:flex;align-items:flex-end;justify-content:center;min-height:0;border-radius:3px 3px 0 0;background:#ffffff06;overflow:hidden}
+.study-bar-track i{display:block;width:100%;min-height:0;border-radius:3px 3px 0 0;background:var(--accent)}
+.question-bar-track{display:flex;align-items:flex-end;justify-content:center;min-height:0;border-radius:3px 3px 0 0;background:#ffffff06;overflow:hidden}.question-bar-track i{display:block;width:100%;min-height:0;border-radius:3px 3px 0 0;background:#6f9edb}
+.study-bar-group small{font:8px var(--mono);color:var(--muted);white-space:nowrap}
+.study-legend{display:flex;gap:16px;flex-wrap:wrap;margin:12px 0;color:var(--muted);font-size:10px}
+.study-legend span{display:flex;align-items:center;gap:6px}
+.study-legend i{display:inline-block;width:8px;height:8px;border-radius:2px;background:var(--accent)}
+.study-legend span+span i{background:#6f9edb}
+@media(max-width:600px){.study-bars{gap:2px;padding-inline:4px}.study-bars.monthly-bars{gap:1px}.study-bar-group small{font-size:7px}}
