@@ -30,7 +30,7 @@ describe('assessment unit logic',()=>{
   const thirty=Array.from({length:30},(_,i)=>({...base,id:'q'+i}));
   expect(validate(thirty,'subject')).toHaveLength(30);
   expect(()=>validate([...thirty.slice(0,29),{...base,id:'q0'}],'subject')).toThrow(/Duplicate/);
-  expect(()=>calc('2+2*3')).toBe('8');
+  expect(calc('2+2*3')).toBe('8');
   expect(()=>validate(Array.from({length:65},(_,i)=>({...base,id:'f'+i,marks:1})),'full')).toThrow(/100 marks/);
  });
 });
