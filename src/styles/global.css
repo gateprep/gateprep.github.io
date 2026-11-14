@@ -252,3 +252,30 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 @media(max-width:760px){.learning-page .learning-tabs{scrollbar-width:none}.learning-page .learning-tabs::-webkit-scrollbar{display:none!important}}
 /* At narrow/zoomed layouts, remove nav fade masks and any edge overlays completely. */
 @media(max-width:900px){.main-nav-wrap::before,.main-nav-wrap::after,.main-nav::before,.main-nav::after{display:none!important;content:none!important;background:none!important;box-shadow:none!important;mask-image:none!important;-webkit-mask-image:none!important}}
+
+/* Question add/edit uses the same viewport-locked editor shell as Knowledge Editor. */
+.question-editor-overlay{z-index:2147483100}
+.question-editor-reader{width:min(980px,100%);height:100%;min-width:0;min-height:0}
+.question-editor-reader>header{min-width:0}
+.question-editor-reader>header>h2{margin:5px 0 0;font:600 18px Manrope,sans-serif}
+.question-editor-reader>header .adm-icon-btn{display:grid;place-items:center;flex:0 0 38px;width:38px;height:38px;padding:0;margin-left:auto}
+.question-editor-scroll{display:flex;flex-direction:column;gap:12px;min-width:0;overflow-x:hidden;padding:18px clamp(14px,4vw,42px)}
+.question-editor-scroll>*{min-width:0;max-width:100%}
+.question-editor-scroll .learning-form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+.question-editor-scroll .adm-field textarea{width:100%;min-width:0;max-width:100%;resize:vertical}
+.question-editor-scroll .learning-options,.question-editor-scroll .option-editor{min-width:0;max-width:100%}
+.question-editor-scroll .option-editor{grid-template-columns:34px minmax(0,1fr) auto}
+.question-editor-footer{display:flex;align-items:center;justify-content:flex-end;gap:9px;flex-wrap:wrap;flex:0 0 auto;padding:12px clamp(14px,4vw,42px);border-top:1px solid var(--border);background:#151d2a}
+.question-editor-footer .adm-secondary:first-child{margin-right:auto}
+.question-editor-footer input[type="file"]{display:none}
+@media(max-width:700px){.question-editor-reader>header{padding:12px 14px}.question-editor-scroll .learning-form-grid{grid-template-columns:minmax(0,1fr)}.question-editor-footer{padding:10px 14px}.question-editor-footer .adm-secondary:first-child{margin-right:0}}
+/* Mistake categories: compact arrow paging mirrors the top navigation controls. */
+.mistake-tabs-wrap{position:relative;display:flex;align-items:center;min-width:0;width:100%;margin:8px 0 14px}
+.mistake-tabs-wrap .mistake-tabs{flex:1 1 auto;min-width:0;max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:none;scroll-behavior:smooth;overscroll-behavior-x:contain;padding-inline:34px}
+.mistake-tabs-wrap .mistake-tabs::-webkit-scrollbar{display:none!important}
+.mistake-tabs-wrap .mistake-tabs button{flex:0 0 auto;white-space:nowrap}
+.mistake-tabs-arrow{position:absolute;z-index:3;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:30px;height:32px;padding:0;border:1px solid var(--border);border-radius:8px;background:var(--panel,#111925);color:var(--muted);cursor:pointer;opacity:.8}
+.mistake-tabs-arrow.left{left:2px}.mistake-tabs-arrow.right{right:2px}
+.mistake-tabs-arrow:disabled{opacity:0;pointer-events:none}
+.mistake-tabs-arrow:not(:disabled):hover,.mistake-tabs-arrow:focus-visible{color:var(--accent);border-color:var(--accent);opacity:1}
+@media(max-width:760px){.mistake-tabs-wrap .mistake-tabs{padding-inline:30px}.mistake-tabs-arrow{width:27px}}
