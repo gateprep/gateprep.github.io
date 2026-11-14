@@ -170,3 +170,33 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .study-legend .topic-legend-correct{background:#55bd83}
 .study-legend .topic-legend-wrong{background:#e36c72}
 @media(max-width:600px){.study-bars.weekly-bars{gap:4px}.topic-performance-heading{align-items:flex-start;flex-direction:column}}
+
+/* Navigation paging controls: visually quiet until hover, focus or touch. */
+.main-nav-wrap{position:relative;display:flex;align-items:stretch;min-width:0;width:100%;background:var(--nav-bg,#111925)}
+.main-nav-wrap .main-nav{flex:1 1 auto;width:100%;min-width:0;padding-inline:38px}
+.nav-shift{position:absolute;z-index:8;top:50%;transform:translateY(-50%);display:grid;place-items:center;width:34px;height:34px;padding:0;border:1px solid transparent;border-radius:9px;background:color-mix(in srgb,var(--nav-bg,#111925) 88%,transparent);color:var(--muted);opacity:.12;cursor:pointer;transition:opacity .16s ease,color .16s ease,border-color .16s ease,background .16s ease,box-shadow .16s ease}
+.nav-shift-left{left:3px}.nav-shift-right{right:3px}
+.main-nav-wrap:hover .nav-shift,.nav-shift:focus-visible,.nav-shift:active{opacity:1;color:var(--accent);border-color:color-mix(in srgb,var(--accent) 45%,transparent);background:color-mix(in srgb,var(--accent) 12%,var(--nav-bg,#111925));box-shadow:0 3px 16px #0003}
+.nav-shift:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+@media(hover:none){.nav-shift{opacity:.72;width:30px;height:34px}.main-nav-wrap .main-nav{padding-inline:32px}}
+/* Keep the question editor's heading visible at browser zoom levels. */
+.adm-modal-backdrop:has(.question-form){align-items:flex-start!important;justify-content:center!important;overflow-y:auto!important;padding:16px 12px!important}
+.question-form{max-height:calc(100dvh - 32px)!important;overflow-y:auto!important;overscroll-behavior:contain!important;margin:0 auto!important;flex:0 1 auto!important}
+.question-form>.adm-modal-head{position:sticky;top:-1px;z-index:4;background:#171e2a;padding:10px 0}
+.app-shell[data-theme="light"] .question-form>.adm-modal-head{background:#fff}
+.app-shell[data-theme="sepia"] .question-form>.adm-modal-head{background:#f2e5ce}
+/* Knowledge filters remain a fluid row instead of shrinking into square controls at zoom. */
+.knowledge-toolbar{display:grid!important;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(220px,1.5fr);align-items:center;gap:10px}
+.knowledge-toolbar .knowledge-filter{display:block;width:100%;min-width:0;max-width:none;min-height:42px}
+.knowledge-toolbar .knowledge-search{display:flex;width:100%;min-width:0;max-width:none;min-height:42px}
+.knowledge-toolbar .knowledge-search input{width:100%;min-width:0}
+@media(max-width:1050px){.knowledge-toolbar{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.knowledge-toolbar .knowledge-search{grid-column:1/-1}}
+@media(max-width:620px){.knowledge-toolbar{grid-template-columns:minmax(0,1fr)}.knowledge-toolbar .knowledge-search{grid-column:auto}}
+/* Ratio graph: paired correct/wrong bars share a scale and a visible zero baseline. */
+.mistake-trend-bars{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:7px;align-items:end;min-height:190px;padding:12px 8px 0;border-bottom:1px solid var(--border)}
+.mistake-trend-bars>div{display:grid;grid-template-rows:minmax(0,1fr) 18px;gap:6px;min-width:0;height:180px;text-align:center}
+.mistake-trend-track{display:flex;align-items:flex-end;justify-content:center;gap:3px;min-height:0;border-bottom:1px solid #8792a344;background:linear-gradient(to top,#8792a30b 1px,transparent 1px);background-size:100% 25%;overflow:hidden}
+.mistake-trend-track i{display:block;width:42%;min-width:2px;max-height:100%;border-radius:3px 3px 0 0;background:#e36c72}
+.mistake-trend-track i.good{background:#55bd83}
+.mistake-trend-bars small{font-size:8px;white-space:nowrap;color:var(--muted)}
+@media(max-width:600px){.mistake-trend-bars{gap:2px;padding-inline:3px}.mistake-trend-bars small{font-size:7px}}
