@@ -1,5 +1,5 @@
 import {useEffect,useMemo,useState,type ReactNode} from 'react';
-import {Bell,BookOpen,CalendarDays,ChevronDown,ExternalLink,Lock,LockOpen,Plus,Search,SlidersHorizontal,Trash2,,Building2,Save} from 'lucide-react';
+import {CalendarDays,ExternalLink,Lock,LockOpen,Plus,Search,SlidersHorizontal,Trash2,Building2,Save} from 'lucide-react';
 
 type Track='M.Tech'|'Ph.D.';
 type Institute={id:string;name:string;url:string;mtechUrl:string;phdUrl:string;description:string;mtechWatch:string;phdWatch:string;mtechNotes:string;phdNotes:string;locked:boolean};
