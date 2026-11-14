@@ -13,7 +13,9 @@ describe('backup restore integration',()=>{
    attempts:[{id:'restored-a',qid:'restored-q',at:new Date().toISOString(),correct:true,selected:['B'],seconds:10,mistake:'',note:''}],
    bookmarks:['restored-q'],events:[],completedTopics:[],settings:{device:'Backup device',timer:0,order:'sequential'},backups:[]
   }};
-  const file=new File([JSON.stringify(backup)],'gateprep-legacy.json',{type:'application/json'});
+  const json=JSON.stringify(backup);
+  const file=new File([json],'gateprep-legacy.json',{type:'application/json'});
+  Object.defineProperty(file,'text',{value:async()=>json});
   const input=document.querySelector('input[type="file"]');
   if(!input)throw new Error('Restore file input not found');
   fireEvent.change(input,{target:{files:[file]}});

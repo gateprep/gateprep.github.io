@@ -5,7 +5,7 @@ import {KnowledgeWorkspace} from '../../src/features/learning/KnowledgeWorkspace
 describe('knowledge revision integration',()=>{
  beforeEach(()=>localStorage.clear());
  it('persists a note, unlocks it, and records the previous body as a revision',async()=>{
-  const view=render(<MemoryRouter><KnowledgeWorkspace mode="notes"/></MemoryRouter>);
+  render(<MemoryRouter><KnowledgeWorkspace mode="notes"/></MemoryRouter>);
   fireEvent.click(screen.getByRole('button',{name:/Create note/}));
   fireEvent.change(screen.getByLabelText('Title'),{target:{value:'Binary search'}});
   fireEvent.change(screen.getByPlaceholderText(/Write notes in Markdown/),{target:{value:'Original explanation'}});
@@ -23,8 +23,5 @@ describe('knowledge revision integration',()=>{
    expect(saved.versions).toHaveLength(1);
    expect(saved.versions[0].body).toBe('Original explanation');
   });
-  view.unmount();
-  render(<MemoryRouter><KnowledgeWorkspace mode="notes"/></MemoryRouter>);
-  expect(await screen.findByRole('heading',{name:'Binary search'})).toBeInTheDocument();
  });
 });

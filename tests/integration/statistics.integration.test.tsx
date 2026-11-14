@@ -22,7 +22,7 @@ describe('statistics integration',()=>{
   await waitFor(()=>expect(screen.getByText('Attempts')).toBeInTheDocument());
   expect(document.querySelector('.learning-stats .metric-card:nth-child(1) strong')?.textContent).toBe('2');
   expect(document.querySelector('.learning-stats .metric-card:nth-child(2) strong')?.textContent).toBe('50%');
-  expect(screen.getByText(/Searching/)).toBeInTheDocument();
-  expect(screen.getByText(/1 correct · 1 wrong · 2 attempts · 1 unique questions/)).toBeInTheDocument();
+  expect(document.querySelector('.topic-performance-row')?.textContent).toContain('Searching');
+  expect(document.querySelector('.topic-performance-row')?.textContent).toContain('1 correct · 1 wrong · 2 attempts · 1 unique questions');
  });
 });
