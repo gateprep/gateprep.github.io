@@ -13,6 +13,8 @@ describe('assessment integration flow',()=>{
   const answer=await screen.findByLabelText(/Binary search/);
   fireEvent.click(answer);
   fireEvent.click(screen.getByRole('button',{name:/Submit quiz/}));
+  expect(screen.getByRole('heading',{name:'Save and close this quiz?'})).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button',{name:'Save and finish'}));
   await waitFor(()=>expect(onRecord).toHaveBeenCalledTimes(1));
   expect(onRecord.mock.calls[0][0][0]).toMatchObject({qid:'q-assess-1',correct:true,selected:['B']});
   await waitFor(()=>{

@@ -496,3 +496,39 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
  .gate-editor-window,.gate-result-window{padding:14px!important}
  .gate-profile-editor .gate-profile-json{min-height:0!important}
 }
+
+
+/* Scientific GATE calculator and explicit assessment confirmation dialogs. */
+.gate-cbt-header-tools{display:flex;align-items:center;gap:10px}
+.gate-section-toggle{white-space:nowrap}
+.gate-scientific-calculator{position:absolute;z-index:20;right:18px;bottom:78px;width:min(430px,calc(100vw - 28px));max-height:min(86dvh,760px);display:flex;flex-direction:column;gap:10px;padding:15px;border:1px solid #526177;border-radius:12px;background:#172130;box-shadow:0 18px 55px #0009;overflow:auto}
+.gate-scientific-calculator>header{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.gate-scientific-calculator>header>div{display:flex;flex-direction:column;gap:3px}
+.gate-scientific-calculator>header strong{font-size:13px}
+.gate-scientific-calculator>header small{color:#9aa7b8;font-size:10px}
+.gate-calc-display{min-height:70px;padding:10px 12px;border:1px solid #526177;border-radius:7px;background:#0b111a;text-align:right;font-family:var(--mono);overflow-wrap:anywhere}
+.gate-calc-display>div{min-height:20px;color:#9aa7b8;font-size:11px}
+.gate-calc-display output{display:block;color:#f4f7fb;font-size:22px;font-variant-numeric:tabular-nums}
+.gate-calc-mode{display:flex;align-items:center;gap:6px}
+.gate-calc-mode button,.gate-calc-keys button{min-height:34px;border:1px solid #ffffff1a;border-radius:5px;background:#263448;color:#e8edf5;font-size:11px}
+.gate-calc-mode button.selected{border-color:var(--accent);color:var(--accent);background:#b9f27c16}
+.gate-calc-mode span{flex:1;color:#9aa7b8;font:10px var(--mono);text-align:center}
+.gate-calc-keys{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:6px}
+.gate-calc-keys button{min-width:0;padding:5px 2px}
+.gate-calc-keys button:hover,.gate-calc-mode button:hover{border-color:#b9f27c77;background:#b9f27c18}
+.gate-calc-keys button.operator{color:var(--accent)}
+.gate-submit-backdrop{position:fixed;inset:0;z-index:2147483605;display:grid;place-items:center;padding:18px;background:#050911d9;backdrop-filter:blur(5px)}
+.gate-submit-modal{width:min(620px,100%);max-height:90dvh;display:flex;flex-direction:column;gap:14px;padding:22px;border:1px solid #526177;border-radius:13px;background:#172130;box-shadow:0 20px 70px #0009;overflow:auto}
+.gate-submit-modal>header{display:flex;align-items:flex-start;justify-content:space-between;gap:14px}
+.gate-submit-modal>header h2{margin:8px 0 0;font:600 22px Manrope,sans-serif}
+.gate-submit-modal>p{margin:0;color:#aab5c5;font-size:12px;line-height:1.6}
+.gate-submit-counts{display:flex;gap:18px;flex-wrap:wrap}
+.gate-submit-counts span{display:flex;align-items:center;gap:7px;color:#cbd4e0;font-size:11px}
+.gate-submit-counts i{width:9px;height:9px;border-radius:50%}
+.gate-submit-counts i.attempted{background:#48bd83}.gate-submit-counts i.unattempted{background:#e16d72}
+.gate-submit-grid{display:grid;grid-template-columns:repeat(10,minmax(0,1fr));gap:6px;max-height:180px;overflow:auto;padding:2px}
+.gate-submit-grid span{display:grid;place-items:center;aspect-ratio:1;border-radius:50%;font:10px var(--mono);color:#10141d}
+.gate-submit-grid span.attempted{background:#48bd83}.gate-submit-grid span.unattempted{background:#e16d72}
+.gate-submit-modal .gate-submit-warning{color:#f1c27b}
+.gate-submit-modal>footer{display:flex;justify-content:flex-end;gap:9px;flex-wrap:wrap;margin-top:3px}
+@media(max-width:600px){.gate-cbt-header-tools{gap:5px;flex-wrap:wrap;justify-content:flex-end}.gate-section-toggle{font-size:10px;padding:7px}.gate-scientific-calculator{right:8px;bottom:70px;width:calc(100vw - 16px)}.gate-calc-keys{gap:4px}.gate-calc-keys button{font-size:10px}.gate-submit-modal{padding:16px}.gate-submit-grid{grid-template-columns:repeat(8,minmax(0,1fr))}}
