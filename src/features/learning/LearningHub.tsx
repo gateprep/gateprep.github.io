@@ -2,7 +2,6 @@ import {useEffect,useMemo,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {useNavigate,useSearchParams} from 'react-router-dom';
 import {AssessmentEngine} from './AssessmentEngine';
-import {validateQuestionRecords} from './questionBankLogic';
 import {sha256Hex,verifyBackupInventory} from './backupLogic';
 import {buildTopicStats,formatStudyDuration,calculateStudyStreak} from './statisticsLogic';
 import type {FormEvent,ChangeEvent,ReactNode} from 'react';
