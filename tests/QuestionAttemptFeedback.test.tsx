@@ -3,7 +3,18 @@ import {MemoryRouter} from 'react-router-dom';
 import {afterEach,describe,expect,it} from 'vitest';
 import {LearningHub} from '../src/features/learning/LearningHub';
 async function seedLearning(data:any){
- const db=await new Promise<IDBDatabase>((resolve,reject)=>{const req=indexedDB.open('gateprep-v2',1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('data'))req.result.createObjectStore('data');};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error);});
+ const db=await new Promise<IDBDatabase>((resolve,reject)=>{const req=indexedDB.open('gateprep-v2',1);req.onupgradeneeded=()=>{if(!req.result.objectStoreNames.contains('data'))req.result.createObjectStore('data');};req.onsuccess=()=>resolve(req.result);req.onerror=()=>reject(req.error); it('shows a structured per-question history table and performance report',async()=>{
+  const attempts=[{id:'a1',qid:question.id,at:'2026-11-14T10:00:00.000Z',correct:true,selected:['A'],seconds:22,mistake:'',note:''},{id:'a2',qid:question.id,at:'2026-11-15T10:00:00.000Z',correct:false,selected:['B'],seconds:38,mistake:'Conceptual mistake',note:'Revisit binary search'}];
+  await seedLearning({questions:[question],attempts,bookmarks:[],events:[],completedTopics:[],settings:{device:'Test',timer:0,order:'sequential'},backups:[]});
+  render(<MemoryRouter><LearningHub mode="questions"/></MemoryRouter>);
+  fireEvent.click(await screen.findByTitle('Attempt history'));
+  expect(await screen.findByRole('columnheader',{name:'Your answer'})).toBeInTheDocument();
+  expect(screen.getByText('Conceptual mistake')).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button',{name:/Question report/}));
+  expect(screen.getByText('50%')).toBeInTheDocument();
+  expect(screen.getByText('Binary search needs sorted input.')).toBeInTheDocument();
+ });
+});
  await new Promise<void>((resolve,reject)=>{const tx=db.transaction('data','readwrite');tx.objectStore('data').put(data,'all');tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);});db.close();
 }
 const question={id:'question-1',subject:'Algorithms',topic:'Searching',type:'MCQ',prompt:'Which option is correct?',options:[{text:'Correct'},{text:'Incorrect'}],answers:['A'],explanation:'Binary search needs sorted input.',marks:1,negative:0,isPYQ:false,year:'',difficulty:'Easy',locked:false};
