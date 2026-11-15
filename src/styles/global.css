@@ -582,3 +582,5 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .question-bank-filter .adm-field select{min-height:46px}
 .question-bank-filter .adm-modal-actions{display:flex;justify-content:flex-end;gap:10px;margin-top:auto;padding-top:18px;border-top:1px solid var(--border)}
 @media(max-width:600px){.gate-calc-layout{grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:4px}.gate-calc-scientific,.gate-calc-basic{gap:3px}.gate-calc-scientific button,.gate-calc-basic button{min-height:34px;padding:3px 1px;font-size:10px}.gate-calc-mode{grid-template-columns:auto auto auto minmax(0,1fr) repeat(5,auto);gap:2px}.gate-calc-mode button{min-height:30px;padding:3px;font-size:9px}.quiz-duplicate-row{grid-template-columns:minmax(0,1fr) auto}.quiz-duplicate-row em{grid-column:1/-1}.question-bank-filter{padding:14px!important}}
+
+.gate-calc-scientific button:last-child{grid-column:6}
