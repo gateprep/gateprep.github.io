@@ -1,4 +1,5 @@
 import {useMemo,useRef,useState} from 'react';
+import type {PointerEvent as ReactPointerEvent} from 'react';
 import {X} from 'lucide-react';
 
 type Token=number|string;
@@ -35,7 +36,7 @@ export function GateCalculator({onClose}:{onClose:()=>void}){
   if(k==='pi'||k==='e'){insert(k);return;}if(k==='x^2'||k==='x^3'){insert(k==='x^2'?'^2':'^3');return;}if(k==='x^y'){insert('^');return;}
   if(k==='yroot'||k==='logy'){const v=Number.isFinite(result)?shown:'0';setExpression(k+'('+v+',');return;}if(k==='1/x'){setExpression(x=>'1/('+x+')');return;}if(k==='Exp'){insert('*10^');return;}if(k==='mod'){insert('mod');return;}insert(k);
  };
- const down=(e:React.PointerEvent<HTMLElement>)=>{if((e.target as HTMLElement).closest('button'))return;const rect=e.currentTarget.parentElement?.getBoundingClientRect();drag.current={dx:e.clientX-(rect?.left??0),dy:e.clientY-(rect?.top??0),pointer:e.pointerId};e.currentTarget.setPointerCapture(e.pointerId);};
+ const down=(e:ReactPointerEvent<HTMLElement>)=>{if((e.target as HTMLElement).closest('button'))return;const rect=e.currentTarget.parentElement?.getBoundingClientRect();drag.current={dx:e.clientX-(rect?.left??0),dy:e.clientY-(rect?.top??0),pointer:e.pointerId};e.currentTarget.setPointerCapture(e.pointerId);};
  const move=(e:React.PointerEvent<HTMLElement>)=>{if(!drag.current||drag.current.pointer!==e.pointerId)return;const width=Math.min(490,window.innerWidth-16),height=Math.min(720,window.innerHeight-16);setPosition({x:Math.max(8,Math.min(window.innerWidth-width,e.clientX-drag.current.dx)),y:Math.max(8,Math.min(window.innerHeight-height,e.clientY-drag.current.dy))});};
  const up=(e:React.PointerEvent<HTMLElement>)=>{if(drag.current?.pointer===e.pointerId)drag.current=null;};
  return <div className="gate-scientific-calculator" role="dialog" aria-label="GATE virtual scientific calculator" style={position?{left:position.x,top:position.y,transform:'none'}:undefined}>
