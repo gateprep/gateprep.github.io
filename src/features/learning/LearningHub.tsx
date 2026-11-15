@@ -2,7 +2,7 @@ import {useEffect,useMemo,useRef,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {useNavigate,useSearchParams} from 'react-router-dom';
 import {AssessmentEngine} from './AssessmentEngine';
-import {sha256Hex,verifyBackupInventory} from './backupLogic';
+import {sha256Hex} from './backupLogic';
 import {buildTopicStats,formatStudyDuration,calculateStudyStreak} from './statisticsLogic';
 import type {FormEvent,ChangeEvent,ReactNode} from 'react';
 import {Bookmark,CheckCircle2,Download,FileUp,Lock,Plus,Search,ShieldCheck,Unlock,X,ChevronLeft,ChevronRight,ChevronDown,Trash2,ImagePlus,ArrowRight,History,Flame,XCircle} from 'lucide-react';
