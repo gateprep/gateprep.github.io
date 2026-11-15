@@ -21,7 +21,7 @@ describe('question attempt feedback',()=>{
   fireEvent.click(screen.getByRole('button',{name:'Continue attempt'}));
   expect(screen.getByRole('heading',{name:'Question attempt'})).toBeInTheDocument();
   fireEvent.click(screen.getByTitle('Close attempt'));
-  fireEvent.click(await screen.findByRole('button',{name:'Close attempt'}));
+  fireEvent.click(document.querySelector('.attempt-close-modal .adm-primary')!);
   fireEvent.click(await screen.findByTitle('Attempt history'));
   expect(await screen.findByRole('columnheader',{name:'Your answer'})).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button',{name:/Question report/}));
