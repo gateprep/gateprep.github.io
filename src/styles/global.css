@@ -805,3 +805,8 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .timer-editor .learning-tabs{margin:8px 0 18px}
 @media(max-width:760px){.plan-layout{grid-template-columns:1fr}.plan-calendar-grid{gap:3px}.plan-calendar-grid>button{min-height:43px}.plan-completion-overview{padding:14px}.plan-editor .learning-form-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:480px){.plan-editor .learning-form-grid{grid-template-columns:1fr}.completion-rate-table>div{grid-template-columns:minmax(0,1fr) auto}.plan-calendar-grid>button{min-height:38px}.plan-completion-chart{gap:3px}}
+
+.plan-repeat-toggle{display:flex!important;flex-direction:row!important;align-items:center;gap:9px!important;color:var(--muted);font-size:11px}
+.plan-repeat-toggle input{accent-color:var(--accent)}
+.plan-upload-json{display:inline-flex!important;align-items:center;gap:8px;position:relative;overflow:hidden;margin:12px 0}
+.plan-upload-json input{position:absolute;inset:0;opacity:0;cursor:pointer}
