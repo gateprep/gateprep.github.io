@@ -13,7 +13,7 @@ describe('question attempt feedback',()=>{
   await seedLearning({questions:[question],attempts:[],bookmarks:[],events:[],completedTopics:[],settings:{device:'Test',timer:0,order:'sequential'},backups:[]});
   render(<MemoryRouter><LearningHub mode="questions"/></MemoryRouter>);
   fireEvent.click(await screen.findByRole('button',{name:'Attempt'}));
-  fireEvent.click(screen.getByLabelText('B'));
+  fireEvent.click(screen.getByText('B').closest('label')!);
   fireEvent.click(screen.getByRole('button',{name:/Submit answer/}));
   await waitFor(()=>expect(document.querySelector('.answer-explanation.incorrect')).toBeInTheDocument());
   fireEvent.click(screen.getByTitle('Close attempt'));
