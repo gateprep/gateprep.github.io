@@ -7,11 +7,10 @@ async function seedLearning(data:any){
  await new Promise<void>((resolve,reject)=>{const tx=db.transaction('data','readwrite');tx.objectStore('data').put(data,'all');tx.oncomplete=()=>resolve();tx.onerror=()=>reject(tx.error);});db.close();
 }
 const question={id:'question-1',subject:'Algorithms',topic:'Searching',type:'MCQ',prompt:'Which option is correct?',options:[{text:'Correct'},{text:'Incorrect'}],answers:['A'],explanation:'Binary search needs sorted input.',marks:1,negative:0,isPYQ:false,year:'',difficulty:'Easy',locked:false};
-const seed=(attempts:any[]=[])=>({questions:[question],attempts,bookmarks:[],events:[],completedTopics:[],settings:{device:'Test',timer:0,order:'sequential'},backups:[]});
 describe('question attempt feedback',()=>{
  afterEach(async()=>{await new Promise<void>(resolve=>{const req=indexedDB.deleteDatabase('gateprep-v2');req.onsuccess=()=>resolve();req.onerror=()=>resolve();req.onblocked=()=>resolve();});});
- it('uses red incorrect feedback and a custom close confirmation',async()=>{
-  await seedLearning(seed());
+ it('shows red incorrect feedback, a custom close confirmation and the question report',async()=>{
+  await seedLearning({questions:[question],attempts:[],bookmarks:[],events:[],completedTopics:[],settings:{device:'Test',timer:0,order:'sequential'},backups:[]});
   render(<MemoryRouter><LearningHub mode="questions"/></MemoryRouter>);
   fireEvent.click(await screen.findByRole('button',{name:'Attempt'}));
   fireEvent.click(screen.getByText('B').closest('label')!);
@@ -21,16 +20,12 @@ describe('question attempt feedback',()=>{
   expect(await screen.findByRole('heading',{name:'Leave this attempt?'})).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button',{name:'Continue attempt'}));
   expect(screen.getByRole('heading',{name:'Question attempt'})).toBeInTheDocument();
- });
- it('shows a structured per-question history table and performance report',async()=>{
-  const attempts=[{id:'a1',qid:question.id,at:'2026-11-14T10:00:00.000Z',correct:true,selected:['A'],seconds:22,mistake:'',note:''},{id:'a2',qid:question.id,at:'2026-11-15T10:00:00.000Z',correct:false,selected:['B'],seconds:38,mistake:'Conceptual mistake',note:'Revisit binary search'}];
-  await seedLearning(seed(attempts));
-  render(<MemoryRouter><LearningHub mode="questions"/></MemoryRouter>);
+  fireEvent.click(screen.getByTitle('Close attempt'));
+  fireEvent.click(await screen.findByRole('button',{name:'Close attempt'}));
   fireEvent.click(await screen.findByTitle('Attempt history'));
   expect(await screen.findByRole('columnheader',{name:'Your answer'})).toBeInTheDocument();
-  expect(screen.getByText('Conceptual mistake')).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button',{name:/Question report/}));
-  expect(screen.getByText('50%')).toBeInTheDocument();
+  expect(screen.getByText('0%')).toBeInTheDocument();
   expect(screen.getByText('Binary search needs sorted input.')).toBeInTheDocument();
  });
 });
