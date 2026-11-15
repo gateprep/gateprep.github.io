@@ -587,3 +587,97 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 
 .gate-calc-basic{grid-template-columns:repeat(5,minmax(0,1fr))}
 .gate-calc-basic>span{display:block;min-width:0}
+
+
+/* Quiet, narrow scrollbars across every page and nested full-screen workspace. */
+:root,.app-shell,*{scrollbar-width:thin;scrollbar-color:#8b95a466 transparent}
+*::-webkit-scrollbar{width:5px;height:5px}
+*::-webkit-scrollbar-track{background:transparent}
+*::-webkit-scrollbar-thumb{background:#8b95a455;border:1px solid transparent;border-radius:20px;background-clip:padding-box}
+*:hover::-webkit-scrollbar-thumb{background:#8b95a488;background-clip:padding-box}
+*::-webkit-scrollbar-corner{background:transparent}
+
+/* GATE virtual calculator: compact BYJU'S reference proportions and aligned 11-column keypad. */
+.gate-scientific-calculator{width:min(752px,calc(100vw - 16px))!important;max-height:min(94dvh,620px)!important;padding:0!important;gap:8px!important;border:1px solid #858585!important;border-radius:8px!important;overflow:hidden!important}
+.gate-scientific-calculator>header{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:12px!important;min-height:58px!important;margin:0!important;padding:0 14px!important;background:#4386ed!important;color:#fff!important;cursor:move!important}
+.gate-scientific-calculator>header>strong{font:500 21px Arial,sans-serif!important}
+.gate-calc-title-actions{display:flex;align-items:center;gap:8px}
+.gate-calc-help{border:0;border-radius:4px;background:#62b9e8;color:#fff;padding:9px 22px;font:600 13px Arial,sans-serif;cursor:pointer}
+.gate-calc-theme{display:flex;gap:3px;padding:3px;border-radius:5px;background:#ffffff24}
+.gate-calc-theme button{border:0;border-radius:4px;padding:6px 9px;background:transparent;color:#fff;font:11px Arial,sans-serif;cursor:pointer}
+.gate-calc-theme button.selected{background:#fff;color:#275da8}
+.gate-calc-window-btn{display:grid;place-items:center;width:34px;height:34px;border:0;background:transparent;color:#fff;font:30px/1 Arial,sans-serif;cursor:pointer}
+.gate-calc-window-btn.close:hover{background:#e34e4e;border-radius:4px}
+.gate-scientific-calculator .gate-calc-display{display:flex;flex-direction:column;justify-content:space-between;gap:0;min-height:100px;margin:0 16px;padding:8px 12px;border:1px solid #999;border-radius:5px;background:#fff;color:#111;text-align:right;font-family:Arial,sans-serif}
+.gate-scientific-calculator .gate-calc-display>div{min-height:28px;color:#555;font:14px/1.5 Arial,sans-serif}
+.gate-scientific-calculator .gate-calc-display output{display:block;min-height:34px;color:#111;font:28px/1.25 Arial,sans-serif}
+.gate-calc-mode{display:grid!important;grid-template-columns:70px auto auto minmax(0,1fr) repeat(5,58px)!important;gap:7px!important;align-items:center!important;margin:0 16px!important}
+.gate-calc-mode>button,.gate-calc-mode>label{display:flex;align-items:center;justify-content:center;gap:5px;min-height:36px;padding:4px 7px;border:1px solid #aaa;border-radius:5px;background:linear-gradient(#fff,#e8e8e8);color:#222;font:13px Arial,sans-serif;white-space:nowrap}
+.gate-calc-mode>label{cursor:pointer}
+.gate-calc-mode>label input{accent-color:#3279d9}
+.gate-calc-mode>span{color:#555;font:12px var(--mono);text-align:center}
+.gate-calc-keypad{display:grid;grid-template-columns:repeat(11,minmax(0,1fr));grid-template-rows:repeat(5,minmax(38px,1fr));gap:5px;margin:0 16px 16px;min-height:0}
+.gate-calc-key{min-width:0;min-height:38px;padding:5px 2px;border:1px solid #aaa;border-radius:6px;background:linear-gradient(#fff,#e8e8e8);color:#222;font:600 14px Arial,sans-serif;box-shadow:0 1px 1px #0002;cursor:pointer}
+.gate-calc-key:hover{border-color:#4386ed;background:#e4efff}
+.gate-calc-key.backspace{grid-column:7 / span 2;background:#e74d3d;color:#fff;border-color:#bf382c;font-size:21px}
+.gate-calc-key.clear,.gate-calc-key.sign{background:#e74d3d;color:#fff;border-color:#bf382c}
+.gate-calc-key.equals{background:#27c77a;color:#fff;border-color:#16a35f;font-size:25px}
+.gate-calc-help-panel{margin:0 16px;padding:10px 12px;border:1px solid #9bb8df;border-radius:5px;background:#eef5ff;color:#27496f;font:12px/1.5 Arial,sans-serif}
+.gate-scientific-calculator.theme-dark{background:#202b3a!important;border-color:#536176!important;color:#eef3fb!important}
+.gate-scientific-calculator.theme-dark .gate-calc-display{background:#0d1420;border-color:#536176;color:#eef3fb}
+.gate-scientific-calculator.theme-dark .gate-calc-display>div{color:#aab8ca}
+.gate-scientific-calculator.theme-dark .gate-calc-display output{color:#f4f7fb}
+.gate-scientific-calculator.theme-dark .gate-calc-mode>button,.gate-scientific-calculator.theme-dark .gate-calc-mode>label,.gate-scientific-calculator.theme-dark .gate-calc-key{background:linear-gradient(#35445a,#263448);border-color:#56677f;color:#edf3fb}
+.gate-scientific-calculator.theme-dark .gate-calc-key:hover{background:#3d5674;border-color:#8fb7ee}
+.gate-scientific-calculator.theme-dark .gate-calc-key.backspace,.gate-scientific-calculator.theme-dark .gate-calc-key.clear,.gate-scientific-calculator.theme-dark .gate-calc-key.sign{background:#c9473b;color:#fff}
+.gate-scientific-calculator.theme-dark .gate-calc-key.equals{background:#159d60;color:#fff}
+.gate-scientific-calculator.theme-dark .gate-calc-mode>span{color:#c3cfdd}
+.gate-scientific-calculator.theme-dark .gate-calc-help-panel{background:#263c59;border-color:#536f95;color:#e1edff}
+.gate-scientific-calculator.is-minimized{width:min(752px,calc(100vw - 16px))!important;max-height:58px!important;overflow:hidden!important}
+@media(max-width:650px){
+ .gate-scientific-calculator>header{min-height:48px!important;padding:0 8px!important}
+ .gate-scientific-calculator>header>strong{font-size:15px!important}
+ .gate-calc-title-actions{gap:3px}
+ .gate-calc-help{padding:7px 9px}
+ .gate-calc-theme button{padding:6px}
+ .gate-calc-mode{grid-template-columns:48px auto auto minmax(0,1fr) repeat(5,minmax(31px,1fr))!important;gap:3px!important;margin:0 7px!important}
+ .gate-calc-mode>button,.gate-calc-mode>label{min-height:30px;padding:2px;font-size:10px}
+ .gate-calc-keypad{gap:3px;margin:0 7px 8px;grid-template-rows:repeat(5,minmax(31px,1fr))}
+ .gate-calc-key{min-height:31px;padding:2px 0;font-size:10px}
+ .gate-calc-key.backspace{font-size:17px}
+ .gate-scientific-calculator .gate-calc-display{min-height:75px;margin:0 7px}
+}
+
+/* The Questions filter uses the same body-level viewport reader as the Knowledge editor. */
+.question-bank-filter-backdrop{position:fixed!important;inset:0!important;z-index:2147483645!important;width:100vw!important;height:100vh!important;height:100dvh!important;margin:0!important;padding:0!important;display:flex!important;align-items:stretch!important;justify-content:stretch!important;overflow:hidden!important;background:#05080df2!important;backdrop-filter:blur(18px)!important}
+.question-bank-filter{position:absolute!important;inset:0!important;display:flex!important;flex-direction:column!important;gap:18px!important;box-sizing:border-box!important;width:100vw!important;height:100vh!important;height:100dvh!important;min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;margin:0!important;padding:0!important;border:0!important;border-radius:0!important;overflow:hidden!important;background:#111925!important;color:#e9edf3!important}
+.question-bank-filter .adm-modal-head{position:relative!important;top:auto!important;flex:0 0 auto!important;padding:14px 22px!important;border-bottom:1px solid var(--border)!important;background:#151d2a!important}
+.question-bank-filter .adm-field{width:min(760px,calc(100% - 44px))!important;max-width:none!important;margin:0 22px!important}
+.question-bank-filter .adm-modal-actions{display:flex!important;justify-content:flex-end!important;gap:10px!important;flex:0 0 auto!important;margin: auto 0 0!important;padding:14px 22px max(14px,env(safe-area-inset-bottom))!important;border-top:1px solid var(--border)!important}
+.app-shell[data-theme="light"] .question-bank-filter{background:#f8fafc!important;color:#172235!important}
+.app-shell[data-theme="light"] .question-bank-filter .adm-modal-head{background:#f8fafc!important}
+@media(max-width:600px){.question-bank-filter .adm-modal-head{padding:12px 14px!important}.question-bank-filter .adm-field{width:calc(100% - 28px)!important;margin:0 14px!important}.question-bank-filter .adm-modal-actions{padding:12px 14px max(12px,env(safe-area-inset-bottom))!important}}
+
+/* Polished tabular Needs Work breakdown. */
+.needs-work-table-wrap{width:100%;overflow-x:auto}
+.needs-work-table{width:100%;border-collapse:separate;border-spacing:0;font-size:12px}
+.needs-work-table th{padding:11px 12px;border-bottom:1px solid var(--border);color:var(--muted);font-size:10px;font-weight:600;text-align:left;white-space:nowrap}
+.needs-work-table td{padding:12px;border-bottom:1px solid var(--border);color:var(--muted);vertical-align:middle}
+.needs-work-table td:first-child{min-width:190px;color:var(--text,#dce4ef)}
+.needs-work-table td strong{display:block;color:inherit;font-size:11px}
+.needs-work-table td small{display:block;margin-top:3px;color:var(--muted);font-size:9px}
+.needs-work-table .needs-work-rate{font:600 11px var(--mono);color:#e16d72;white-space:nowrap}
+.needs-work-table .needs-work-track{width:150px;min-width:90px;height:8px;margin:0;border-radius:10px;background:#ffffff12;overflow:hidden}
+.needs-work-table .needs-work-track i{display:block;height:100%;border-radius:10px;background:linear-gradient(90deg,#e16d72,#f39a83)}
+.needs-work-subject h3{margin:18px 0 7px;color:var(--accent);font:600 13px Manrope,sans-serif}
+
+/* Mistake library editing and Uncategorized state. */
+.mistake-editor-modal{width:min(620px,100%)!important}
+.mistake-editor-types{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.mistake-editor-types label{display:flex;align-items:center;gap:9px;padding:11px;border:1px solid var(--border);border-radius:8px;background:#ffffff05;color:var(--text,#dce4ef);font-size:11px}
+.mistake-editor-types input{accent-color:var(--accent)}
+.mistake-tag.uncategorized{color:#eabf75;border-color:#eabf7544;background:#eabf7510}
+.questions-lock-all{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.question-bank-bulk-actions{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;padding:10px 12px;border:1px solid var(--border);border-radius:9px;background:#ffffff04}
+.question-bank-bulk-actions>span{color:var(--muted);font-size:10px}
+@media(max-width:600px){.mistake-editor-types{grid-template-columns:1fr}.needs-work-table td,.needs-work-table th{padding:9px 8px}}
