@@ -6,3 +6,5 @@ dist/
 .env
 .env.*
 !.env.example
+synthetic-data/*.tar.gz
+synthetic-data/test-series/*.zip
