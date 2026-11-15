@@ -1,6 +1,6 @@
 import {useMemo,useRef,useState} from 'react';
 import type {PointerEvent as ReactPointerEvent} from 'react';
-import {Pin,PinOff,X} from 'lucide-react';
+import {Pin,X} from 'lucide-react';
 
 type Token=number|string;
 const factorial=(n:number)=>{if(!Number.isInteger(n)||n<0||n>170)throw Error('Factorial domain');let v=1;for(let i=2;i<=n;i++)v*=i;return v;};
