@@ -51,7 +51,7 @@ export function GateCalculator({onClose}:{onClose:()=>void}){
   if(['sin','cos','tan','asin','acos','atan','sinh','cosh','tanh','asinh','acosh','atanh','log','ln','log2','sqrt','cbrt','abs','fact','10^x','e^x'].includes(k)){unary(({asin:'asin',acos:'acos',atan:'atan','10^x':'tenx','e^x':'exp'} as Record<string,string>)[k]||k);return;}
   if(k==='pi'){insert('pi');return;}if(k==='e'){insert('e');return;}
   if(k==='x^2'){setExpression(x=>x+'^2');return;}if(k==='x^3'){setExpression(x=>x+'^3');return;}
-  if(k==='x^y'){insert('^');return;}if(k==='yroot'){insert('yroot(');return;}if(k==='logy'){insert('logy(');return;}
+  if(k==='x^y'){insert('^');return;}if(k==='yroot'||k==='logy'){const v=Number.isFinite(result)?shown:'0';setExpression(k+'('+v+',');return;}
   if(k==='1/x'){setExpression(x=>'1/('+x+')');return;}
   if(k==='Exp'){insert('*10^');return;}
   if(k==='mod'){insert('mod');return;}
