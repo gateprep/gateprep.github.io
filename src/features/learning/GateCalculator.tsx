@@ -18,7 +18,7 @@ function evaluate(source:string,deg:boolean):number{
  function expression():number{let v=term();while(peek()==='+'||peek()==='-'){const op=take(),b=term();v=op==='+'?v+b:v-b;}return v;}
  const value=expression();if(i!==tokens.length||!Number.isFinite(value))throw Error('Math error');return value;
 }
-const scientific=[['sinh','cosh','tanh','Exp','(',')'],['asinh','acosh','atanh','log2','ln','log'],['pi','e','fact','logy','e^x','10^x'],['sin','cos','tan','x^y','x^3','x^2'],['asin','acos','atan','yroot','cbrt','abs']];
+const scientific=[['sinh','cosh','tanh','Exp','(',')'],['asinh','acosh','atanh','log2','ln','log'],['pi','e','fact','logy','e^x','10^x'],['sin','cos','tan','x^y','x^3','x^2'],['asin','acos','atan','yroot','cbrt','abs'],['1/x']];
 const basic=[['⌫','C','±','sqrt'],['7','8','9','/'],['4','5','6','*'],['1','2','3','-'],['0','.','+','=']];
 const label:Record<string,string>={pi:'π','x^y':'xʸ','x^3':'x³','x^2':'x²',asin:'sin⁻¹',acos:'cos⁻¹',atan:'tan⁻¹',asinh:'sinh⁻¹',acosh:'cosh⁻¹',atanh:'tanh⁻¹',log2:'log₂x','10^x':'10ˣ','e^x':'eˣ',cbrt:'∛x',sqrt:'√x',fact:'n!',abs:'|x|',yroot:'ʸ√x',logy:'logᵧx'};
 export function GateCalculator({onClose}:{onClose:()=>void}){
@@ -35,7 +35,7 @@ export function GateCalculator({onClose}:{onClose:()=>void}){
   if(k==='pi'||k==='e'){insert(k);return;}if(k==='x^2'||k==='x^3'){insert(k==='x^2'?'^2':'^3');return;}if(k==='x^y'){insert('^');return;}
   if(k==='yroot'||k==='logy'){const v=Number.isFinite(result)?shown:'0';setExpression(k+'('+v+',');return;}if(k==='1/x'){setExpression(x=>'1/('+x+')');return;}if(k==='Exp'){insert('*10^');return;}if(k==='mod'){insert('mod');return;}insert(k);
  };
- const down=(e:React.PointerEvent<HTMLElement>)=>{if((e.target as HTMLElement).closest('button'))return;drag.current={dx:e.clientX-(position?.x??Math.max(8,window.innerWidth/2-245)),dy:e.clientY-(position?.y??Math.max(8,window.innerHeight/2-280)),pointer:e.pointerId};e.currentTarget.setPointerCapture(e.pointerId);};
+ const down=(e:React.PointerEvent<HTMLElement>)=>{if((e.target as HTMLElement).closest('button'))return;const rect=e.currentTarget.parentElement?.getBoundingClientRect();drag.current={dx:e.clientX-(rect?.left??0),dy:e.clientY-(rect?.top??0),pointer:e.pointerId};e.currentTarget.setPointerCapture(e.pointerId);};
  const move=(e:React.PointerEvent<HTMLElement>)=>{if(!drag.current||drag.current.pointer!==e.pointerId)return;const width=Math.min(490,window.innerWidth-16),height=Math.min(720,window.innerHeight-16);setPosition({x:Math.max(8,Math.min(window.innerWidth-width,e.clientX-drag.current.dx)),y:Math.max(8,Math.min(window.innerHeight-height,e.clientY-drag.current.dy))});};
  const up=(e:React.PointerEvent<HTMLElement>)=>{if(drag.current?.pointer===e.pointerId)drag.current=null;};
  return <div className="gate-scientific-calculator" role="dialog" aria-label="GATE virtual scientific calculator" style={position?{left:position.x,top:position.y,transform:'none'}:undefined}>
