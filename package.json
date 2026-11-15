@@ -12,7 +12,8 @@
     "preview": "vite preview",
     "typecheck": "tsc -b --pretty",
     "test": "vitest run",
-    "test:watch": "vitest"
+    "test:watch": "vitest",
+    "synthetic:generate": "node scripts/generate-synthetic-data.mjs"
   },
   "dependencies": {
     "lucide-react": "^0.468.0",
