@@ -1,6 +1,6 @@
 import {useEffect,useMemo,useState} from 'react';
 import {createPortal} from 'react-dom';
-import {CalendarDays,ChevronLeft,ChevronRight,Download,FileUp,Plus,Save,Trash2,X,CheckCircle2,Clock,BookOpen,Target,AlertCircle} from 'lucide-react';
+import {CalendarDays,ChevronLeft,ChevronRight,Download,FileUp,Plus,Save,Trash2,X,CheckCircle2} from 'lucide-react';
 type Plan={id:string;title:string;subject:string;topic:string;date:string;start:string;end:string;minutes:number;kind:'Study'|'Revision'|'Practice'|'Mock test';notes:string;status:'planned'|'complete'|'partial'|'skipped';completedMinutes:number;reason:string;repeatWeekly:boolean};
 type Question={id:string;subject:string;topic:string};
 type Attempt={qid:string;at:string;selected?:string[];correct:boolean};
