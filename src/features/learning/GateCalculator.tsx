@@ -53,7 +53,7 @@ export function GateCalculator({onClose}:{onClose:()=>void}){
    {help&&<div className="gate-calc-help-panel">Enter numbers first, then select a function. Inverse functions have their own keys. Choose Deg or Rad before trigonometric calculations. The top display shows the expression; the lower display shows its live result.</div>}
    <div className="gate-calc-display"><div aria-label="Expression">{expression||' '}</div><output aria-label="Result">{shown|| (expression?'Error':'0')}</output></div>
    <div className="gate-calc-mode"><button onClick={()=>press('mod')}>mod</button><label><input type="radio" checked={deg} onChange={()=>setDeg(true)}/> Deg</label><label><input type="radio" checked={!deg} onChange={()=>setDeg(false)}/> Rad</label><span>{memory?String(Number(memory.toPrecision(8))):''}</span>{['MC','MR','MS','M+','M-'].map(k=><button key={k} onClick={()=>press(k)}>{k}</button>)}</div>
-   <div className="gate-calc-keypad">{keypad.flatMap((row,r)=>row.map((k,c)=>k?<button key={r+'-'+c} className={'gate-calc-key '+(k==='='?'equals':k==='⌫'?'backspace':k==='C'?'clear':k==='±'?'sign':'')+(c<6?' scientific':' basic')} style={k==='='?{gridColumn:'11',gridRow:'4 / span 2'}:undefined} onClick={()=>press(k)}>{label[k]||k}</button>:null))}</div>
+   <div className="gate-calc-keypad">{keypad.flatMap((row,r)=>row.map((k,c)=>k?<button key={r+'-'+c} className={'gate-calc-key '+(k==='='?'equals':k==='⌫'?'backspace':k==='C'?'clear':k==='±'?'sign':'')+(c<6?' scientific':' basic')} style={k==='='?{gridColumn:'11',gridRow:'4 / span 2'}:k==='0'?{gridColumn:'7 / span 2'}:undefined} onClick={()=>press(k)}>{label[k]||k}</button>:null))}</div>
   </>}
  </div>;
 }
