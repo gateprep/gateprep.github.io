@@ -5,7 +5,7 @@ import {isAnswerCorrect,questionPriority,calculateTestScore} from './assessmentL
 import {ChevronLeft,ChevronRight,Clock,FileUp,Flag,Calculator,Play,Plus,X,RotateCcw} from 'lucide-react';
 type Q={id:string;subject:string;topic:string;type:'MCQ'|'MSQ'|'NAT';prompt:string;promptImage?:string;options:{text:string;image?:string}[];answers:string[];explanation:string;marks:number;negative:number;isPYQ:boolean;year:string;difficulty:string;locked:boolean};
 type A={id:string;qid:string;at:string;correct:boolean;selected:string[];seconds:number;mistake:string;note:string};
-type Run={id:string;at:string;correct:number;wrong:number;skipped:number;seconds:number};
+type Run={id:string;at:string;correct:number;wrong:number;skipped:number;seconds:number;questionIds?:string[];answers?:Record<string,string[]>;questions?:Q[]};
 type Profile={id:string;name:string;kind:string;subjects:string[];topics:{subject:string;topic:string}[];questionIds?:string[];history:Run[]};
 type TestResult={id:string;at:string;correct:number;wrong:number;unanswered:number;score:number;maxMarks:number;seconds:number;answers?:Record<string,string[]>};
 type Test={id:string;title:string;kind:'subject'|'mixed'|'full';duration:number;questions:Q[];history:TestResult[]};
@@ -25,7 +25,7 @@ export function validate(raw:any,kind:'subject'|'mixed'|'full',existingIds:strin
 export function calc(s:string){if(!s.trim())return '';if(!/^[0-9+\-*/().%\s]+$/.test(s))return 'Invalid';try{const n=Function('"use strict";return ('+s+')')();return Number.isFinite(n)?String(Number(n.toFixed(8))):'Error';}catch{return 'Error';}}
 export function AssessmentEngine({mode,questions,attempts,bookmarks,onRecord,onUnlock,onAddQuestion,onImportQuestions,onImportToBank}:{mode:'quizzes'|'tests';questions:Q[];attempts:A[];bookmarks:string[];onRecord:(a:A[])=>void;onUnlock:(q:Q[])=>void;onAddQuestion?:()=>void;onImportQuestions?:(f:File)=>void;onImportToBank?:(questions:Q[])=>void}){
  const [s,setS]=useState<Store>(read),[tab,setTab]=useState(mode==='quizzes'?'Daily':'Subject-wise'),[name,setName]=useState(''),[subs,setSubs]=useState<string[]>([]),[topicsSel,setTopicsSel]=useState<{subject:string;topic:string}[]>([]),[config,setConfig]=useState(false),[timer,setTimer]=useState(()=>read().quizMinutes||5),[active,setActive]=useState<string|null>(null),[preview,setPreview]=useState<any>(null),[notice,setNotice]=useState(''),[confirmTest,setConfirmTest]=useState<Test|null>(null),[calcOpen,setCalcOpen]=useState(false),[calcText,setCalcText]=useState('');
- const [ready,setReady]=useState(false),[confirmQuiz,setConfirmQuiz]=useState(false);
+ const [ready,setReady]=useState(false),[confirmQuiz,setConfirmQuiz]=useState(false),[quizReport,setQuizReport]=useState<{profile:Profile;run:Run}|null>(null),[quizImportOpen,setQuizImportOpen]=useState(false),[quizImportTab,setQuizImportTab]=useState<'upload'|'paste'>('upload'),[quizImportPaste,setQuizImportPaste]=useState(''),[quizImportError,setQuizImportError]=useState(''),[quizImportDraft,setQuizImportDraft]=useState<{profiles:{name:string;questions:Q[]}[];duplicates:{question:Q;existing:Q}[]}|null>(null),[quizDuplicateAdds,setQuizDuplicateAdds]=useState<string[]>([]);
  useEffect(()=>setReady(true),[]);
  useEffect(()=>{if(ready)save(s);},[s,ready]);
  const upd=(fn:(x:Store)=>Store)=>setS(x=>fn(x));
@@ -34,12 +34,56 @@ export function AssessmentEngine({mode,questions,attempts,bookmarks,onRecord,onU
  
  const profile=s.profiles.find(p=>p.id===active)||s.profiles.find(p=>p.kind===tab.toLowerCase());
  const candidates=(p:Profile)=>questions.filter(q=>(p.subjects.includes(q.subject)||p.topics.some(t=>t.subject===q.subject&&t.topic===q.topic)));
- const startQuiz=(p:Profile)=>{const list=p.kind==='daily'&&p.questionIds?.length?p.questionIds.map(id=>questions.find(q=>q.id===id)).filter((q):q is Q=>!!q):candidates(p).sort((a,b)=>score(b,p.kind==='monthly')-score(a,p.kind==='monthly')).slice(0,20);if(!list.length){setNotice('No questions match this profile.');return;}upd(x=>({...x,activeQuiz:{profileId:p.id,id:uid(),ids:list.map(q=>q.id),index:0,answers:{},seconds:{},started:Date.now()}}));};
+ const startQuiz=(p:Profile)=>{const list=p.questionIds?.length?p.questionIds.map(id=>questions.find(q=>q.id===id)).filter((q):q is Q=>!!q):candidates(p).sort((a,b)=>score(b,p.kind==='monthly')-score(a,p.kind==='monthly')).slice(0,20);if(!list.length){setNotice('No questions match this profile.');return;}upd(x=>({...x,activeQuiz:{profileId:p.id,id:uid(),ids:list.map(q=>q.id),index:0,answers:{},seconds:{},started:Date.now()}}));};
  const quiz=s.activeQuiz,qq=quiz?questions.find(q=>q.id===quiz.ids[quiz.index]):undefined,spent=qq?(quiz.seconds[qq.id]||0):0;
  useEffect(()=>{if(!quiz||!qq||mode!=='quizzes')return;const t=window.setInterval(()=>upd(x=>({...x,activeQuiz:x.activeQuiz?{...x.activeQuiz,seconds:{...x.activeQuiz.seconds,[qq.id]:(x.activeQuiz.seconds[qq.id]||0)+1}}:null})),1000);return()=>clearInterval(t);},[quiz?.id,quiz?.index,qq?.id,mode]);
  const saveQuiz=(ans:string[])=>{if(!quiz||!qq)return;upd(x=>({...x,activeQuiz:{...x.activeQuiz,answers:{...x.activeQuiz.answers,[qq.id]:ans}}}));};
- const finishQuiz=()=>{if(!quiz)return;const rows:A[]=quiz.ids.map((id:string)=>{const q=questions.find(x=>x.id===id)!;const selected=quiz.answers[id]||[];return {id:uid(),qid:id,at:new Date().toISOString(),correct:ok(q,selected),selected,seconds:quiz.seconds[id]||0,mistake:'',note:''};});onRecord(rows);const run={id:quiz.id,at:new Date().toISOString(),correct:rows.filter(x=>x.correct).length,wrong:rows.filter(x=>x.selected.length&&!x.correct).length,skipped:rows.filter(x=>!x.selected.length).length,seconds:rows.reduce((n,x)=>n+x.seconds,0)};upd(x=>({...x,profiles:x.profiles.map(p=>p.id===quiz.profileId?{...p,history:[run,...p.history]}:p),activeQuiz:null}));setNotice('Saved: '+run.correct+' correct · '+run.wrong+' wrong · '+run.skipped+' skipped.');};
+ const finishQuiz=()=>{if(!quiz)return;const rows:A[]=quiz.ids.map((id:string)=>{const q=questions.find(x=>x.id===id)!;const selected=quiz.answers[id]||[];return {id:uid(),qid:id,at:new Date().toISOString(),correct:ok(q,selected),selected,seconds:quiz.seconds[id]||0,mistake:'',note:''};});onRecord(rows);const run:Run={id:quiz.id,at:new Date().toISOString(),correct:rows.filter(x=>x.correct).length,wrong:rows.filter(x=>x.selected.length&&!x.correct).length,skipped:rows.filter(x=>!x.selected.length).length,seconds:rows.reduce((n,x)=>n+x.seconds,0),questionIds:[...quiz.ids],answers:{...quiz.answers},questions:quiz.ids.map((id:string)=>questions.find(q=>q.id===id)).filter((q:Q|undefined):q is Q=>!!q)};upd(x=>({...x,profiles:x.profiles.map(p=>p.id===quiz.profileId?{...p,history:[run,...p.history]}:p),activeQuiz:null}));setNotice('Saved: '+run.correct+' correct · '+run.wrong+' wrong · '+run.skipped+' skipped.');};
  const moveQuiz=(n:number)=>upd(x=>({...x,activeQuiz:{...x.activeQuiz,index:Math.max(0,Math.min(x.activeQuiz.ids.length-1,x.activeQuiz.index+n))}}));
+ const openQuizImport=()=>{setQuizImportOpen(true);setQuizImportTab('upload');setQuizImportPaste('');setQuizImportError('');setQuizImportDraft(null);setQuizDuplicateAdds([]);};
+ const parseQuizProfiles=async(file?:File,pasted?:string)=>{
+  try{
+   let sources:any[]=[];
+   if(file&&file.name.toLowerCase().endsWith('.zip')){const files=await readZip(file);for(const [name,bytes] of files){if(name.toLowerCase().endsWith('.json')&&name.split('/').pop()!=='manifest.json')sources.push(JSON.parse(new TextDecoder().decode(bytes)));}}
+   else if(file)sources=[JSON.parse(await file.text())];
+   else {const raw=JSON.parse(pasted||'');sources=Array.isArray(raw)?raw:[raw];}
+   if(!sources.length)throw Error('No quiz JSON files were found.');
+   const profiles:{name:string;questions:Q[]}[]=[];const duplicates:{question:Q;existing:Q}[]=[];const seen:Q[]=[...questions];
+   for(let p=0;p<sources.length;p++){
+    const raw=sources[p],arr=Array.isArray(raw)?raw:raw.questions;
+    if(!Array.isArray(arr)||!arr.length)throw Error('Quiz '+(p+1)+' must contain a non-empty questions array.');
+    const qs:Q[]=arr.map((x:any,i:number)=>{const q=normalise({...x,id:String(x.id||uid())});if(!q.prompt.trim()||!q.subject.trim()||!q.topic.trim()||!['MCQ','MSQ','NAT'].includes(q.type)||!q.answers.length)throw Error('Quiz '+(p+1)+', question '+(i+1)+': subject, topic, prompt, valid type and answer key are required.');if(q.type!=='NAT'&&(q.options.length<2||q.options.length>5))throw Error('Quiz '+(p+1)+', question '+(i+1)+': MCQ/MSQ need 2–5 options.');if(q.type==='MCQ'&&q.answers.length!==1)throw Error('Quiz '+(p+1)+', question '+(i+1)+': MCQ requires one answer.');if(q.type==='NAT'&&!Number.isFinite(Number(q.answers[0])))throw Error('Quiz '+(p+1)+', question '+(i+1)+': NAT answer must be numeric.');return q;});
+    profiles.push({name:String(raw.title||raw.name||raw.profileName||('Imported quiz '+(p+1))),questions:qs});
+    for(const q of qs){const key=q.prompt.trim().toLowerCase().replace(/\\s+/g,' ');const match=seen.find(x=>x.prompt.trim().toLowerCase().replace(/\\s+/g,' ')===key&&x.type===q.type);if(match)duplicates.push({question:q,existing:match});else seen.push(q);}
+   }
+   setQuizImportDraft({profiles,duplicates});setQuizDuplicateAdds([]);setQuizImportError('');
+  }catch(e){setQuizImportDraft(null);setQuizImportError(e instanceof Error?e.message:'Could not parse quiz import.');}
+ };
+ const commitQuizImport=()=>{
+  if(!quizImportDraft)return;
+  const seen=new Map<string,Q>();questions.forEach(q=>seen.set(q.id,q));
+  const duplicateById=new Map(quizImportDraft.duplicates.map(d=>[d.question.id,d.existing]));
+  const added:Q[]=[],profiles:Profile[]=[];
+  for(const source of quizImportDraft.profiles){
+   const ids:string[]=[];
+   for(const original of source.questions){
+    const duplicate=duplicateById.get(original.id);
+    if(duplicate&&!quizDuplicateAdds.includes(original.id)){ids.push(duplicate.id);continue;}
+    let q={...original,id:seen.has(original.id)?uid():original.id,locked:false};
+    const promptKey=q.prompt.trim().toLowerCase().replace(/\\s+/g,' ');
+    const prior=[...seen.values()].find(x=>x.prompt.trim().toLowerCase().replace(/\\s+/g,' ')===promptKey&&x.type===q.type);
+    if(prior&&!quizDuplicateAdds.includes(original.id)){ids.push(prior.id);continue;}
+    if(prior&&quizDuplicateAdds.includes(original.id))q={...q,id:uid()};
+    seen.set(q.id,q);added.push(q);ids.push(q.id);
+   }
+   const uniqueIds=[...new Set(ids)],profileQuestions=uniqueIds.map(id=>seen.get(id)).filter((q):q is Q=>!!q);
+   profiles.push({id:uid(),name:source.name,kind:'custom',subjects:[...new Set(profileQuestions.map(q=>q.subject))],topics:[...new Map(profileQuestions.map(q=>[q.subject+'::'+q.topic,{subject:q.subject,topic:q.topic}])).values()],questionIds:uniqueIds,history:[]});
+  }
+  if(added.length)onImportToBank?.(added);
+  upd(x=>({...x,profiles:[...profiles,...x.profiles]}));
+  setTab('Custom');setActive(profiles[0]?.id||null);setQuizImportOpen(false);setQuizImportDraft(null);setNotice(profiles.length+' quiz profile(s) imported · '+added.length+' new questions added to Questions bank.');
+ };
+
  useEffect(()=>{if(quiz&&qq&&spent>=timer*60){if(quiz.index===quiz.ids.length-1)finishQuiz();else moveQuiz(1);}},[spent]);
  const createProfile=()=>{if(!name.trim()||(!subs.length&&!topicsSel.length))return;const p:Profile={id:uid(),name:name.trim(),kind:'custom',subjects:subs,topics:topicsSel,history:[]};upd(x=>({...x,quizMinutes:timer,profiles:[p,...x.profiles]}));setName('');setSubs([]);setTopicsSel([]);setConfig(false);setTab('Custom');setActive(p.id);};
  const validateTestJson=(raw:any,ignoreIds:string[]=[] )=>{const kind=String(raw.kind||raw.type||'mixed').toLowerCase().replace('subject-wise','subject').replace('full-length','full') as 'subject'|'mixed'|'full';if(!['subject','mixed','full'].includes(kind))throw Error('kind must be subject, mixed or full.');return validate(raw,kind,questions.map(q=>q.id).filter(id=>!ignoreIds.includes(id)));};
