@@ -1,6 +1,6 @@
 import {useMemo,useRef,useState} from 'react';
 import type {PointerEvent as ReactPointerEvent} from 'react';
-import {X} from 'lucide-react';
+import {Pin,X} from 'lucide-react';
 
 type Token=number|string;
 const factorial=(n:number)=>{if(!Number.isInteger(n)||n<0||n>170)throw Error('Factorial domain');let v=1;for(let i=2;i<=n;i++)v*=i;return v;};
@@ -28,7 +28,7 @@ const keypad=[
 ];
 const label:Record<string,string>={pi:'π','x^y':'xʸ','x^3':'x³','x^2':'x²',asin:'sin⁻¹',acos:'cos⁻¹',atan:'tan⁻¹',asinh:'sinh⁻¹',acosh:'cosh⁻¹',atanh:'tanh⁻¹',log2:'log₂x','10^x':'10ˣ','e^x':'eˣ',cbrt:'∛x',sqrt:'√',fact:'n!',abs:'|x|',yroot:'ʸ√x',logy:'logᵧx','⌫':'←'};
 export function GateCalculator({onClose}:{onClose:()=>void}){
- const [expression,setExpression]=useState(''),[deg,setDeg]=useState(true),[memory,setMemory]=useState(0),[position,setPosition]=useState<{x:number;y:number}|null>(null),[theme,setTheme]=useState<'light'|'dark'>('light'),[minimized,setMinimized]=useState(false),[help,setHelp]=useState(false);
+ const [expression,setExpression]=useState(''),[deg,setDeg]=useState(true),[memory,setMemory]=useState(0),[position,setPosition]=useState<{x:number;y:number}|null>(null),[theme,setTheme]=useState<'light'|'dark'>('light'),[minimized,setMinimized]=useState(false),[help,setHelp]=useState(false),[pinned,setPinned]=useState(false);
  const drag=useRef<{dx:number;dy:number;pointer:number}|null>(null);
  const result=useMemo(()=>{try{return expression.trim()?evaluate(expression,deg):0;}catch{return NaN;}},[expression,deg]);
  const shown=Number.isFinite(result)?Number(result.toPrecision(12)).toString():'';
@@ -41,13 +41,13 @@ export function GateCalculator({onClose}:{onClose:()=>void}){
   if(k==='pi'||k==='e'){insert(k);return;}if(k==='x^2'||k==='x^3'){insert(k==='x^2'?'^2':'^3');return;}if(k==='x^y'){insert('^');return;}
   if(k==='yroot'||k==='logy'){const v=Number.isFinite(result)?shown:'0';setExpression(k+'('+v+',');return;}if(k==='1/x'){setExpression(x=>'1/('+x+')');return;}if(k==='Exp'){insert('*10^');return;}if(k==='mod'){insert('mod');return;}insert(k);
  };
- const down=(e:ReactPointerEvent<HTMLElement>)=>{if((e.target as HTMLElement).closest('button'))return;const rect=e.currentTarget.parentElement?.getBoundingClientRect();drag.current={dx:e.clientX-(rect?.left??0),dy:e.clientY-(rect?.top??0),pointer:e.pointerId};e.currentTarget.setPointerCapture(e.pointerId);};
- const move=(e:ReactPointerEvent<HTMLElement>)=>{if(!drag.current||drag.current.pointer!==e.pointerId)return;const width=Math.min(752,window.innerWidth-16),height=Math.min(minimized?48:560,window.innerHeight-16);setPosition({x:Math.max(8,Math.min(window.innerWidth-width,e.clientX-drag.current.dx)),y:Math.max(8,Math.min(window.innerHeight-height,e.clientY-drag.current.dy))});};
+ const down=(e:ReactPointerEvent<HTMLElement>)=>{if(pinned||(e.target as HTMLElement).closest('button'))return;const rect=e.currentTarget.parentElement?.getBoundingClientRect();drag.current={dx:e.clientX-(rect?.left??0),dy:e.clientY-(rect?.top??0),pointer:e.pointerId};e.currentTarget.setPointerCapture(e.pointerId);};
+ const move=(e:ReactPointerEvent<HTMLElement>)=>{if(!drag.current||drag.current.pointer!==e.pointerId)return;const rect=e.currentTarget.parentElement?.getBoundingClientRect(),width=Math.min(rect?.width||752,window.innerWidth-16),height=Math.min(rect?.height||(minimized?58:560),window.innerHeight-16);setPosition({x:Math.max(8,Math.min(window.innerWidth-width,e.clientX-drag.current.dx)),y:Math.max(8,Math.min(window.innerHeight-height,e.clientY-drag.current.dy))});};
  const up=(e:ReactPointerEvent<HTMLElement>)=>{if(drag.current?.pointer===e.pointerId)drag.current=null;};
- return <div className={'gate-scientific-calculator theme-'+theme+(minimized?' is-minimized':'')} role="dialog" aria-label="GATE virtual scientific calculator" style={position?{left:position.x,top:position.y,transform:'none'}:undefined}>
+ return <div className={'gate-scientific-calculator theme-'+theme+(minimized?' is-minimized':'')+(pinned?' is-pinned':'')} role="dialog" aria-label="GATE virtual scientific calculator" style={position?{left:position.x,top:position.y,transform:'none'}:undefined}>
   <header onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}>
    <strong>Scientific Calculator</strong>
-   <div className="gate-calc-title-actions"><button type="button" className="gate-calc-help" onClick={()=>setHelp(x=>!x)}>Help</button><div className="gate-calc-theme"><button type="button" className={theme==='light'?'selected':''} onClick={()=>setTheme('light')}>Light</button><button type="button" className={theme==='dark'?'selected':''} onClick={()=>setTheme('dark')}>Dark</button></div><button type="button" className="gate-calc-window-btn" aria-label={minimized?'Restore calculator':'Minimize calculator'} title={minimized?'Restore':'Minimize'} onClick={()=>setMinimized(x=>!x)}><span>{minimized?'□':'−'}</span></button><button type="button" className="gate-calc-window-btn close" aria-label="Close calculator" title="Close" onClick={onClose}><X size={19}/></button></div>
+   <div className="gate-calc-title-actions"><button type="button" className="gate-calc-help" onClick={()=>setHelp(x=>!x)}>Help</button><div className="gate-calc-theme"><button type="button" className={theme==='light'?'selected':''} onClick={()=>setTheme('light')}>Light</button><button type="button" className={theme==='dark'?'selected':''} onClick={()=>setTheme('dark')}>Dark</button></div><button type="button" className="gate-calc-window-btn pin" aria-label={pinned?'Unpin calculator':'Pin calculator'} title={pinned?'Unpin calculator':'Pin calculator'} aria-pressed={pinned} onClick={()=>setPinned(x=>!x)}><Pin size={16}/></button><button type="button" className="gate-calc-window-btn" aria-label={minimized?'Restore calculator':'Minimize calculator'} title={minimized?'Restore':'Minimize'} onClick={()=>setMinimized(x=>!x)}><span>{minimized?'□':'−'}</span></button><button type="button" className="gate-calc-window-btn close" aria-label="Close calculator" title="Close" onClick={onClose}><X size={19}/></button></div>
   </header>
   {!minimized&&<>
    {help&&<div className="gate-calc-help-panel">Enter numbers first, then select a function. Inverse functions have their own keys. Choose Deg or Rad before trigonometric calculations. The top display shows the expression; the lower display shows its live result.</div>}

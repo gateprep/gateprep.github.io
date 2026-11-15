@@ -9,7 +9,7 @@ async function seedLearning(data:any){
 const question={id:'question-1',subject:'Algorithms',topic:'Searching',type:'MCQ',prompt:'Which option is correct?',options:[{text:'Correct'},{text:'Incorrect'}],answers:['A'],explanation:'Binary search needs sorted input.',marks:1,negative:0,isPYQ:false,year:'',difficulty:'Easy',locked:false};
 describe('question attempt feedback',()=>{
  afterEach(async()=>{await new Promise<void>(resolve=>{const req=indexedDB.deleteDatabase('gateprep-v2');req.onsuccess=()=>resolve();req.onerror=()=>resolve();req.onblocked=()=>resolve();});});
- it('uses red incorrect feedback and a custom close confirmation',async()=>{
+ it('shows red incorrect feedback, a custom close confirmation and the question report',async()=>{
   await seedLearning({questions:[question],attempts:[],bookmarks:[],events:[],completedTopics:[],settings:{device:'Test',timer:0,order:'sequential'},backups:[]});
   render(<MemoryRouter><LearningHub mode="questions"/></MemoryRouter>);
   fireEvent.click(await screen.findByRole('button',{name:'Attempt'}));
@@ -20,5 +20,12 @@ describe('question attempt feedback',()=>{
   expect(await screen.findByRole('heading',{name:'Leave this attempt?'})).toBeInTheDocument();
   fireEvent.click(screen.getByRole('button',{name:'Continue attempt'}));
   expect(screen.getByRole('heading',{name:'Question attempt'})).toBeInTheDocument();
+  fireEvent.click(screen.getByTitle('Close attempt'));
+  fireEvent.click(document.querySelector('.attempt-close-modal .adm-primary')!);
+  fireEvent.click(await screen.findByTitle('Attempt history'));
+  expect(await screen.findByRole('columnheader',{name:'Your answer'})).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button',{name:/Question report/}));
+  expect(screen.getByText('0%')).toBeInTheDocument();
+  expect(screen.getByText('Binary search needs sorted input.')).toBeInTheDocument();
  });
 });
