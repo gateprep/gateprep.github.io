@@ -27,10 +27,10 @@ function evaluate(source:string,deg:boolean):number{
   if(t==='|'){const v=expression();if(take()!=='|')throw Error('Missing |');return Math.abs(v);}
   throw Error('Expected value');
  }
- function postfix():number{let v=primary();while(peek()==='!'||peek()==='%'){const op=take();v=op==='!'?factorial(v):v/100;}return v;}
+ function postfix():number{let v=primary();while(peek()==='!'){take();v=factorial(v);}return v;}
  function power():number{const a=postfix();if(peek()==='^'){take();return a**unary();}return a;}
  function unary():number{if(peek()==='+'){take();return unary();}if(peek()==='-'){take();return -unary();}return power();}
- function term():number{let v=unary();while(['*','/','mod'].includes(String(peek()))){const op=take();const b=unary();v=op==='*'?v*b:op==='/'?v/b:v%b;}return v;}
+ function term():number{let v=unary();while(['*','/','mod','%'].includes(String(peek()))){const op=take();const b=unary();v=op==='*'?v*b:op==='/'?v/b:op==='%'?v*b/100:v%b;}return v;}
  function expression():number{let v=term();while(peek()==='+'||peek()==='-'){const op=take();const b=term();v=op==='+'?v+b:v-b;}return v;}
  const value=expression();if(i!==tokens.length||!Number.isFinite(value))throw Error('Math error');return value;
 }
