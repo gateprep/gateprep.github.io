@@ -17,3 +17,48 @@ describe('GATE full-test JSON validation',()=>{it('accepts editable section labe
 describe('GATE calculator',()=>{it('evaluates arithmetic and degree-mode scientific functions',()=>{render(<GateCalculator onClose={vi.fn()}/>);fireEvent.click(screen.getByRole('button',{name:'3'}));fireEvent.click(screen.getByRole('button',{name:'0'}));fireEvent.click(screen.getByRole('button',{name:'sin'}));expect(screen.getByText('0.5')).toBeInTheDocument();fireEvent.click(screen.getByRole('button',{name:'C'}));for(const digit of ['2','0','0','%','1','0','='])fireEvent.click(screen.getByRole('button',{name:digit}));expect(screen.getAllByText('20').some(el=>el.tagName==='OUTPUT')).toBe(true);});});
 
 describe('GATE test navigation and submit confirmation',()=>{it('saves an unanswered question and moves forward, then confirms before submission',()=>{const questions=Array.from({length:30},(_,i)=>({id:'blank'+i,subject:'Custom section',topic:'Custom topic',type:'MCQ' as const,prompt:'Question '+(i+1),options:[{text:'A'},{text:'B'}],answers:['A'],explanation:'',marks:1,negative:.33,isPYQ:false,year:'',difficulty:'Medium',locked:true}));const test={id:'blank-test',title:'Blank save test',kind:'subject' as const,duration:90,questions,history:[]};render(<TestSeriesWorkspace tests={[test]} onTestsChange={vi.fn()} parseFile={vi.fn()} validateJson={vi.fn()} onRecord={vi.fn()} onUnlock={vi.fn()}/>);fireEvent.click(screen.getByRole('button',{name:/Start test/}));fireEvent.click(screen.getByRole('button',{name:/Save & Next/}));expect(screen.getByText(/Question 2 of 30/)).toBeInTheDocument();fireEvent.click(screen.getByRole('button',{name:'Submit test'}));expect(screen.getByRole('heading',{name:'Submit this test?'})).toBeInTheDocument();expect(screen.getByText(/0 attempted/)).toBeInTheDocument();expect(screen.getByText(/30 not attempted/)).toBeInTheDocument();});});
+
+
+describe('quiz profile import and reporting',()=>{
+ it('imports pasted quiz JSON into a profile and the shared question bank',()=>{
+  const onImportToBank=vi.fn();
+  render(<AssessmentEngine {...base} mode="quizzes" onImportToBank={onImportToBank}/>);
+  fireEvent.click(screen.getByRole('button',{name:/Import questions/}));
+  fireEvent.click(screen.getByRole('button',{name:'Paste JSON'}));
+  fireEvent.change(screen.getByPlaceholderText(/Paste one quiz JSON/),{target:{value:JSON.stringify({title:'Algorithms revision',questions:[{id:'quiz-import-1',subject:'Algorithms',topic:'Sorting',type:'MCQ',prompt:'Which sorting algorithm is stable?',options:['Merge sort','Heap sort'],answers:['A'],marks:1,negative:.33}]})}});
+  fireEvent.click(screen.getByRole('button',{name:'Validate JSON'}));
+  expect(screen.getByText(/1 profile\(s\).*1 questions.*0 possible duplicates/)).toBeInTheDocument();
+  fireEvent.click(screen.getByRole('button',{name:'Import quiz profile(s)'}));
+  expect(onImportToBank).toHaveBeenCalledWith([expect.objectContaining({id:'quiz-import-1',locked:false})]);
+  expect(screen.getByText('Algorithms revision')).toBeInTheDocument();
+ });
+ it('flags duplicate quiz questions and lets the user choose to add a copy',()=>{
+  const existing={id:'bank-1',subject:'Algorithms',topic:'Sorting',type:'MCQ' as const,prompt:'Which sorting algorithm is stable?',options:[{text:'Merge sort'},{text:'Heap sort'}],answers:['A'],explanation:'',marks:1,negative:.33,isPYQ:false,year:'',difficulty:'Medium',locked:false};
+  const onImportToBank=vi.fn();
+  render(<AssessmentEngine {...base} mode="quizzes" questions={[existing]} onImportToBank={onImportToBank}/>);
+  fireEvent.click(screen.getByRole('button',{name:/Import questions/}));
+  fireEvent.click(screen.getByRole('button',{name:'Paste JSON'}));
+  fireEvent.change(screen.getByPlaceholderText(/Paste one quiz JSON/),{target:{value:JSON.stringify({title:'Duplicate quiz',questions:[{id:'quiz-duplicate-1',subject:'Algorithms',topic:'Sorting',type:'MCQ',prompt:existing.prompt,options:['Merge sort','Heap sort'],answers:['A'],marks:1,negative:.33}]})}});
+  fireEvent.click(screen.getByRole('button',{name:'Validate JSON'}));
+  expect(screen.getByText(/Duplicate of: Which sorting algorithm is stable/)).toBeInTheDocument();
+  fireEvent.click(screen.getByLabelText('Add anyway'));
+  fireEvent.click(screen.getByRole('button',{name:'Import quiz profile(s)'}));
+  expect(onImportToBank).toHaveBeenCalledWith([expect.objectContaining({prompt:existing.prompt,locked:false})]);
+ });
+ it('shows a saved quiz report with subject/topic breakdown and right/wrong bars',()=>{
+  const q1={id:'report-q1',subject:'Algorithms',topic:'Sorting',type:'MCQ' as const,prompt:'Question one',options:[{text:'Correct'},{text:'Wrong'}],answers:['A'],explanation:'A is correct.',marks:1,negative:.33,isPYQ:false,year:'',difficulty:'Medium',locked:false};
+  const q2={...q1,id:'report-q2',prompt:'Question two'};
+  localStorage.setItem('gateprep-assessments-v1',JSON.stringify({profiles:[{id:'report-profile',name:'Report quiz',kind:'custom',subjects:['Algorithms'],topics:[],questionIds:[q1.id,q2.id],history:[]}],tests:[],activeQuiz:null,activeTest:null,daily:'',weekly:'',monthly:'',quizMinutes:5}));
+  render(<AssessmentEngine {...base} mode="quizzes" questions={[q1,q2]}/>);
+  fireEvent.click(screen.getByRole('button',{name:'Custom'}));
+  fireEvent.click(screen.getByRole('button',{name:/Start/}));
+  fireEvent.click(screen.getAllByRole('radio')[0]);
+  fireEvent.click(screen.getByRole('button',{name:/Next/}));
+  fireEvent.click(screen.getAllByRole('radio')[1]);
+  fireEvent.click(screen.getByRole('button',{name:/Submit quiz/}));
+  fireEvent.click(screen.getByRole('button',{name:'Save and finish'}));
+  expect(screen.getByRole('heading',{name:'Report quiz'})).toBeInTheDocument();
+  expect(screen.getByText('1 right · 1 wrong · 0 skipped')).toBeInTheDocument();
+  expect(document.querySelector('.gate-topic-grid i em')).toHaveStyle({width:'50%'});
+ });
+});
