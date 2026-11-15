@@ -81,3 +81,18 @@ describe('test-series report topic coverage',()=>{
   expect(document.querySelector('.gate-topic-grid i em')).toHaveStyle({width:'100%'});
  });
 });
+
+
+describe('GATE calculator window controls',()=>{
+ it('switches independent light/dark themes and minimizes/restores the calculator',()=>{
+  render(<GateCalculator onClose={vi.fn()}/>);
+  const dialog=screen.getByRole('dialog',{name:'GATE virtual scientific calculator'});
+  expect(dialog).toHaveClass('theme-light');
+  fireEvent.click(screen.getByRole('button',{name:'Dark'}));
+  expect(dialog).toHaveClass('theme-dark');
+  fireEvent.click(screen.getByRole('button',{name:'Minimize calculator'}));
+  expect(dialog).toHaveClass('is-minimized');
+  fireEvent.click(screen.getByRole('button',{name:'Restore calculator'}));
+  expect(dialog).not.toHaveClass('is-minimized');
+ });
+});
