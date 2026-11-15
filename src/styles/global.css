@@ -439,3 +439,5 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .app-shell[data-theme="light"] .gate-question-content h2,.app-shell[data-theme="light"] .gate-review-question h4,.app-shell[data-theme="light"] .gate-result-window h2{color:#172235}
 .app-shell[data-theme="light"] .gate-editor-window,.app-shell[data-theme="light"] .gate-result-window{background:#f8fafc;color:#172235}
 .app-shell[data-theme="light"] .gate-json-editor{background:#fff;color:#172235}
+
+.gate-template-download{border-color:#b9f27c55!important;background:#b9f27c0b!important;color:#c8e7a9!important}
