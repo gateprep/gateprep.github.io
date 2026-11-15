@@ -441,3 +441,23 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .app-shell[data-theme="light"] .gate-json-editor{background:#fff;color:#172235}
 
 .gate-template-download{border-color:#b9f27c55!important;background:#b9f27c0b!important;color:#c8e7a9!important}
+
+
+/* Test-series overlays occupy the complete viewport; each surface scrolls internally. */
+.gate-editor-overlay,.gate-result-overlay{inset:0;width:100vw;height:100vh;height:100dvh;overflow:hidden}
+.gate-editor-window,.gate-result-window{box-sizing:border-box;width:100vw;height:100vh;height:100dvh;min-height:100vh;min-height:100dvh;max-height:100vh;max-height:100dvh;margin:0;overflow-y:auto;overscroll-behavior:contain}
+.gate-profile-editor .gate-profile-json{flex:1 1 auto;min-height:0;height:auto;resize:none}
+.gate-editor-window:not(.gate-profile-editor) .gate-json-editor{flex:1 1 auto;min-height:32vh}
+.gate-result-window{overflow-y:auto}
+.gate-test-kind-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:0}
+.gate-test-kind-tabs button{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:5px;min-width:0;min-height:58px;padding:10px 14px;text-align:left}
+.gate-test-kind-tabs button strong{font-size:12px}
+.gate-test-kind-tabs button small{color:var(--muted);font-size:10px;font-weight:400;white-space:normal}
+.gate-test-kind-tabs button.selected small{color:inherit;opacity:.8}
+.gate-test-empty{display:flex;align-items:center;justify-content:center;gap:14px;flex-wrap:wrap;min-height:150px;text-align:center}
+@media(max-width:700px){
+ .gate-test-kind-tabs{grid-template-columns:repeat(3,minmax(150px,1fr));overflow-x:auto;padding-bottom:4px}
+ .gate-test-kind-tabs button{padding:9px 10px}
+ .gate-editor-window,.gate-result-window{padding:14px}
+ .gate-profile-editor .gate-profile-json{min-height:45vh}
+}
