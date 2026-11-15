@@ -461,3 +461,38 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
  .gate-editor-window,.gate-result-window{padding:14px}
  .gate-profile-editor .gate-profile-json{min-height:45vh}
 }
+
+
+/* Test-series experiences use the same body-level, edge-to-edge portal model as Knowledge Hub. */
+.gate-cbt-overlay,.gate-editor-overlay,.gate-result-overlay{
+ position:fixed!important;inset:0!important;z-index:2147483600!important;
+ display:flex!important;align-items:stretch!important;justify-content:stretch!important;
+ width:100vw!important;height:100vh!important;height:100dvh!important;min-height:0!important;
+ margin:0!important;padding:0!important;overflow:hidden!important;border:0!important;border-radius:0!important;
+}
+.gate-cbt-overlay{background:#0b111b!important}
+.gate-editor-overlay,.gate-result-overlay{background:#080d16f7!important}
+.gate-cbt-window,.gate-editor-window,.gate-result-window{
+ position:absolute!important;inset:0!important;box-sizing:border-box!important;
+ display:flex!important;flex-direction:column!important;gap:14px!important;
+ width:100vw!important;height:100vh!important;height:100dvh!important;
+ min-width:0!important;min-height:0!important;max-width:none!important;max-height:none!important;
+ margin:0!important;padding:clamp(14px,2.5vw,30px)!important;
+ overflow:hidden!important;border:0!important;border-radius:0!important;box-shadow:none!important;transform:none!important;
+}
+.gate-cbt-window{padding:0!important;gap:0!important;background:#101722!important}
+.gate-cbt-window>.gate-cbt-header,.gate-cbt-window>.gate-section-tabs,.gate-cbt-window>.gate-cbt-toolbar,.gate-cbt-window>.gate-cbt-footer{flex:0 0 auto!important}
+.gate-cbt-window>.gate-cbt-main{flex:1 1 auto!important;min-height:0!important;overflow:hidden!important}
+.gate-cbt-window .gate-question-panel,.gate-cbt-window .gate-palette-panel{min-height:0!important;overflow-y:auto!important;overscroll-behavior:contain!important}
+.gate-editor-window>header,.gate-editor-window>footer,.gate-result-window>header,.gate-result-window>footer{flex:0 0 auto!important}
+.gate-editor-window{overflow:hidden!important}
+.gate-editor-window:not(.gate-profile-editor) .gate-json-editor{flex:1 1 0!important;min-height:0!important;height:auto!important;resize:none!important}
+.gate-editor-window:not(.gate-profile-editor) .gate-upload-zone{flex:1 1 auto!important;min-height:0!important}
+.gate-profile-editor .gate-profile-json{flex:1 1 0!important;min-height:0!important;height:auto!important;resize:none!important}
+.gate-result-window{overflow-y:auto!important;overscroll-behavior:contain!important}
+@media(max-width:700px){
+ .gate-cbt-window>.gate-cbt-main{grid-template-columns:minmax(0,1fr)!important;grid-template-rows:minmax(0,1fr) auto!important;overflow:hidden!important}
+ .gate-cbt-window .gate-palette-panel{max-height:34dvh!important}
+ .gate-editor-window,.gate-result-window{padding:14px!important}
+ .gate-profile-editor .gate-profile-json{min-height:0!important}
+}
