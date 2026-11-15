@@ -22,7 +22,8 @@ function evaluate(source:string,deg:boolean):number{
   if(t==='+'||t==='-'){const v=primary();return t==='-'?-v:v;}
   if(t==='('){const v=expression();if(take()!==')')throw Error('Missing )');return v;}
   if(typeof t==='string'&&['pi','e'].includes(t))return t==='pi'?Math.PI:Math.E;
-  if(typeof t==='string'&&(t==='logy'||t==='yroot')){if(take()!=='(')throw Error('Expected (');const x=expression();if(take()!==',')throw Error('Expected comma');const y=expression();if(take()!==')')throw Error('Missing )');return t==='logy'?Math.log(x)/Math.log(y):x**(1/y);}\n  if(typeof t==='string'&&t in funcs){if(take()!=='(')throw Error('Expected (');const v=expression();if(take()!==')')throw Error('Missing )');return funcs[t](v);}
+  if(typeof t==='string'&&(t==='logy'||t==='yroot')){if(take()!=='(')throw Error('Expected (');const x=expression();if(take()!==',')throw Error('Expected comma');const y=expression();if(take()!==')')throw Error('Missing )');return t==='logy'?Math.log(x)/Math.log(y):x**(1/y);}
+  if(typeof t==='string'&&t in funcs){if(take()!=='(')throw Error('Expected (');const v=expression();if(take()!==')')throw Error('Missing )');return funcs[t](v);}
   if(t==='|'){const v=expression();if(take()!=='|')throw Error('Missing |');return Math.abs(v);}
   throw Error('Expected value');
  }
