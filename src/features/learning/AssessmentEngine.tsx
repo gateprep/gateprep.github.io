@@ -53,7 +53,7 @@ export function AssessmentEngine({mode,questions,attempts,bookmarks,onRecord,onU
     if(!Array.isArray(arr)||!arr.length)throw Error('Quiz '+(p+1)+' must contain a non-empty questions array.');
     const qs:Q[]=arr.map((x:any,i:number)=>{const q=normalise({...x,id:String(x.id||uid())});if(!q.prompt.trim()||!q.subject.trim()||!q.topic.trim()||!['MCQ','MSQ','NAT'].includes(q.type)||!q.answers.length)throw Error('Quiz '+(p+1)+', question '+(i+1)+': subject, topic, prompt, valid type and answer key are required.');if(q.type!=='NAT'&&(q.options.length<2||q.options.length>5))throw Error('Quiz '+(p+1)+', question '+(i+1)+': MCQ/MSQ need 2–5 options.');if(q.type==='MCQ'&&q.answers.length!==1)throw Error('Quiz '+(p+1)+', question '+(i+1)+': MCQ requires one answer.');if(q.type==='NAT'&&!Number.isFinite(Number(q.answers[0])))throw Error('Quiz '+(p+1)+', question '+(i+1)+': NAT answer must be numeric.');return q;});
     profiles.push({name:String(raw.title||raw.name||raw.profileName||('Imported quiz '+(p+1))),questions:qs});
-    for(const q of qs){const key=q.prompt.trim().toLowerCase().replace(/\\s+/g,' ');const match=seen.find(x=>x.prompt.trim().toLowerCase().replace(/\\s+/g,' ')===key&&x.type===q.type);if(match)duplicates.push({question:q,existing:match});else seen.push(q);}
+    for(const q of qs){const key=q.prompt.trim().toLowerCase().replace(/\s+/g,' ');const match=seen.find(x=>x.prompt.trim().toLowerCase().replace(/\s+/g,' ')===key&&x.type===q.type);if(match)duplicates.push({question:q,existing:match});else seen.push(q);}
    }
    setQuizImportDraft({profiles,duplicates});setQuizDuplicateAdds([]);setQuizImportError('');
   }catch(e){setQuizImportDraft(null);setQuizImportError(e instanceof Error?e.message:'Could not parse quiz import.');}
@@ -69,8 +69,8 @@ export function AssessmentEngine({mode,questions,attempts,bookmarks,onRecord,onU
     const duplicate=duplicateById.get(original.id);
     if(duplicate&&!quizDuplicateAdds.includes(original.id)){ids.push(duplicate.id);continue;}
     let q={...original,id:seen.has(original.id)?uid():original.id,locked:false};
-    const promptKey=q.prompt.trim().toLowerCase().replace(/\\s+/g,' ');
-    const prior=[...seen.values()].find(x=>x.prompt.trim().toLowerCase().replace(/\\s+/g,' ')===promptKey&&x.type===q.type);
+    const promptKey=q.prompt.trim().toLowerCase().replace(/\s+/g,' ');
+    const prior=[...seen.values()].find(x=>x.prompt.trim().toLowerCase().replace(/\s+/g,' ')===promptKey&&x.type===q.type);
     if(prior&&!quizDuplicateAdds.includes(original.id)){ids.push(prior.id);continue;}
     if(prior&&quizDuplicateAdds.includes(original.id))q={...q,id:uid()};
     seen.set(q.id,q);added.push(q);ids.push(q.id);
