@@ -19,8 +19,8 @@ function evaluate(source:string,deg:boolean):number{
  function expression():number{let v=term();while(peek()==='+'||peek()==='-'){const op=take(),b=term();v=op==='+'?v+b:v-b;}return v;}
  const value=expression();if(i!==tokens.length||!Number.isFinite(value))throw Error('Math error');return value;
 }
-const scientific=[['sinh','cosh','tanh','Exp','(',')'],['asinh','acosh','atanh','log2','ln','log'],['pi','e','fact','logy','e^x','10^x'],['sin','cos','tan','x^y','x^3','x^2'],['asin','acos','atan','yroot','cbrt','abs'],['1/x']];
-const basic=[['⌫','C','±','sqrt'],['7','8','9','/'],['4','5','6','*'],['1','2','3','-'],['0','.','+','=']];
+const scientific=[['sinh','cosh','tanh','Exp','(',')'],['asinh','acosh','atanh','log2','ln','log'],['pi','e','fact','logy','e^x','10^x'],['sin','cos','tan','x^y','x^3','x^2'],['asin','acos','atan','yroot','cbrt','abs']];
+const basic=[['⌫','C','±','sqrt',''],['7','8','9','/','%'],['4','5','6','*','1/x'],['1','2','3','-','='],['0','.','+','','']];
 const label:Record<string,string>={pi:'π','x^y':'xʸ','x^3':'x³','x^2':'x²',asin:'sin⁻¹',acos:'cos⁻¹',atan:'tan⁻¹',asinh:'sinh⁻¹',acosh:'cosh⁻¹',atanh:'tanh⁻¹',log2:'log₂x','10^x':'10ˣ','e^x':'eˣ',cbrt:'∛x',sqrt:'√x',fact:'n!',abs:'|x|',yroot:'ʸ√x',logy:'logᵧx'};
 export function GateCalculator({onClose}:{onClose:()=>void}){
  const [expression,setExpression]=useState(''),[deg,setDeg]=useState(true),[memory,setMemory]=useState(0),[position,setPosition]=useState<{x:number;y:number}|null>(null);
@@ -43,6 +43,6 @@ export function GateCalculator({onClose}:{onClose:()=>void}){
   <header onPointerDown={down} onPointerMove={move} onPointerUp={up} onPointerCancel={up}><div><strong>Scientific Calculator</strong><small>GATE virtual calculator</small></div><button className="adm-icon-btn" aria-label="Close calculator" onClick={onClose}><X size={17}/></button></header>
   <div className="gate-calc-display"><div aria-label="Expression">{expression||'0'}</div><output aria-label="Result">{shown|| (expression?'Error':'0')}</output></div>
   <div className="gate-calc-mode"><button onClick={()=>press('mod')}>mod</button><button className={deg?'selected':''} onClick={()=>setDeg(true)}>Deg</button><button className={!deg?'selected':''} onClick={()=>setDeg(false)}>Rad</button><span>{memory}</span>{['MC','MR','MS','M+','M-'].map(k=><button key={k} onClick={()=>press(k)}>{k}</button>)}</div>
-  <div className="gate-calc-layout"><div className="gate-calc-scientific">{scientific.flat().map(k=><button key={k} onClick={()=>press(k)}>{label[k]||k}</button>)}</div><div className="gate-calc-basic">{basic.flat().map(k=><button key={k} className={['=','+','-','*','/'].includes(k)?'operator':''} onClick={()=>press(k)}>{label[k]||k}</button>)}</div></div>
+  <div className="gate-calc-layout"><div className="gate-calc-scientific">{scientific.flat().map(k=><button key={k} onClick={()=>press(k)}>{label[k]||k}</button>)}</div><div className="gate-calc-basic">{basic.flat().map((k,i)=>k?<button key={k+i} className={['=','+','-','*','/'].includes(k)?'operator':''} onClick={()=>press(k)}>{label[k]||k}</button>:<span key={'blank-'+i}/>)}</div></div>
  </div>;
 }
