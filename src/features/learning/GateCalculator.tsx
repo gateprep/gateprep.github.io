@@ -22,7 +22,7 @@ function evaluate(source:string,deg:boolean):number{
   if(t==='+'||t==='-'){const v=primary();return t==='-'?-v:v;}
   if(t==='('){const v=expression();if(take()!==')')throw Error('Missing )');return v;}
   if(typeof t==='string'&&['pi','e'].includes(t))return t==='pi'?Math.PI:Math.E;
-  if(typeof t==='string'&&t in funcs){if(take()!=='(')throw Error('Expected (');const v=expression();if(take()!==')')throw Error('Missing )');return funcs[t](v);}
+  if(typeof t==='string'&&(t==='logy'||t==='yroot')){if(take()!=='(')throw Error('Expected (');const x=expression();if(take()!==',')throw Error('Expected comma');const y=expression();if(take()!==')')throw Error('Missing )');return t==='logy'?Math.log(x)/Math.log(y):x**(1/y);}\n  if(typeof t==='string'&&t in funcs){if(take()!=='(')throw Error('Expected (');const v=expression();if(take()!==')')throw Error('Missing )');return funcs[t](v);}
   if(t==='|'){const v=expression();if(take()!=='|')throw Error('Missing |');return Math.abs(v);}
   throw Error('Expected value');
  }
@@ -33,7 +33,7 @@ function evaluate(source:string,deg:boolean):number{
  function expression():number{let v=term();while(peek()==='+'||peek()==='-'){const op=take();const b=term();v=op==='+'?v+b:v-b;}return v;}
  const value=expression();if(i!==tokens.length||!Number.isFinite(value))throw Error('Math error');return value;
 }
-const keys=[['MC','MR','MS','M+','M-','mod'],['sinh','cosh','tanh','Exp','(',')'],['asinh','acosh','atanh','log2','ln','log'],['7','8','9','/','%','pi'],['4','5','6','*','1/x','e'],['sin','cos','tan','x^y','x^3','x^2'],['1','2','3','-','asin','acos'],['0','.','+','=','atan','sqrt'],['cbrt','yroot','abs','fact','10^x','e^x']];
+const keys=[['MC','MR','MS','M+','M-','mod'],['sinh','cosh','tanh','Exp','(',')'],['asinh','acosh','atanh','log2','ln','log'],['7','8','9','/','%','pi'],['4','5','6','*','1/x','e'],['sin','cos','tan','x^y','x^3','x^2'],['1','2','3','-','asin','acos'],['0','.','+','=','atan','sqrt',','],['cbrt','yroot','logy','abs','fact','10^x','e^x']];
 export function GateCalculator({onClose}:{onClose:()=>void}){
  const [expression,setExpression]=useState(''),[deg,setDeg]=useState(true),[memory,setMemory]=useState(0);
  const result=useMemo(()=>{try{return expression.trim()?evaluate(expression,deg):0;}catch{return NaN;}},[expression,deg]);
@@ -50,7 +50,7 @@ export function GateCalculator({onClose}:{onClose:()=>void}){
   if(['sin','cos','tan','asin','acos','atan','sinh','cosh','tanh','asinh','acosh','atanh','log','ln','log2','sqrt','cbrt','abs','fact','10^x','e^x'].includes(k)){unary(({asin:'asin',acos:'acos',atan:'atan','10^x':'tenx','e^x':'exp'} as Record<string,string>)[k]||k);return;}
   if(k==='pi'){insert('pi');return;}if(k==='e'){insert('e');return;}
   if(k==='x^2'){setExpression(x=>x+'^2');return;}if(k==='x^3'){setExpression(x=>x+'^3');return;}
-  if(k==='x^y'){insert('^');return;}if(k==='yroot'){insert('^(1/');return;}
+  if(k==='x^y'){insert('^');return;}if(k==='yroot'){insert('yroot(');return;}if(k==='logy'){insert('logy(');return;}
   if(k==='1/x'){setExpression(x=>'1/('+x+')');return;}
   if(k==='Exp'){insert('*10^');return;}
   if(k==='mod'){insert('mod');return;}
@@ -59,6 +59,6 @@ export function GateCalculator({onClose}:{onClose:()=>void}){
  return <div className="gate-scientific-calculator" role="dialog" aria-label="GATE virtual scientific calculator"><header><div><strong>Scientific Calculator</strong><small>GATE virtual calculator · {deg?'Degree':'Radian'} mode</small></div><button className="adm-icon-btn" aria-label="Close calculator" onClick={onClose}><X size={17}/></button></header>
   <div className="gate-calc-display"><div>{expression||'0'}</div><output>{shown|| (expression?'Error':'0')}</output></div>
   <div className="gate-calc-mode"><button className={deg?'selected':''} onClick={()=>setDeg(true)}>Deg</button><button className={!deg?'selected':''} onClick={()=>setDeg(false)}>Rad</button><span>Memory: {memory}</span><button onClick={()=>press('⌫')}>⌫</button><button onClick={()=>press('C')}>C</button></div>
-  <div className="gate-calc-keys">{keys.flat().map(k=><button key={k} className={['=','+','-','*','/'].includes(k)?'operator':''} onClick={()=>press(k)}>{({'pi':'π','x^y':'xʸ','x^3':'x³','x^2':'x²','1/x':'1/x','asin':'sin⁻¹','acos':'cos⁻¹','atan':'tan⁻¹','asinh':'sinh⁻¹','acosh':'cosh⁻¹','atanh':'tanh⁻¹','log2':'log₂','10^x':'10ˣ','e^x':'eˣ','cbrt':'∛x','sqrt':'√x','fact':'n!','abs':'|x|','yroot':'ʸ√x'} as Record<string,string>)[k]||k}</button>)}</div>
+  <div className="gate-calc-keys">{keys.flat().map(k=><button key={k} className={['=','+','-','*','/'].includes(k)?'operator':''} onClick={()=>press(k)}>{({'pi':'π','x^y':'xʸ','x^3':'x³','x^2':'x²','1/x':'1/x','asin':'sin⁻¹','acos':'cos⁻¹','atan':'tan⁻¹','asinh':'sinh⁻¹','acosh':'cosh⁻¹','atanh':'tanh⁻¹','log2':'log₂','10^x':'10ˣ','e^x':'eˣ','cbrt':'∛x','sqrt':'√x','fact':'n!','abs':'|x|','yroot':'ʸ√x','logy':'logᵧx'} as Record<string,string>)[k]||k}</button>)}</div>
  </div>;
 }
