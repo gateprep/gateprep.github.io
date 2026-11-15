@@ -318,3 +318,7 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 
 /* Full-bleed navigation strip: align its background and borders with the viewport edges. */
 .main-nav-wrap{width:100vw;margin-left:calc(50% - 50vw);border-radius:0;overflow:hidden}
+
+/* Extend the title-bar divider across the full viewport without changing content alignment. */
+.topbar{position:relative;border-bottom:0}
+.topbar::after{content:"";position:absolute;left:calc((100% - 100vw)/2);bottom:0;width:100vw;border-bottom:1px solid var(--border);pointer-events:none}
