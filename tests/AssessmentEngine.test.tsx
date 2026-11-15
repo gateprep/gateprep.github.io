@@ -41,7 +41,7 @@ describe('quiz profile import and reporting',()=>{
   fireEvent.change(screen.getByPlaceholderText(/Paste one quiz JSON/),{target:{value:JSON.stringify({title:'Duplicate quiz',questions:[{id:'quiz-duplicate-1',subject:'Algorithms',topic:'Sorting',type:'MCQ',prompt:existing.prompt,options:['Merge sort','Heap sort'],answers:['A'],marks:1,negative:.33}]})}});
   fireEvent.click(screen.getByRole('button',{name:'Validate JSON'}));
   expect(screen.getByText(/Duplicate of: Which sorting algorithm is stable/)).toBeInTheDocument();
-  fireEvent.click(screen.getByLabelText('Add anyway'));
+  fireEvent.click(screen.getByRole('checkbox',{name:'Add duplicate quiz-duplicate-1 anyway'}));
   fireEvent.click(screen.getByRole('button',{name:'Import quiz profile(s)'}));
   expect(onImportToBank).toHaveBeenCalledWith([expect.objectContaining({prompt:existing.prompt,locked:false})]);
  });
