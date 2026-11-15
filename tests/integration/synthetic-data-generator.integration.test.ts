@@ -5,7 +5,7 @@ import zlib from 'node:zlib';
 import crypto from 'node:crypto';
 import {beforeAll,describe,expect,it} from 'vitest';
 const root=process.cwd(),out=path.join(root,'synthetic-data');
-function untar(gz){const raw=zlib.gunzipSync(gz),files=new Map();let off=0;while(off+512<=raw.length){const h=raw.subarray(off,off+512);if(h.every(x=>x===0))break;const name=h.subarray(0,100).toString().replace(/\0.*$/s,''),size=parseInt(h.subarray(124,136).toString().replace(/\0.*$/s,'').trim(),8)||0,start=off+512;files.set(name,raw.subarray(start,start+size));off=start+512+Math.ceil(size/512)*512;}return files;}
+function untar(gz){const raw=zlib.gunzipSync(gz),files=new Map();let off=0;while(off+512<=raw.length){const h=raw.subarray(off,off+512);if(h.every(x=>x===0))break;const name=h.subarray(0,100).toString().replace(/\0.*$/s,''),size=parseInt(h.subarray(124,136).toString().replace(/\0.*$/s,'').trim(),8)||0,start=off+512;files.set(name,raw.subarray(start,start+size));off=start+Math.ceil(size/512)*512;}return files;}
 function unzip(buffer){const files=new Map();let off=0;while(off+30<=buffer.length&&buffer.readUInt32LE(off)===0x04034b50){const method=buffer.readUInt16LE(off+8),compressed=buffer.readUInt32LE(off+18),nameLen=buffer.readUInt16LE(off+26),extra=buffer.readUInt16LE(off+28),name=buffer.subarray(off+30,off+30+nameLen).toString(),start=off+30+nameLen+extra,raw=buffer.subarray(start,start+compressed);files.set(name,method===8?zlib.inflateRawSync(raw):raw);off=start+compressed;}return files;}
 beforeAll(()=>{execFileSync(process.execPath,[path.join(root,'scripts/generate-synthetic-data.mjs')],{cwd:root,stdio:'pipe'});});
 describe('synthetic QA data generator',()=>{
