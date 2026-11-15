@@ -315,3 +315,6 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .assessment-hub-actions>label{display:inline-flex;align-items:center;gap:7px;cursor:pointer}
 .assessment-hub-actions>label input{display:none}
 @media(max-width:760px){.quiz-profile-reader>header{padding:12px 14px}.quiz-profile-scroll{padding:16px 14px}.quiz-profile-reader>footer{padding:10px 12px;align-items:flex-start}.quiz-profile-reader .knowledge-reader-actions{width:100%;justify-content:flex-end}.assessment-hub-actions{width:100%}.assessment-hub-actions>*{flex:1 1 auto;justify-content:center}}
+
+/* Cosmetic: round the navigation container into a pill. */
+.main-nav-wrap{border-radius:999px;overflow:hidden}
