@@ -25,10 +25,12 @@ describe('assessment unit logic',()=>{
   expect(normalise({id:'q',question:'Prompt',options:['A','B'],correctAnswers:['B'],negativeMarks:.25})).toMatchObject({prompt:'Prompt',options:[{text:'A'},{text:'B'}],answers:['B'],negative:.25,locked:true});
  });
  it('validates test-series size, subject/topic, duplicate IDs and 100-mark full tests',()=>{
-  const base={id:'q',subject:'Algorithms',topic:'Searching',type:'MCQ',prompt:'Prompt',options:['A','B'],answers:['A'],marks:1,negative:0};
+  const base={id:'q',subject:'Algorithms',topic:'Searching',type:'MCQ',prompt:'Prompt',options:['A','B'],answers:['A'],marks:1,negative:.33};
   expect(()=>validate([base],'subject')).toThrow(/exactly 30/);
   const thirty=Array.from({length:30},(_,i)=>({...base,id:'q'+i}));
   expect(validate(thirty,'subject')).toHaveLength(30);
+  expect(()=>validate(thirty.map((x,i)=>i===0?{...x,negative:0}:x),'subject')).toThrow(/one-third negative marking/);
+  expect(()=>validate(thirty.map((x,i)=>i===0?{...x,type:'MSQ',negative:.33}:x),'subject')).toThrow(/MSQ question 1 must have negative marking set to 0/);
   expect(()=>validate([...thirty.slice(0,29),{...base,id:'q0'}],'subject')).toThrow(/Duplicate/);
   expect(calc('2+2*3')).toBe('8');
   expect(()=>validate(Array.from({length:65},(_,i)=>({...base,id:'f'+i,marks:1})),'full')).toThrow(/100 marks/);
