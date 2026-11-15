@@ -810,3 +810,79 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .plan-repeat-toggle input{accent-color:var(--accent)}
 .plan-upload-json{display:inline-flex!important;align-items:center;gap:8px;position:relative;overflow:hidden;margin:12px 0}
 .plan-upload-json input{position:absolute;inset:0;opacity:0;cursor:pointer}
+
+
+/* Calculator window: single-row title controls, native corner resizing and optional drag pin. */
+.gate-scientific-calculator{resize:both!important;overflow:auto!important;min-width:min(500px,calc(100vw - 16px))!important;min-height:min(470px,calc(100dvh - 16px))!important;max-width:calc(100vw - 16px)!important;max-height:calc(100dvh - 16px)!important;scrollbar-width:thin;scrollbar-color:#8b95a477 transparent}
+.gate-scientific-calculator>header{flex:0 0 auto!important;min-width:0!important}
+.gate-scientific-calculator>header>strong{flex:1 1 auto!important;min-width:0!important;white-space:nowrap!important}
+.gate-scientific-calculator>header>.gate-calc-title-actions{display:flex!important;flex-direction:row!important;align-items:center!important;justify-content:flex-end!important;flex-wrap:nowrap!important;flex:0 0 auto!important;gap:6px!important;min-width:0!important}
+.gate-calc-title-actions>button{flex:0 0 auto!important}
+.gate-calc-window-btn{width:34px!important;height:34px!important;min-width:34px!important;padding:0!important;display:grid!important;place-items:center!important;line-height:1!important;border-radius:4px!important}
+.gate-calc-window-btn svg{display:block;width:17px;height:17px}
+.gate-calc-window-btn.pin[aria-pressed="true"]{background:#ffffff32!important;box-shadow:inset 0 0 0 1px #ffffff75}
+.gate-scientific-calculator.is-pinned>header{cursor:default!important}
+.gate-scientific-calculator.is-minimized{resize:none!important;min-height:58px!important;height:58px!important}
+.gate-scientific-calculator .gate-calc-keypad{flex:1 1 auto!important;min-height:210px!important}
+@media(max-width:650px){.gate-scientific-calculator{min-width:calc(100vw - 16px)!important;min-height:min(430px,calc(100dvh - 16px))!important}.gate-scientific-calculator>header>strong{font-size:14px!important}.gate-calc-title-actions{gap:2px!important}.gate-calc-window-btn{width:29px!important;height:29px!important;min-width:29px!important}.gate-calc-help{padding:6px 7px!important;font-size:10px!important}.gate-calc-theme button{padding:5px!important;font-size:9px!important}}
+
+/* Put the question-attempt confirmation above the attempt window itself. */
+.exam-overlay{z-index:2147483000!important}
+.attempt-close-backdrop{z-index:2147483647!important;position:fixed!important;inset:0!important;display:grid!important;place-items:center!important;padding:18px!important;background:#050911e8!important;backdrop-filter:blur(9px)!important}
+.attempt-close-modal{position:relative!important;z-index:1!important;max-height:min(90dvh,620px)!important;overflow:auto!important}
+.attempt-close-modal>.adm-modal-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important}
+.attempt-close-modal>.adm-modal-head>div{min-width:0!important;flex:1 1 auto!important}
+.attempt-close-modal>.adm-modal-head>.adm-icon-btn{display:grid!important;place-items:center!important;flex:0 0 38px!important;width:38px!important;height:38px!important;min-width:38px!important;padding:0!important;margin:0!important;line-height:0!important}
+.attempt-close-modal>.adm-modal-head>.adm-icon-btn svg{display:block!important;width:18px!important;height:18px!important;margin:0!important}
+
+/* Consistent centered close controls across quiz, timer, report and admission dialogs. */
+.exam-window>header>.adm-icon-btn,.assessment-window>header>.adm-icon-btn,.gate-submit-modal>header>.adm-icon-btn,.gate-result-window>header>.adm-icon-btn,.timer-editor>header>.adm-icon-btn,.admissions-form-modal>.adm-modal-head>.adm-icon-btn,.question-history-modal>.adm-modal-head>.adm-icon-btn{display:grid!important;place-items:center!important;flex:0 0 38px!important;width:38px!important;height:38px!important;min-width:38px!important;padding:0!important;margin:0!important;line-height:0!important}
+.exam-window>header>.adm-icon-btn svg,.assessment-window>header>.adm-icon-btn svg,.gate-submit-modal>header>.adm-icon-btn svg,.gate-result-window>header>.adm-icon-btn svg,.timer-editor>header>.adm-icon-btn svg,.admissions-form-modal>.adm-modal-head>.adm-icon-btn svg,.question-history-modal>.adm-modal-head>.adm-icon-btn svg{display:block!important;width:18px!important;height:18px!important;margin:0!important}
+
+/* Per-question history and report: readable data table and compact report panels. */
+.question-history-backdrop{z-index:2147482500!important}
+.question-history-modal{width:min(1120px,calc(100vw - 28px))!important;max-width:1120px!important;max-height:min(90dvh,900px)!important;overflow:auto!important}
+.question-history-modal>.adm-modal-head{display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important}
+.question-history-modal>.adm-modal-head>div{min-width:0;flex:1}
+.question-history-tabs{margin:12px 0 16px}
+.question-history-table-wrap{width:100%;overflow:auto;border:1px solid var(--border);border-radius:9px}
+.question-history-table{width:100%;border-collapse:collapse;min-width:760px;font-size:10px}
+.question-history-table th{padding:12px 10px;background:#ffffff08;color:var(--muted);font-size:9px;text-align:left;white-space:nowrap}
+.question-history-table td{padding:12px 10px;border-top:1px solid var(--border);color:var(--text);vertical-align:top}
+.question-history-table td:first-child{white-space:nowrap;color:var(--muted)}
+.question-history-table td:last-child small{display:block;margin-top:4px;color:var(--muted)}
+.question-history-result{display:inline-flex;padding:4px 7px;border-radius:5px;font-size:9px;font-weight:700}
+.question-history-result.is-correct{background:#55bd8320;color:#55bd83}
+.question-history-result.is-wrong{background:#e36c7220;color:#e36c72}
+.question-history-result.is-skipped{background:#eabf7520;color:#d5a95f}
+.question-report-stats{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:12px 0}
+.question-report-stats .metric-card{padding:13px}
+.question-report-stats .metric-card strong{font-size:21px}
+.question-report-detail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:15px;border:1px solid var(--border);border-radius:9px;background:#ffffff04}
+.question-report-detail>div{display:grid;gap:5px;min-width:0}
+.question-report-detail span{color:var(--muted);font-size:8px;letter-spacing:.1em}
+.question-report-detail strong{font-size:11px;overflow-wrap:anywhere}
+.question-report-detail .question-report-answer,.question-report-detail .question-report-explanation{grid-column:1/-1}
+.question-report-explanation p{margin:0;color:var(--muted);font-size:11px;line-height:1.65}
+.question-report-subheading{margin:18px 0 9px;font-size:12px}
+.question-report-timeline{display:grid;gap:8px}
+.question-report-attempt{display:flex;gap:10px;align-items:flex-start;padding:11px;border:1px solid var(--border);border-radius:8px;background:#ffffff04}
+.question-report-attempt>i{flex:0 0 9px;width:9px;height:9px;margin-top:4px;border-radius:50%;background:#d5a95f}
+.question-report-attempt>i.is-correct{background:#55bd83}
+.question-report-attempt>i.is-wrong{background:#e36c72}
+.question-report-attempt>div{display:grid;gap:4px;min-width:0}
+.question-report-attempt strong{font-size:10px}
+.question-report-attempt small{color:var(--muted);font-size:9px;line-height:1.5}
+@media(max-width:620px){.question-report-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.question-report-detail{grid-template-columns:repeat(2,minmax(0,1fr))}.question-history-modal{width:calc(100vw - 14px)!important;max-height:calc(100dvh - 14px)!important}}
+
+/* Add/Edit forms in Admissions open as a full-viewport editor, not a small dialog. */
+.admissions-form-backdrop{position:fixed!important;inset:0!important;z-index:2147482000!important;display:flex!important;align-items:stretch!important;justify-content:stretch!important;width:100vw!important;height:100vh!important;height:100dvh!important;padding:0!important;margin:0!important;overflow:hidden!important;background:#05080df2!important;backdrop-filter:blur(18px)!important}
+.admissions-form-modal{position:relative!important;display:flex!important;flex-direction:column!important;gap:14px!important;box-sizing:border-box!important;width:100vw!important;max-width:none!important;height:100vh!important;height:100dvh!important;max-height:none!important;min-height:0!important;margin:0!important;padding:20px clamp(16px,4vw,52px)!important;border:0!important;border-radius:0!important;overflow-y:auto!important;overscroll-behavior:contain!important}
+.admissions-form-modal>.adm-modal-head{position:sticky!important;top:-20px!important;z-index:5!important;display:flex!important;align-items:center!important;justify-content:space-between!important;gap:14px!important;flex:0 0 auto!important;margin:0 0 8px!important;padding:12px 0 16px!important;border-bottom:1px solid var(--border)!important;background:#171e2a!important}
+.admissions-form-modal>.adm-field{width:min(900px,100%)!important;max-width:900px!important;margin:0!important}
+.admissions-form-modal>.adm-modal-actions{position:sticky!important;bottom:-20px!important;z-index:5!important;display:flex!important;justify-content:flex-end!important;gap:10px!important;flex:0 0 auto!important;margin:auto 0 0!important;padding:14px 0 max(12px,env(safe-area-inset-bottom))!important;border-top:1px solid var(--border)!important;background:#171e2a!important}
+.app-shell[data-theme="light"] .admissions-form-modal,.app-shell[data-theme="light"] .admissions-form-modal>.adm-modal-head,.app-shell[data-theme="light"] .admissions-form-modal>.adm-modal-actions{background:#f8fafc!important;color:#172235!important}
+.app-shell[data-theme="sepia"] .admissions-form-modal,.app-shell[data-theme="sepia"] .admissions-form-modal>.adm-modal-head,.app-shell[data-theme="sepia"] .admissions-form-modal>.adm-modal-actions{background:#f2e5ce!important;color:#382d20!important}
+
+/* Mistake cards need deliberate separation for scanning. */
+.mistake-card{margin:0 0 13px!important}
