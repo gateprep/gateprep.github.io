@@ -932,3 +932,9 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .plan-calendar-grid>button.today:not(.selected)::after{content:'TODAY';position:absolute;bottom:3px;font-size:7px;letter-spacing:.08em;color:var(--accent)}
 .knowledge-reader>header>.adm-icon-btn,.knowledge-import-reader>header>.adm-icon-btn,.plan-editor>header>.adm-icon-btn,.plan-track-modal>header>.adm-icon-btn,.plan-import-modal>header>.adm-icon-btn,.knowledge-edit-reader>header>.adm-icon-btn{display:grid!important;place-items:center!important;flex:0 0 38px!important;width:38px!important;height:38px!important;min-width:38px!important;margin:0!important;padding:0!important;line-height:0!important}
 .knowledge-reader>header>.adm-icon-btn svg,.knowledge-import-reader>header>.adm-icon-btn svg,.plan-editor>header>.adm-icon-btn svg,.plan-track-modal>header>.adm-icon-btn svg,.plan-import-modal>header>.adm-icon-btn svg,.knowledge-edit-reader>header>.adm-icon-btn svg{display:block!important;width:18px!important;height:18px!important;margin:0!important}
+
+/* Full-viewport writing surfaces for Notes and quiz profile setup. */
+.knowledge-edit-overlay{padding:0!important;align-items:stretch!important;justify-content:stretch!important}
+.knowledge-edit-reader,.quiz-profile-reader{width:100vw!important;max-width:none!important;height:100dvh!important;max-height:100dvh!important;min-height:0!important;border-radius:0!important;display:flex!important;flex-direction:column!important}
+.knowledge-edit-reader>.knowledge-edit-scroll,.quiz-profile-reader>.knowledge-reader-scroll{flex:1 1 auto!important;min-height:0!important;overflow:auto!important}
+.knowledge-edit-reader>header,.quiz-profile-reader>header,.knowledge-edit-reader>footer,.quiz-profile-reader>footer{flex:0 0 auto!important}
