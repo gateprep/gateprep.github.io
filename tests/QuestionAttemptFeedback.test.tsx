@@ -28,4 +28,14 @@ describe('question attempt feedback',()=>{
   expect(screen.getByText('0%')).toBeInTheDocument();
   expect(screen.getByText('Binary search needs sorted input.')).toBeInTheDocument();
  });
+ it('shows mistake classification history separately from attempt history',async()=>{
+  await seedLearning({questions:[question],attempts:[{id:'m1',qid:question.id,at:'2026-11-14T10:00:00.000Z',correct:false,selected:['B'],seconds:20,mistake:'Silly mistake',note:'Misread the sign'},{id:'m2',qid:question.id,at:'2026-11-15T10:00:00.000Z',correct:false,selected:['B'],seconds:25,mistake:'Conceptual mistake',note:'Forgot binary search invariant'}],bookmarks:[],events:[],completedTopics:[],settings:{device:'Test',timer:0,order:'sequential'},backups:[]});
+  render(<MemoryRouter><LearningHub mode="questions"/></MemoryRouter>);
+  fireEvent.click(await screen.findByTitle('Attempt history'));
+  fireEvent.click(screen.getByRole('button',{name:/Mistakes \(2\)/}));
+  expect(screen.getByText('Silly mistake')).toBeInTheDocument();
+  expect(screen.getByText('Conceptual mistake')).toBeInTheDocument();
+  expect(screen.getByText('Misread the sign')).toBeInTheDocument();
+  expect(screen.getByText('Forgot binary search invariant')).toBeInTheDocument();
+ });
 });
