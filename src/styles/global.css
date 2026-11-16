@@ -924,3 +924,5 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .quiz-availability{display:block;margin-top:6px;color:var(--muted);font-size:10px}
 .quiz-profile-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
 @media(max-width:650px){.admissions-global-toolbar{align-items:stretch}.admissions-global-toolbar>.adm-tabs{width:100%}.admissions-global-toolbar .adm-card-actions{width:100%}.admissions-global-toolbar .adm-card-actions button{flex:1}.quiz-profile-actions{justify-content:flex-start}}
+
+.admissions-form-reader{width:100vw!important}
