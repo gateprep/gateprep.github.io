@@ -27,7 +27,7 @@ describe('question attempt feedback',()=>{
   fireEvent.click(screen.getByRole('button',{name:/Question report/}));
   expect(screen.getByText('0%')).toBeInTheDocument();
   expect(screen.getByText('Binary search needs sorted input.')).toBeInTheDocument();
-  fireEvent.click(screen.getByRole('button',{name:/Mistakes \(3\)/}));
+  fireEvent.click(screen.getByRole('button',{name:/Mistakes \(2\)/}));
   expect(screen.getByText('Silly mistake')).toBeInTheDocument();
   expect(screen.getByText('Conceptual mistake')).toBeInTheDocument();
   expect(screen.getByText('Misread the sign')).toBeInTheDocument();
