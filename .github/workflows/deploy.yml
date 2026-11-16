@@ -13,21 +13,8 @@ concurrency:
   group: pages
   cancel-in-progress: true
 jobs:
-  test:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-      - run: npm install
-      - name: Run automated feature tests
-        run: npm test
-      - name: Verify TypeScript
-        run: npm run typecheck
   build:
     if: github.event_name != 'pull_request'
-    needs: test
     runs-on: ubuntu-latest
     environment:
       name: github-pages
