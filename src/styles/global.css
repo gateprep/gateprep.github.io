@@ -926,3 +926,9 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 @media(max-width:650px){.admissions-global-toolbar{align-items:stretch}.admissions-global-toolbar>.adm-tabs{width:100%}.admissions-global-toolbar .adm-card-actions{width:100%}.admissions-global-toolbar .adm-card-actions button{flex:1}.quiz-profile-actions{justify-content:flex-start}}
 
 .admissions-form-reader{width:100vw!important}
+
+/* Calendar: keep today's date visible even when another day is selected; normalize modal close controls. */
+.plan-calendar-grid>button.today:not(.selected){box-shadow:inset 0 0 0 1px var(--accent);font-weight:700}
+.plan-calendar-grid>button.today:not(.selected)::after{content:'TODAY';position:absolute;bottom:3px;font-size:7px;letter-spacing:.08em;color:var(--accent)}
+.knowledge-reader>header>.adm-icon-btn,.knowledge-import-reader>header>.adm-icon-btn,.plan-editor>header>.adm-icon-btn,.plan-track-modal>header>.adm-icon-btn,.plan-import-modal>header>.adm-icon-btn,.knowledge-edit-reader>header>.adm-icon-btn{display:grid!important;place-items:center!important;flex:0 0 38px!important;width:38px!important;height:38px!important;min-width:38px!important;margin:0!important;padding:0!important;line-height:0!important}
+.knowledge-reader>header>.adm-icon-btn svg,.knowledge-import-reader>header>.adm-icon-btn svg,.plan-editor>header>.adm-icon-btn svg,.plan-track-modal>header>.adm-icon-btn svg,.plan-import-modal>header>.adm-icon-btn svg,.knowledge-edit-reader>header>.adm-icon-btn svg{display:block!important;width:18px!important;height:18px!important;margin:0!important}
