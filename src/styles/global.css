@@ -938,3 +938,30 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .knowledge-edit-reader,.quiz-profile-reader{width:100vw!important;max-width:none!important;height:100dvh!important;max-height:100dvh!important;min-height:0!important;border-radius:0!important;display:flex!important;flex-direction:column!important}
 .knowledge-edit-reader>.knowledge-edit-scroll,.quiz-profile-reader>.knowledge-reader-scroll{flex:1 1 auto!important;min-height:0!important;overflow:auto!important}
 .knowledge-edit-reader>header,.quiz-profile-reader>header,.knowledge-edit-reader>footer,.quiz-profile-reader>footer{flex:0 0 auto!important}
+
+
+.study-plan-page>.learning-heading .learning-actions{gap:8px!important}
+.plan-import-actions{display:flex;align-items:center;gap:16px;flex-wrap:wrap;margin:14px 0 18px}
+.plan-import-actions .plan-upload-json{margin:0!important}
+.plan-journal-overlay{padding:0!important;align-items:stretch!important;justify-content:stretch!important}
+.plan-journal-reader{width:100vw!important;max-width:none!important;height:100dvh!important;max-height:100dvh!important;min-height:0!important;border-radius:0!important;display:flex!important;flex-direction:column!important}
+.plan-journal-reader>header,.plan-journal-reader>footer{flex:0 0 auto!important}
+.plan-journal-reader>.knowledge-reader-scroll{flex:1 1 auto!important;min-height:0!important;overflow:auto!important}
+.plan-journal-reader>.knowledge-reader-scroll>.knowledge-markdown{min-height:60dvh!important}
+.plan-journal-reader>.knowledge-reader-scroll>.md-preview{min-height:55dvh;padding:10px 0}
+.plan-journal-reader .knowledge-reader-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.plan-journal-reader .knowledge-history article{padding:14px 0;border-top:1px solid var(--border)}
+.plan-journal-reader .knowledge-history article>small{display:block;color:var(--muted);margin:5px 0 10px}
+.plan-journal-reader .knowledge-history article .md-preview{padding:8px 0}
+.knowledge-inline-image{margin:14px 0;max-width:100%}
+.knowledge-inline-image img{display:block;max-width:min(100%,900px);max-height:70vh;object-fit:contain;border-radius:9px}
+.knowledge-inline-image figcaption{margin-top:6px;color:var(--muted);font-size:10px}
+.admissions-import-overlay{padding:0!important;align-items:stretch!important;justify-content:stretch!important}
+.admissions-import-reader{width:100vw!important;max-width:none!important;height:100dvh!important;max-height:100dvh!important;min-height:0!important;border-radius:0!important;display:flex!important;flex-direction:column!important}
+.admissions-import-reader>header,.admissions-import-reader>footer{flex:0 0 auto!important}
+.admissions-import-reader>.knowledge-reader-scroll{flex:1 1 auto!important;min-height:0!important;overflow:auto!important;padding:20px clamp(16px,4vw,52px)!important}
+.admissions-import-reader>header>.adm-icon-btn{display:grid!important;place-items:center!important;flex:0 0 38px!important;width:38px!important;height:38px!important;min-width:38px!important;margin:0!important;padding:0!important;line-height:0!important}
+.admissions-import-reader>header>.adm-icon-btn svg{display:block!important;width:18px!important;height:18px!important;margin:0!important}
+.admissions-import-reader>footer{display:flex!important;align-items:center!important;justify-content:flex-end!important;gap:10px!important;padding:14px clamp(16px,4vw,52px) max(14px,env(safe-area-inset-bottom))!important;border-top:1px solid var(--border)!important}
+.admissions-import-reader .adm-field,.admissions-import-reader>.learning-hint{max-width:1000px}
+.admissions-import-reader textarea{width:100%;min-height:240px}
