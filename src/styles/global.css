@@ -1071,3 +1071,11 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .knowledge-link-group-actions{display:flex;gap:7px;flex-wrap:wrap;flex:0 0 auto}
 .knowledge-link-group-actions button{display:inline-flex;align-items:center;gap:6px}
 @media(max-width:650px){.knowledge-link-group-item{display:grid}.knowledge-link-group-actions{width:100%}.knowledge-link-group-actions button{flex:1;justify-content:center}.taxonomy-lock-heading{align-items:flex-start}}
+
+
+.test-question-taxonomy-editor{margin:14px 0;padding:14px;border:1px solid var(--border);border-radius:10px;background:var(--surface-1)}
+.test-question-taxonomy-editor>summary{font-weight:700;font-size:12px;cursor:pointer}
+.test-question-taxonomy-row{display:grid;gap:10px;padding:12px 0;border-top:1px solid var(--border)}
+.test-question-taxonomy-row>strong{font-size:11px;line-height:1.5}
+.test-question-taxonomy{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;align-items:end}
+.test-question-taxonomy small{grid-column:1/-1;color:var(--muted);font-size:10px}
