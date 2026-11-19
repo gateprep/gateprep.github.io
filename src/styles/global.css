@@ -1079,3 +1079,53 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .test-question-taxonomy-row>strong{font-size:11px;line-height:1.5}
 .test-question-taxonomy{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:9px;align-items:end}
 .test-question-taxonomy small{grid-column:1/-1;color:var(--muted);font-size:10px}
+
+/* Statistics: focused drill-down for every taxonomy depth. */
+.topic-analysis-workspace{display:grid;gap:14px}
+.topic-analysis-row{padding:13px 0;border-top:1px solid var(--border)}
+.topic-analysis-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.topic-analysis-heading>div{display:grid;gap:4px;min-width:0}
+.topic-analysis-heading>div strong{font-size:10px;color:var(--muted)}
+.topic-analysis-heading>div span{font-size:12px;font-weight:650;overflow-wrap:anywhere}
+.topic-analysis-heading>b{font-size:11px;white-space:nowrap;color:var(--text)}
+.topic-analysis-meta{display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;margin-top:6px;color:var(--muted);font-size:10px}
+.topic-analysis-mistakes{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-top:8px}
+.topic-analysis-mistakes small{color:var(--muted);font-size:9px;margin-right:3px}
+.topic-analysis-mistakes span{padding:4px 7px;border:1px solid var(--border);border-radius:999px;background:var(--surface-2);font-size:9px;color:var(--text)}
+/* Full-screen annotation and bookmark navigation; no sticky search over note text. */
+.knowledge-sidebar-overlay{position:fixed!important;inset:0!important;z-index:2147483100!important;display:flex!important;align-items:stretch!important;justify-content:stretch!important;background:var(--surface)!important;color:var(--text)!important}
+.knowledge-sidebar{width:100vw!important;height:100dvh!important;max-width:none!important;max-height:none!important;min-height:0!important;display:flex!important;flex-direction:column!important;overflow:hidden!important;background:var(--surface)!important;color:var(--text)!important}
+.knowledge-sidebar>header{display:flex;align-items:center;justify-content:space-between;gap:14px;flex:0 0 auto;padding:14px clamp(14px,3vw,30px);border-bottom:1px solid var(--border);background:var(--surface-2)}
+.knowledge-sidebar>header h2{margin:4px 0 0;font-size:16px;overflow-wrap:anywhere}
+.knowledge-sidebar-search{display:flex;align-items:center;gap:10px;flex:0 0 auto;padding:12px clamp(14px,3vw,30px);border-bottom:1px solid var(--border);background:var(--surface)}
+.knowledge-sidebar-search input{flex:1;min-width:0;padding:10px 12px;border:1px solid var(--border);border-radius:9px;background:var(--surface-2);color:var(--text);font:inherit;font-size:12px;outline:none}
+.knowledge-sidebar-search>span{font-size:10px;color:var(--muted);min-width:20px;text-align:right}
+.knowledge-sidebar-tabs{display:flex;gap:6px;flex:0 0 auto;overflow-x:auto;padding:10px clamp(14px,3vw,30px);border-bottom:1px solid var(--border);background:var(--surface)}
+.knowledge-sidebar-tabs button{flex:0 0 auto;padding:8px 11px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);color:var(--text);font-size:10px;cursor:pointer}
+.knowledge-sidebar-tabs button.selected{background:var(--accent);border-color:var(--accent);color:#fff}
+.knowledge-sidebar-content{flex:1 1 auto;min-height:0;overflow:auto;overscroll-behavior:contain;padding:16px clamp(14px,3vw,30px)}
+.knowledge-sidebar-content>section{max-width:1100px;margin:0 auto 20px}
+.knowledge-sidebar-content h3{display:flex;align-items:center;gap:8px;margin:0 0 9px;font-size:12px}
+.knowledge-sidebar-color-group{margin:12px 0 16px}
+.knowledge-sidebar-color-group h4{display:flex;align-items:center;gap:8px;margin:0 0 8px;font-size:10px;color:var(--muted)}
+.knowledge-sidebar-item{display:flex;align-items:center;gap:8px;margin:6px 0;padding:7px;border:1px solid var(--border);border-radius:9px;background:var(--surface-2)}
+.knowledge-sidebar-item-open{display:flex;align-items:center;gap:10px;flex:1;min-width:0;padding:5px;border:0;background:transparent;color:var(--text);text-align:left;cursor:pointer}
+.knowledge-sidebar-item-open>span:last-child{display:grid;gap:3px;min-width:0}
+.knowledge-sidebar-item-open strong{font-size:11px}
+.knowledge-sidebar-item-open small{font-size:10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.knowledge-sidebar-item>.adm-icon-btn{flex:0 0 34px;width:34px;height:34px;background:var(--surface);color:var(--text);opacity:1}
+.knowledge-sidebar>footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex:0 0 auto;padding:12px clamp(14px,3vw,30px);border-top:1px solid var(--border);background:var(--surface-2)}
+.knowledge-sidebar>footer>span{font-size:10px;color:var(--muted)}
+.knowledge-reader-actions .adm-icon-btn{background:var(--surface-2);color:var(--text);border:1px solid var(--border);opacity:1}
+.knowledge-reader-actions .adm-icon-btn:hover{background:var(--surface);border-color:var(--accent)}
+@media(max-width:650px){.topic-analysis-heading{display:grid}.topic-analysis-heading>b{white-space:normal}.knowledge-sidebar>footer{align-items:flex-start;flex-direction:column}.knowledge-sidebar>footer button{width:100%}}
+
+/* Bookmarks are intentionally filled, not just underlined, for clear visibility. */
+.md-preview mark.knowledge-annotation-bookmark{background:#d1fae5!important;border-bottom:2px solid #16a34a!important;box-shadow:inset 0 0 0 1px #16a34333!important;color:#123b27!important}
+[data-theme="dark"] .md-preview mark.knowledge-annotation-bookmark{background:#14532d!important;border-bottom:2px solid #4ade80!important;box-shadow:inset 0 0 0 1px #4ade8033!important;color:#f0fdf4!important}
+.knowledge-sidebar-item-open{border-radius:7px}
+.knowledge-sidebar-item-open:hover{background:var(--surface);outline:1px solid var(--border)}
+.knowledge-sidebar-item>.adm-icon-btn:hover{background:var(--surface-2);border-color:var(--accent)}
+
+.knowledge-sidebar-reference-group{margin:10px 0 14px;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--surface)}
+.knowledge-sidebar-reference-group h4{margin:0 0 7px;font-size:10px;color:var(--muted)}

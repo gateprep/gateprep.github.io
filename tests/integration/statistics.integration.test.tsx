@@ -1,4 +1,4 @@
-import {render,screen,waitFor} from '@testing-library/react';
+import {fireEvent,render,screen,waitFor} from '@testing-library/react';
 import {MemoryRouter} from 'react-router-dom';
 import {beforeEach,describe,expect,it} from 'vitest';
 import {LearningHub} from '../../src/features/learning/LearningHub';
@@ -22,7 +22,9 @@ describe('statistics integration',()=>{
   await waitFor(()=>expect(screen.getByText('Attempts')).toBeInTheDocument());
   expect(document.querySelector('.learning-stats .metric-card:nth-child(1) strong')?.textContent).toBe('2');
   expect(document.querySelector('.learning-stats .metric-card:nth-child(2) strong')?.textContent).toBe('50%');
-  expect(document.querySelector('.topic-performance-row')?.textContent).toContain('Searching');
-  expect(document.querySelector('.topic-performance-row')?.textContent).toContain('1 correct · 1 wrong · 2 attempts · 1 unique questions');
+  fireEvent.click(screen.getByRole('button',{name:'Topic analysis'}));
+  expect(await screen.findByText('Needs improvement · deepest topic breakdown')).toBeInTheDocument();
+  expect(document.querySelector('.topic-analysis-row')?.textContent).toContain('Searching');
+  expect(document.querySelector('.topic-analysis-row')?.textContent).toContain('1 correct · 1 wrong · 2 attempts · 1 unique questions');
  });
 });
