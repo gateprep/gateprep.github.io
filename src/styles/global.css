@@ -1296,3 +1296,9 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .app-shell[data-theme="contrast"] .knowledge-sidebar-item-open,
 .app-shell[data-theme="contrast"] .knowledge-sidebar-item-open small,
 .app-shell[data-theme="contrast"] .knowledge-sidebar>footer>span{color:#fff!important}
+
+/* Nested taxonomy paths: keep the full breadcrumb, accent only its final segment. */
+.topic-path-label{display:inline!important;color:inherit!important;font:inherit!important}
+.topic-path-separator{color:var(--muted);opacity:.7}
+.topic-path-leaf{display:inline!important;padding:2px 5px;border-radius:5px;background:color-mix(in srgb,var(--accent) 15%,transparent);color:var(--accent)!important;font-weight:750!important;box-decoration-break:clone;-webkit-box-decoration-break:clone}
+.knowledge-link-group-overlay{z-index:2147483647!important}
