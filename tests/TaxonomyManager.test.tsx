@@ -1,11 +1,14 @@
 import {fireEvent,render,screen} from '@testing-library/react';
 import {afterEach,describe,expect,it} from 'vitest';
 import {TaxonomyManager} from '../src/features/learning/TaxonomyManager';
+import {defaultCatalog,saveTaxonomy} from '../src/features/learning/taxonomy';
 
 afterEach(()=>localStorage.clear());
+const seedSmallCatalog=()=>{const catalog=defaultCatalog();catalog.courses[0].nodes=[{id:'algorithms',name:'Algorithms',children:[{id:'searching',name:'Searching',children:[]}]}];saveTaxonomy(catalog);};
 
 describe('TaxonomyManager course protection',()=>{
  it('keeps syllabus fields read-only until the active course is unlocked',()=>{
+  seedSmallCatalog();
   render(<TaxonomyManager open onClose={()=>{}}/>);
   expect(screen.getAllByLabelText('Course name')[0]).toBeDisabled();
   expect(screen.getByLabelText('GATE paper / track')).toBeDisabled();
