@@ -11,7 +11,7 @@ describe('TaxonomyManager course protection',()=>{
   expect(screen.getByLabelText('GATE paper / track')).toBeDisabled();
   expect(screen.getByRole('button',{name:/Add node/})).toBeDisabled();
   fireEvent.click(screen.getByRole('button',{name:/Locked.*Unlock to edit/}));
-  expect(screen.getByLabelText('Course name')).toBeEnabled();
+  expect(screen.getAllByLabelText('Course name')[0]).toBeEnabled();
   expect(screen.getByLabelText('GATE paper / track')).toBeEnabled();
   expect(screen.getByRole('button',{name:/Add node/})).toBeDisabled();
   fireEvent.change(screen.getByLabelText('Add subject'),{target:{value:'New subject'}});
@@ -21,7 +21,7 @@ describe('TaxonomyManager course protection',()=>{
   render(<TaxonomyManager open onClose={()=>{}}/>);
   fireEvent.click(screen.getByRole('button',{name:/Locked.*Unlock to edit/}));
   fireEvent.click(screen.getByRole('button',{name:/Unlocked.*Lock syllabus/}));
-  expect(screen.getByLabelText('Course name')).toBeDisabled();
+  expect(screen.getAllByLabelText('Course name')[0]).toBeDisabled();
   expect(screen.getByRole('button',{name:/Add node/})).toBeDisabled();
  });
 });
