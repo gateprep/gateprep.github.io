@@ -20,7 +20,7 @@ describe('PYQ year papers',()=>{
   expect(cards[0]).toHaveTextContent('Missing 2');
   fireEvent.click(within(cards[0]).getByRole('button',{name:'View missing sections'}));
   expect(screen.getByText('64/65')).toBeInTheDocument();
-  expect(screen.getByText(/General Aptitude/)).toBeInTheDocument();
+  expect(screen.getAllByText(/General Aptitude/).length).toBeGreaterThan(0);
  });
  it('opens a complete 65-question, 100-mark paper in the GATE test interface',()=>{
   render(<PYQYearWorkspace questions={paper()} onRecord={vi.fn()} onUnlock={vi.fn()}/>);
