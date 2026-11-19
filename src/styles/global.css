@@ -1129,3 +1129,65 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 
 .knowledge-sidebar-reference-group{margin:10px 0 14px;padding:10px;border:1px solid var(--border);border-radius:10px;background:var(--surface)}
 .knowledge-sidebar-reference-group h4{margin:0 0 7px;font-size:10px;color:var(--muted)}
+
+
+/* Selection actions are a detached, opaque floating palette anchored above the selected text. */
+.knowledge-annotation-popover{position:fixed!important;left:var(--selection-x,50%);bottom:auto!important;z-index:2147483647!important;transform:translate(-50%,-100%);width:max-content;max-width:calc(100vw - 20px);display:flex;align-items:center;gap:7px;flex-wrap:wrap;padding:10px 12px!important;border:1px solid #94a3b8!important;border-radius:12px!important;background:#ffffff!important;color:#172033!important;box-shadow:0 14px 42px #0005!important;opacity:1!important}
+.knowledge-annotation-popover>span{flex:1 1 100%;max-width:460px;color:#334155!important;font-size:11px!important}
+.knowledge-annotation-popover .adm-secondary,.knowledge-annotation-popover .adm-icon-btn{background:#f1f5f9!important;color:#172033!important;border:1px solid #cbd5e1!important;opacity:1!important}
+.knowledge-annotation-popover .hl-color{width:28px!important;height:28px!important;flex:0 0 28px;border:2px solid #64748b!important;box-shadow:0 0 0 2px #fff!important}
+[data-theme="dark"] .knowledge-annotation-popover{background:#172033!important;color:#f8fafc!important;border-color:#64748b!important;box-shadow:0 14px 42px #000b!important}
+[data-theme="dark"] .knowledge-annotation-popover>span{color:#e2e8f0!important}
+[data-theme="dark"] .knowledge-annotation-popover .adm-secondary,[data-theme="dark"] .knowledge-annotation-popover .adm-icon-btn{background:#273449!important;color:#f8fafc!important;border-color:#64748b!important}
+.knowledge-sidebar-overlay{background:#f8fafc!important;opacity:1!important;isolation:isolate}
+.knowledge-sidebar{background:#f8fafc!important;opacity:1!important;box-shadow:none!important}
+.knowledge-sidebar>header,.knowledge-sidebar-search,.knowledge-sidebar-tabs,.knowledge-sidebar>footer{background:#e9eef5!important;opacity:1!important}
+.knowledge-sidebar-search input,.knowledge-sidebar-tabs button,.knowledge-sidebar-item,.knowledge-sidebar-reference-group{background:#ffffff!important;color:#172033!important;opacity:1!important}
+.knowledge-sidebar-content{background:#f8fafc!important}
+[data-theme="dark"] .knowledge-sidebar-overlay,[data-theme="dark"] .knowledge-sidebar{background:#111827!important;color:#f8fafc!important}
+[data-theme="dark"] .knowledge-sidebar>header,[data-theme="dark"] .knowledge-sidebar-search,[data-theme="dark"] .knowledge-sidebar-tabs,[data-theme="dark"] .knowledge-sidebar>footer{background:#1f2937!important}
+[data-theme="dark"] .knowledge-sidebar-search input,[data-theme="dark"] .knowledge-sidebar-tabs button,[data-theme="dark"] .knowledge-sidebar-item,[data-theme="dark"] .knowledge-sidebar-reference-group{background:#273449!important;color:#f8fafc!important}
+[data-theme="dark"] .knowledge-sidebar-content{background:#111827!important}
+@media(max-width:650px){.knowledge-annotation-popover{width:calc(100vw - 20px);justify-content:center;gap:6px;padding:9px!important}.knowledge-annotation-popover>span{max-width:100%;text-align:center}}
+
+
+/* PYQ year cards mirror the GATE paper structure and expose missing sections. */
+.pyq-year-workspace,.pyq-year-detail{display:grid;gap:14px;margin:14px 0}
+.pyq-year-intro{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.pyq-year-intro h2,.pyq-year-detail h2{margin:0 0 5px;font-size:17px}
+.pyq-year-intro>span{flex:0 0 auto;padding:7px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);font-size:11px;font-weight:700}
+.pyq-year-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,300px),1fr));gap:12px}
+.pyq-year-card{display:flex;flex-direction:column;gap:12px;min-width:0;padding:16px;border:1px solid var(--border);border-radius:13px;background:var(--surface);box-shadow:0 4px 14px #0000000a}
+.pyq-year-card-head{display:flex;align-items:flex-start;justify-content:space-between;gap:8px}
+.pyq-year-card-head h3{margin:3px 0 0;font-size:19px}
+.pyq-year-status{flex:0 0 auto;padding:5px 8px;border-radius:7px;font-size:10px;font-weight:750}
+.pyq-year-status.complete{background:#dcfce7;color:#166534}
+.pyq-year-status.incomplete{background:#fff1d6;color:#92400e}
+[data-theme="dark"] .pyq-year-status.complete{background:#14532d;color:#dcfce7}
+[data-theme="dark"] .pyq-year-status.incomplete{background:#78350f;color:#ffedd5}
+.pyq-year-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.pyq-year-metrics>div,.pyq-completeness-grid>div{display:grid;gap:3px;padding:10px;border:1px solid var(--border);border-radius:9px;background:var(--surface-2)}
+.pyq-year-metrics strong,.pyq-completeness-grid strong{font-size:18px;font-variant-numeric:tabular-nums}
+.pyq-year-metrics strong small{font-size:11px;color:var(--muted);font-weight:500}
+.pyq-year-metrics span,.pyq-completeness-grid span{font-size:10px;color:var(--muted)}
+.pyq-year-sections{display:grid;gap:7px}
+.pyq-year-sections h3{margin:0 0 3px;font-size:12px}
+.pyq-year-sections>div{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 10px;border:1px solid var(--border);border-radius:8px;background:var(--surface-2);font-size:11px}
+.pyq-year-sections strong{font-size:10px;text-align:right}
+.pyq-year-missing{margin:0;color:var(--muted);font-size:10px;line-height:1.5}
+.pyq-year-card>.adm-primary,.pyq-year-card>.adm-secondary{width:100%;justify-content:center;margin-top:auto}
+.pyq-completeness-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin:14px 0}
+.pyq-completeness-grid>div{padding:13px}
+.pyq-year-detail>.adm-secondary{justify-self:start}
+.pyq-ready-banner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:15px;border:1px solid #16a34a66;border-radius:12px;background:var(--surface-2)}
+.pyq-ready-banner h2{margin:4px 0}
+.pyq-ready-banner p{margin:0;color:var(--muted);font-size:11px}
+.pyq-ready-banner>strong{padding:6px 10px;border-radius:8px;background:#dcfce7;color:#166534;font-size:11px}
+[data-theme="dark"] .pyq-ready-banner>strong{background:#14532d;color:#dcfce7}
+.gate-test-embedded{margin-top:10px}
+.gate-test-embedded>.assessment-hub-head,.gate-test-embedded>.gate-test-kind-tabs{display:none}
+.gate-test-embedded .gate-test-profile{margin-top:0}
+@media(max-width:600px){.pyq-year-intro{display:grid}.pyq-completeness-grid{grid-template-columns:1fr}.pyq-year-card{padding:13px}.pyq-year-sections>div{align-items:flex-start;flex-direction:column}.pyq-year-sections strong{text-align:left}}
+
+
+.knowledge-annotation-popover{max-height:calc(100dvh - 20px);overflow:auto;overscroll-behavior:contain}
