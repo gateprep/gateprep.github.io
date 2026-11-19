@@ -19,7 +19,7 @@ describe('SettingsWorkspace synthetic data',()=>{
   const course=taxonomy.courses.find((x:any)=>x.id==='synthetic-gate-cse-2027');
   expect(course.nodes).toHaveLength(12);
   expect(JSON.parse(localStorage.getItem('gateprep-knowledge-v1')||'[]')).toHaveLength(36);
-  expect(JSON.parse(localStorage.getItem('gateprep-assessments-v1')||'{}').tests).toHaveLength(3);
+  const tests=JSON.parse(localStorage.getItem('gateprep-assessments-v1')||'{}').tests;\n  expect(tests).toHaveLength(3);\n  expect(tests[0].questions).toHaveLength(30);\n  expect(new Set(tests[0].questions.map((q:any)=>q.subject))).toEqual(new Set(['Algorithms']));\n  expect(tests[2].questions.reduce((n:number,q:any)=>n+q.marks,0)).toBe(100);
   expect(JSON.parse(localStorage.getItem('gateprep-admissions-v1')||'{}').applications).toHaveLength(2);
   expect(JSON.parse(localStorage.getItem('gateprep-synthetic-history-v1')||'[]')).toHaveLength(1);
  });
