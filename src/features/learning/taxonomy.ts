@@ -4,7 +4,6 @@ export type TaxonomyNode={id:string;name:string;children:TaxonomyNode[]};
 export type Course={id:string;name:string;paper:string;nodes:TaxonomyNode[]};
 export type TaxonomyCatalog={schemaVersion:1;activeCourseId:string;courses:Course[]};
 const KEY='gateprep-taxonomy-v1';
-const uid=()=>crypto.randomUUID();
 const defaults:Record<string,string[]>={
 'Engineering Mathematics':['Linear Algebra','Calculus','Probability and Statistics'],
 'Discrete Mathematics':['Propositional and First-Order Logic','Sets, Relations and Functions','Partial Orders and Lattices','Monoids and Groups','Graph Theory','Combinatorics','Recurrence Relations and Generating Functions'],
