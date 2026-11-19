@@ -1,5 +1,5 @@
 import {afterEach,describe,expect,it} from 'vitest';
-import {defaultCatalog,findNodeId,findNodeLocation,flattenNodes,readTaxonomy,saveTaxonomy,validateTaxonomy,type TaxonomyNode} from '../src/features/learning/taxonomy';
+import {defaultCatalog,findNodeId,mergeTaxonomyCatalog,findNodeLocation,flattenNodes,readTaxonomy,saveTaxonomy,validateTaxonomy,type TaxonomyNode} from '../src/features/learning/taxonomy';
 
 afterEach(()=>localStorage.clear());
 
@@ -16,6 +16,13 @@ describe('course taxonomy',()=>{
     expect(readTaxonomy().activeCourseId).toBe('gate-da');
     expect(readTaxonomy().courses).toHaveLength(2);
     expect(flattenNodes(readTaxonomy().courses[1].nodes[0].children)).toEqual(['Probability']);
+  });
+  it('merges imported courses without removing unrelated courses',()=>{
+    const current=defaultCatalog();
+    const imported=validateTaxonomy({id:'gate-da',name:'GATE Data Science',paper:'DA',nodes:[]});
+    const merged=mergeTaxonomyCatalog(current,imported);
+    expect(merged.courses.map(c=>c.id)).toEqual(['gate-cse-2027','gate-da']);
+    expect(merged.activeCourseId).toBe('gate-da');
   });
   it('keeps question and note references stable when a node is renamed',()=>{
     const catalog=defaultCatalog();
