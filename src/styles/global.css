@@ -1206,3 +1206,93 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .pyq-import-help li{margin:4px 0}
 .pyq-import-window .gate-editor-toolbar{flex-wrap:wrap}
 @media(max-width:600px){.pyq-year-toolbar>*{flex:1;justify-content:center}.pyq-card-actions{display:grid;grid-template-columns:1fr}.pyq-detail-actions{align-items:stretch}.pyq-import-window .gate-editor-toolbar{align-items:stretch}}
+
+
+/* Opaque, full-screen note navigation layer.
+   The sidebar is portalled into .app-shell so its selected theme is inherited. */
+.app-shell .knowledge-sidebar-overlay{
+ position:fixed!important;inset:0!important;z-index:2147483647!important;
+ display:flex!important;align-items:stretch!important;justify-content:stretch!important;
+ width:100vw!important;height:100vh!important;height:100dvh!important;
+ margin:0!important;padding:0!important;overflow:hidden!important;
+ background-color:#10141d!important;background-image:none!important;
+ color:#e9edf3!important;opacity:1!important;isolation:isolate!important;
+ pointer-events:auto!important;backdrop-filter:none!important
+}
+.app-shell .knowledge-sidebar{
+ position:relative!important;display:flex!important;flex-direction:column!important;
+ width:100%!important;max-width:none!important;height:100%!important;max-height:none!important;
+ min-height:0!important;margin:0!important;overflow:hidden!important;
+ background-color:#10141d!important;background-image:none!important;
+ color:#e9edf3!important;opacity:1!important;box-shadow:none!important
+}
+.app-shell .knowledge-sidebar>header,
+.app-shell .knowledge-sidebar>footer{
+ flex:0 0 auto!important;background-color:#151e2b!important;background-image:none!important;
+ color:#e9edf3!important;opacity:1!important
+}
+.app-shell .knowledge-sidebar-search,
+.app-shell .knowledge-sidebar-tabs,
+.app-shell .knowledge-sidebar-content{
+ background-color:#10141d!important;background-image:none!important;
+ color:#e9edf3!important;opacity:1!important
+}
+.app-shell .knowledge-sidebar-search input,
+.app-shell .knowledge-sidebar-tabs button,
+.app-shell .knowledge-sidebar-item,
+.app-shell .knowledge-sidebar-reference-group{
+ background-color:#182230!important;background-image:none!important;
+ color:#e9edf3!important;opacity:1!important;border-color:#becce226!important
+}
+.app-shell .knowledge-sidebar-item-open{color:#e9edf3!important}
+.app-shell .knowledge-sidebar-item-open small,
+.app-shell .knowledge-sidebar>footer>span{color:#8792a3!important}
+.app-shell .knowledge-sidebar-tabs button.selected{
+ background-color:#b9f27c!important;color:#182114!important;border-color:#b9f27c!important
+}
+/* Light theme */
+.app-shell[data-theme="light"] .knowledge-sidebar-overlay,
+.app-shell[data-theme="light"] .knowledge-sidebar{background-color:#f4f6f9!important;color:#172235!important}
+.app-shell[data-theme="light"] .knowledge-sidebar>header,
+.app-shell[data-theme="light"] .knowledge-sidebar>footer{background-color:#fff!important;color:#172235!important}
+.app-shell[data-theme="light"] .knowledge-sidebar-search,
+.app-shell[data-theme="light"] .knowledge-sidebar-tabs,
+.app-shell[data-theme="light"] .knowledge-sidebar-content{background-color:#f4f6f9!important;color:#172235!important}
+.app-shell[data-theme="light"] .knowledge-sidebar-search input,
+.app-shell[data-theme="light"] .knowledge-sidebar-tabs button,
+.app-shell[data-theme="light"] .knowledge-sidebar-item,
+.app-shell[data-theme="light"] .knowledge-sidebar-reference-group{background-color:#fff!important;color:#172235!important;border-color:#25344a24!important}
+.app-shell[data-theme="light"] .knowledge-sidebar-item-open{color:#172235!important}
+.app-shell[data-theme="light"] .knowledge-sidebar-item-open small,
+.app-shell[data-theme="light"] .knowledge-sidebar>footer>span{color:#586579!important}
+.app-shell[data-theme="light"] .knowledge-sidebar-tabs button.selected{background-color:#b9f27c!important;color:#182114!important}
+/* Sepia theme */
+.app-shell[data-theme="sepia"] .knowledge-sidebar-overlay,
+.app-shell[data-theme="sepia"] .knowledge-sidebar{background-color:#e8dcc7!important;color:#382d20!important}
+.app-shell[data-theme="sepia"] .knowledge-sidebar>header,
+.app-shell[data-theme="sepia"] .knowledge-sidebar>footer{background-color:#f2e5ce!important;color:#382d20!important}
+.app-shell[data-theme="sepia"] .knowledge-sidebar-search,
+.app-shell[data-theme="sepia"] .knowledge-sidebar-tabs,
+.app-shell[data-theme="sepia"] .knowledge-sidebar-content{background-color:#e8dcc7!important;color:#382d20!important}
+.app-shell[data-theme="sepia"] .knowledge-sidebar-search input,
+.app-shell[data-theme="sepia"] .knowledge-sidebar-tabs button,
+.app-shell[data-theme="sepia"] .knowledge-sidebar-item,
+.app-shell[data-theme="sepia"] .knowledge-sidebar-reference-group{background-color:#f4ead7!important;color:#382d20!important;border-color:#6d553533!important}
+.app-shell[data-theme="sepia"] .knowledge-sidebar-item-open{color:#382d20!important}
+.app-shell[data-theme="sepia"] .knowledge-sidebar-item-open small,
+.app-shell[data-theme="sepia"] .knowledge-sidebar>footer>span{color:#806e56!important}
+/* High-contrast theme */
+.app-shell[data-theme="contrast"] .knowledge-sidebar-overlay,
+.app-shell[data-theme="contrast"] .knowledge-sidebar,
+.app-shell[data-theme="contrast"] .knowledge-sidebar-search,
+.app-shell[data-theme="contrast"] .knowledge-sidebar-tabs,
+.app-shell[data-theme="contrast"] .knowledge-sidebar-content{background-color:#000!important;color:#fff!important}
+.app-shell[data-theme="contrast"] .knowledge-sidebar>header,
+.app-shell[data-theme="contrast"] .knowledge-sidebar>footer,
+.app-shell[data-theme="contrast"] .knowledge-sidebar-search input,
+.app-shell[data-theme="contrast"] .knowledge-sidebar-tabs button,
+.app-shell[data-theme="contrast"] .knowledge-sidebar-item,
+.app-shell[data-theme="contrast"] .knowledge-sidebar-reference-group{background-color:#000!important;color:#fff!important;border-color:#fff!important}
+.app-shell[data-theme="contrast"] .knowledge-sidebar-item-open,
+.app-shell[data-theme="contrast"] .knowledge-sidebar-item-open small,
+.app-shell[data-theme="contrast"] .knowledge-sidebar>footer>span{color:#fff!important}
