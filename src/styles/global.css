@@ -1042,3 +1042,6 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .knowledge-backlinks>strong{font-size:10px;color:var(--muted);margin-right:4px}
 .knowledge-backlinks>button{display:flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid var(--border);border-radius:7px;background:transparent;color:var(--text);font-size:10px;cursor:pointer}
 .knowledge-backlinks>button small{color:var(--muted);font-size:8px;text-transform:uppercase}
+
+.taxonomy-course-edit{padding:14px 0;border-bottom:1px solid var(--border)}
+.taxonomy-course-edit>.learning-form-grid{margin-top:10px}
