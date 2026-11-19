@@ -4,7 +4,7 @@ import {isAnswerCorrect} from './assessmentLogic';
 import {GateCalculator} from './GateCalculator';
 import {Calculator,ChevronLeft,Clock,Download,FileUp,Flag,Lock,LockOpen,Play,Save,Upload,X,RotateCcw,Eye,CheckCircle2,AlertCircle,Code2,Maximize2,Minimize2} from 'lucide-react';
 
-type Question={id:string;subject:string;topic:string;type:'MCQ'|'MSQ'|'NAT';prompt:string;promptImage?:string;options:{text:string;image?:string}[];answers:string[];explanation:string;marks:number;negative:number;isPYQ:boolean;year:string;difficulty:string;locked:boolean};
+type Question={id:string;courseId?:string;nodeId?:string;subject:string;topic:string;type:'MCQ'|'MSQ'|'NAT';prompt:string;promptImage?:string;options:{text:string;image?:string}[];answers:string[];explanation:string;marks:number;negative:number;isPYQ:boolean;year:string;difficulty:string;locked:boolean};
 type TestResult={id:string;at:string;correct:number;wrong:number;unanswered:number;score:number;maxMarks:number;seconds:number;answers?:Record<string,string[]>};
 type TestProfile={id:string;title:string;kind:'subject'|'mixed'|'full';duration:number;questions:Question[];history:TestResult[]};
 type Draft={title:string;kind:'subject'|'mixed'|'full';questions:Question[]};
