@@ -1,7 +1,7 @@
 import {useEffect,useState} from 'react';
 
 export type TaxonomyNode={id:string;name:string;children:TaxonomyNode[]};
-export type Course={id:string;name:string;paper:string;nodes:TaxonomyNode[];locked?:boolean};
+export type Course={id:string;name:string;paper:string;headerName?:string;nodes:TaxonomyNode[];locked?:boolean};
 export type TaxonomyCatalog={schemaVersion:1;activeCourseId:string;courses:Course[]};
 const KEY='gateprep-taxonomy-v1';
 const defaults:Record<string,string[]>={
@@ -19,7 +19,7 @@ const defaults:Record<string,string[]>={
 'Computer Networks':['Layering Principles','Packet, Circuit and Virtual-Circuit Switching','Network Performance Metrics','Data Link Layer and Error Detection','Medium Access Control','Ethernet','Routing Protocols','IP Addressing and Fragmentation','Transport Layer: TCP and UDP','Flow and Congestion Control','Socket API','DNS and HTTP']
 };
 const slug=(value:string)=>value.toLowerCase().replace(/[^a-z0-9]+/g,'-').replace(/^-|-$/g,'');
-const defaultCourse:Course={id:'gate-cse-2027',name:'GATE CSE 2027',paper:'CS',locked:true,nodes:Object.entries(defaults).map(([name,children])=>({id:'gate-cse-2027-subject-'+slug(name),name,children:children.map(child=>({id:'gate-cse-2027-topic-'+slug(name)+'-'+slug(child),name:child,children:[]}))}))};
+const defaultCourse:Course={id:'gate-cse-2027',name:'GATE CSE 2027',paper:'CS',headerName:'CSE 2027',locked:true,nodes:Object.entries(defaults).map(([name,children])=>({id:'gate-cse-2027-subject-'+slug(name),name,children:children.map(child=>({id:'gate-cse-2027-topic-'+slug(name)+'-'+slug(child),name:child,children:[]}))}))};
 const validNode=(n:any):n is TaxonomyNode=>!!n&&typeof n.id==='string'&&typeof n.name==='string'&&n.name.trim().length>0&&Array.isArray(n.children)&&n.children.every(validNode);
 export function defaultCatalog():TaxonomyCatalog{return JSON.parse(JSON.stringify({schemaVersion:1,activeCourseId:defaultCourse.id,courses:[defaultCourse]})) as TaxonomyCatalog;}
 export function readTaxonomy():TaxonomyCatalog{try{const x=JSON.parse(localStorage.getItem(KEY)||'null');if(x?.schemaVersion===1&&Array.isArray(x.courses)&&x.courses.length&&x.courses.every((c:any)=>c&&typeof c.id==='string'&&typeof c.name==='string'&&Array.isArray(c.nodes)&&c.nodes.every(validNode))){return {...x,courses:x.courses.map((c:any)=>({...c,locked:c.locked!==false})),activeCourseId:x.courses.some((c:any)=>c.id===x.activeCourseId)?x.activeCourseId:x.courses[0].id};}}catch{}return defaultCatalog();}
