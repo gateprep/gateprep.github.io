@@ -25,8 +25,8 @@ function validatePaper(raw:any):Draft{
   if(!subject||!topic)throw Error('Question '+id+': subject and topic are required.');
   if(!['MCQ','MSQ','NAT'].includes(type))throw Error('Question '+id+': type must be MCQ, MSQ or NAT.');
   if(!prompt&&!x.promptImage)throw Error('Question '+id+': prompt or promptImage is required.');
-  const options=Array.isArray(x.options)?x.options.map((o:any)=>typeof o==='string'?{text:o}:{text:String(o?.text||''),image:o?.image?String(o.image):undefined}):[];
-  const answers=Array.isArray(x.answers)?x.answers.map(String):Array.isArray(x.correctAnswers)?x.correctAnswers.map(String):x.answer!==undefined?[String(x.answer)]:[];
+  const options:{text:string;image?:string}[]=Array.isArray(x.options)?x.options.map((o:any)=>typeof o==='string'?{text:o}:{text:String(o?.text||''),image:o?.image?String(o.image):undefined}):[];
+  const answers:string[]=Array.isArray(x.answers)?x.answers.map(String):Array.isArray(x.correctAnswers)?x.correctAnswers.map(String):x.answer!==undefined?[String(x.answer)]:[];
   const marks=Number(x.marks),negative=Number(x.negative??x.negativeMarks??0);
   if(!answers.length||answers.some(a=>!a.trim()))throw Error('Question '+id+': answer key is required.');
   if(!Number.isFinite(marks)||![1,2].includes(marks))throw Error('Question '+id+': marks must be 1 or 2.');
