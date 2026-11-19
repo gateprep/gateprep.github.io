@@ -48,5 +48,5 @@ it('rejects a PYQ JSON paper without a valid four-digit year',()=>{
  fireEvent.click(screen.getByRole('button',{name:/Add GATE paper/}));
  fireEvent.change(screen.getByRole('textbox'),{target:{value:JSON.stringify({year:'GATE 2025',questions:[{id:'q1'}]})}});
  fireEvent.click(screen.getByRole('button',{name:'Validate JSON'}));
- expect(screen.getByText(/four-digit exam year/)).toBeInTheDocument();
+ expect(screen.getByText(/year is required and must be a four-digit exam year/)).toBeInTheDocument();
 });
