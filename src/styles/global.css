@@ -1188,3 +1188,6 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .gate-test-embedded>.assessment-hub-head,.gate-test-embedded>.gate-test-kind-tabs{display:none}
 .gate-test-embedded .gate-test-profile{margin-top:0}
 @media(max-width:600px){.pyq-year-intro{display:grid}.pyq-completeness-grid{grid-template-columns:1fr}.pyq-year-card{padding:13px}.pyq-year-sections>div{align-items:flex-start;flex-direction:column}.pyq-year-sections strong{text-align:left}}
+
+
+.knowledge-annotation-popover{max-height:calc(100dvh - 20px);overflow:auto;overscroll-behavior:contain}
