@@ -11,14 +11,14 @@ function paper(year='2026',count=65){
 describe('PYQ year papers',()=>{
  beforeEach(()=>{localStorage.clear();});
  it('lists years newest first and shows missing question, mark and section counts',()=>{
-  render(<PYQYearWorkspace questions={[...paper('2024'),...paper('2026',64)]} onRecord={vi.fn()} onUnlock={vi.fn()}/>);
+  render(<PYQYearWorkspace questions={[...paper('2024'),...paper('2026',64)]} onRecord={vi.fn()} onUnlock={vi.fn()} onImport={vi.fn()}/>);
   const cards=screen.getAllByRole('article');
   expect(cards[0]).toHaveTextContent('GATE 2026');
   expect(cards[1]).toHaveTextContent('GATE 2024');
   expect(cards[0]).toHaveTextContent('64/65');
   expect(cards[0]).toHaveTextContent('Missing 1');
   expect(cards[0]).toHaveTextContent('Missing 2');
-  fireEvent.click(within(cards[0]).getByRole('button',{name:'View missing sections'}));
+  fireEvent.click(within(cards[0]).getByRole('button',{name:'View paper details'}));
   expect(screen.getByText('64/65')).toBeInTheDocument();
   expect(screen.getAllByText(/General Aptitude/).length).toBeGreaterThan(0);
  });
@@ -30,4 +30,23 @@ describe('PYQ year papers',()=>{
   expect(screen.getByText('Question 1 of 65')).toBeInTheDocument();
   expect(screen.getByText('GATE 2026 question 1')).toBeInTheDocument();
  });
+});
+
+it('imports a year-scoped PYQ JSON paper without creating a test-series profile',()=>{
+ const onImport=vi.fn();
+ render(<PYQYearWorkspace questions={[]} onRecord={vi.fn()} onUnlock={vi.fn()} onImport={onImport}/>);
+ fireEvent.click(screen.getByRole('button',{name:/Add GATE paper/}));
+ fireEvent.click(screen.getByRole('button',{name:'Validate JSON'}));
+ expect(screen.getByText(/Valid GATE 2025 data/)).toBeInTheDocument();
+ fireEvent.click(screen.getByRole('button',{name:/Add GATE paper$/}));
+ expect(onImport).toHaveBeenCalledTimes(1);
+ expect(onImport.mock.calls[0][0]).toBe('2025');
+ expect(onImport.mock.calls[0][1]).toHaveLength(2);
+});
+it('rejects a PYQ JSON paper without a valid four-digit year',()=>{
+ render(<PYQYearWorkspace questions={[]} onRecord={vi.fn()} onUnlock={vi.fn()} onImport={vi.fn()}/>);
+ fireEvent.click(screen.getByRole('button',{name:/Add GATE paper/}));
+ fireEvent.change(screen.getByRole('textbox'),{target:{value:JSON.stringify({year:'GATE 2025',questions:[{id:'q1'}]})}});
+ fireEvent.click(screen.getByRole('button',{name:'Validate JSON'}));
+ expect(screen.getByText(/four-digit exam year/)).toBeInTheDocument();
 });
