@@ -1,0 +1,3 @@
+# Design system
+
+A quiet, dark, editorial workspace with a restrained lime accent. Deep blue-black background, charcoal surfaces, soft lime for active navigation and key values. Manrope for headings, DM Sans for interface text, and DM Mono for counters. Borders are low-contrast; prefer spacing before separators. Keep hover feedback subtle, transitions restrained, and respect reduced-motion preferences. On mobile, navigation scrolls horizontally rather than compressing labels.
