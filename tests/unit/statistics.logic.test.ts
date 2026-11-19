@@ -5,6 +5,7 @@ describe('statistics unit logic',()=>{
   const rows=buildTopicStats([{id:'q1',subject:'Algorithms',topic:'Searching'},{id:'q2',subject:'Algorithms',topic:'Searching'}],[{qid:'q1',correct:true},{qid:'q1',correct:false},{qid:'q2',correct:false},{qid:'missing',correct:false}]);
   expect(rows).toMatchObject([{subject:'Algorithms',topic:'Searching',correct:1,wrong:2,uniqueQuestions:2,total:3}]);
  });
+ it('rolls nested topic attempts up to every taxonomy ancestor',()=>{const rows=buildTopicStats([{id:'q1',subject:'Algorithms',topic:'Graph Algorithms / Minimum Spanning Tree / Kruskal'}],[{qid:'q1',correct:true},{qid:'q1',correct:false}]);expect(rows.map(x=>x.topic)).toEqual(['Graph Algorithms','Graph Algorithms / Minimum Spanning Tree','Graph Algorithms / Minimum Spanning Tree / Kruskal']);expect(rows.every(x=>x.correct===1&&x.wrong===1&&x.uniqueQuestions===1)).toBe(true);});
  it('formats study durations at seconds, minutes and hours',()=>{
   expect(formatStudyDuration(5000)).toBe('5s');expect(formatStudyDuration(65000)).toBe('1m 5s');expect(formatStudyDuration(3665000)).toBe('1h 1m');
  });
