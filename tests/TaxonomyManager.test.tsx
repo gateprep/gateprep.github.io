@@ -21,6 +21,7 @@ describe('TaxonomyManager course protection',()=>{
   expect(screen.getByRole('button',{name:/Add node/})).toBeEnabled();
  });
  it('locks the course again and disables hierarchy actions',()=>{
+  seedSmallCatalog();
   render(<TaxonomyManager open onClose={()=>{}}/>);
   fireEvent.click(screen.getByRole('button',{name:/Locked.*Unlock to edit/}));
   fireEvent.click(screen.getByRole('button',{name:/Unlocked.*Lock syllabus/}));
