@@ -7,7 +7,7 @@ afterEach(()=>localStorage.clear());
 describe('TaxonomyManager course protection',()=>{
  it('keeps syllabus fields read-only until the active course is unlocked',()=>{
   render(<TaxonomyManager open onClose={()=>{}}/>);
-  expect(screen.getByLabelText('Course name')).toBeDisabled();
+  expect(screen.getAllByLabelText('Course name')[0]).toBeDisabled();
   expect(screen.getByLabelText('GATE paper / track')).toBeDisabled();
   expect(screen.getByRole('button',{name:/Add node/})).toBeDisabled();
   fireEvent.click(screen.getByRole('button',{name:/Locked.*Unlock to edit/}));
