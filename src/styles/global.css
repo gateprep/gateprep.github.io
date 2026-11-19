@@ -1027,8 +1027,9 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 [data-theme="dark"] .md-preview mark.knowledge-annotation{color:#fff}
 .knowledge-search-match{outline:1px solid var(--accent);outline-offset:1px}
 .knowledge-link-picker,.knowledge-annotation-results{display:grid;gap:6px;margin:10px 0;padding:12px;border:1px solid var(--border);border-radius:10px;background:var(--surface-1)}
-.knowledge-link-picker>button,.knowledge-annotation-results>button{display:flex;align-items:center;gap:10px;text-align:left;padding:9px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text);cursor:pointer}
-.knowledge-annotation-results>button>span:nth-child(2){display:grid;gap:3px;min-width:0}
+.knowledge-link-picker>button,.knowledge-annotation-result{display:flex;align-items:center;gap:10px;text-align:left;padding:9px;border:1px solid var(--border);border-radius:8px;background:transparent;color:var(--text);cursor:pointer}
+.knowledge-annotation-result-open{display:flex;align-items:center;gap:10px;flex:1;min-width:0;text-align:left;padding:9px;border:0;background:transparent;color:var(--text);cursor:pointer}
+.knowledge-annotation-result-open>span:nth-child(2){display:grid;gap:3px;min-width:0}
 .knowledge-annotation-results strong{font-size:10px}
 .knowledge-annotation-results small{font-size:10px;color:var(--muted);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 .annotation-result-dot{width:9px;height:9px;flex:0 0 9px;border-radius:50%;background:var(--accent)}
@@ -1045,3 +1046,5 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 
 .taxonomy-course-edit{padding:14px 0;border-bottom:1px solid var(--border)}
 .taxonomy-course-edit>.learning-form-grid{margin-top:10px}
+.knowledge-annotation-result{display:flex;align-items:center;gap:6px;border:1px solid var(--border);border-radius:8px;padding:0 6px}
+.knowledge-annotation-result>.adm-icon-btn{flex:0 0 30px;width:30px;height:30px}
