@@ -8,6 +8,7 @@ describe('course taxonomy',()=>{
     const nodes:TaxonomyNode[]=[{id:'graph',name:'Graph Algorithms',children:[{id:'mst',name:'Minimum Spanning Tree',children:[{id:'kruskal',name:'Kruskal',children:[]}]}]}];
     expect(flattenNodes(nodes)).toEqual(['Graph Algorithms','Graph Algorithms / Minimum Spanning Tree','Graph Algorithms / Minimum Spanning Tree / Kruskal']);
   });
+  it('defaults courses to locked and preserves an explicit unlocked state',()=>{const catalog=defaultCatalog();expect(catalog.courses[0].locked).toBe(true);const unlocked=validateTaxonomy({...catalog,courses:catalog.courses.map(c=>({...c,locked:false}))});expect(unlocked.courses[0].locked).toBe(false);});
   it('validates and persists multiple independent courses',()=>{
     const catalog=defaultCatalog();
     const second={id:'gate-da',name:'GATE Data Science',paper:'DA',nodes:[{id:'stats',name:'Statistics',children:[{id:'prob',name:'Probability',children:[]}]}]};
