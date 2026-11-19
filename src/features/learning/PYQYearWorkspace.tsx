@@ -1,4 +1,4 @@
-import {useMemo,useState} from 'react';
+import {useEffect,useMemo,useState} from 'react';
 import {createPortal} from 'react-dom';
 import {TestSeriesWorkspace} from './TestSeriesWorkspace';
 import {AlertCircle,CheckCircle2,Download,FileUp,Upload,Code2,Save,X} from 'lucide-react';
@@ -38,12 +38,13 @@ function validatePaper(raw:any):Draft{
  return {year,questions};
 }
 const isValidQuestion=(q:Question)=>!!q.id&&!!q.prompt?.trim()&&['MCQ','MSQ','NAT'].includes(q.type)&&Array.isArray(q.answers)&&q.answers.length>0&&q.answers.every(Boolean)&&Number.isFinite(q.marks)&&[1,2].includes(q.marks)&&Number.isFinite(q.negative)&&q.negative>=0&&(q.type==='NAT'?q.answers.length===1&&Number.isFinite(Number(q.answers[0]))&&q.negative===0:Array.isArray(q.options)&&q.options.length>=2&&q.options.length<=5&&q.options.every(o=>o.text?.trim()||o.image)&&q.answers.every(a=>['A','B','C','D','E'].includes(a)&&a.charCodeAt(0)-65<q.options.length))&&(q.type==='MCQ'?q.answers.length===1&&Math.abs(q.negative-q.marks/3)<=.011:q.negative===0);
-export function PYQYearWorkspace({questions,onRecord,onUnlock,onImport}:{questions:Question[];onRecord:(rows:AttemptRecord[])=>void;onUnlock:(questions:Question[])=>void;onImport:(year:string,questions:Question[])=>void}){
+export function PYQYearWorkspace({questions,onRecord,onUnlock,onImport,openImporter=0}:{questions:Question[];onRecord:(rows:AttemptRecord[])=>void;onUnlock:(questions:Question[])=>void;onImport:(year:string,questions:Question[])=>void;openImporter?:number}){
  const [selectedYear,setSelectedYear]=useState<string|null>(null),[historyByYear,setHistoryByYear]=useState<Record<string,TestResult[]>>(readHistory),[dialog,setDialog]=useState<'add'|'edit'|null>(null),[yearInput,setYearInput]=useState('2025'),[paste,setPaste]=useState(''),[tab,setTab]=useState<'upload'|'paste'>('paste'),[draft,setDraft]=useState<Draft|null>(null),[error,setError]=useState('');
  const years=useMemo(()=>{const g=new Map<string,Question[]>();questions.filter(q=>q.isPYQ).forEach(q=>{const y=String(q.year||'').trim()||'Year not set';g.set(y,[...(g.get(y)||[]),q]);});return [...g].map(([year,rows])=>({year,questions:[...rows],marks:rows.reduce((n,q)=>n+q.marks,0)})).sort((a,b)=>a.year==='Year not set'?1:b.year==='Year not set'?-1:Number(b.year)-Number(a.year)||b.year.localeCompare(a.year));},[questions]);
  const selected=years.find(x=>x.year===selectedYear);
  const openAdd=()=>{setDialog('add');setYearInput('2025');setPaste(JSON.stringify(sample(),null,2));setDraft(null);setError('');setTab('paste');};
  const openEdit=(year:string,rows:Question[])=>{setDialog('edit');setYearInput(year);setPaste(JSON.stringify({year,questions:rows},null,2));setDraft(null);setError('');setTab('paste');};
+ useEffect(()=>{if(openImporter>0)openAdd();},[openImporter]);
  const validate=()=>{try{const d=validatePaper(JSON.parse(paste));if(dialog==='edit'&&d.year!==yearInput)throw Error('The year cannot be changed while editing this paper.');setYearInput(d.year);setDraft(d);setError('');}catch(e){setDraft(null);setError(e instanceof Error?e.message:'Invalid PYQ JSON.');}};
  const upload=async(f:File)=>{try{setPaste(await f.text());setDraft(null);setError('');setTab('paste');}catch{setError('Could not read the selected JSON file.');}};
  const save=()=>{if(!draft)return;onImport(draft.year,draft.questions);setSelectedYear(draft.year);setDialog(null);setDraft(null);};
