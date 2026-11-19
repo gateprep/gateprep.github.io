@@ -1037,3 +1037,8 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 .knowledge-reader-content [data-block-index]{scroll-margin-top:90px}
 .knowledge-row .knowledge-external-label{color:var(--accent);font-size:9px;font-weight:700}
 @media(max-width:650px){.taxonomy-course-toolbar{align-items:stretch}.taxonomy-course-toolbar button{flex:1}.knowledge-annotation-toolbar{gap:5px}.knowledge-annotation-toolbar .adm-secondary{font-size:10px;padding:7px}}
+
+.knowledge-backlinks{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin:10px 0;padding:10px 12px;border:1px solid var(--border);border-radius:10px;background:var(--surface-1)}
+.knowledge-backlinks>strong{font-size:10px;color:var(--muted);margin-right:4px}
+.knowledge-backlinks>button{display:flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid var(--border);border-radius:7px;background:transparent;color:var(--text);font-size:10px;cursor:pointer}
+.knowledge-backlinks>button small{color:var(--muted);font-size:8px;text-transform:uppercase}
