@@ -38,7 +38,7 @@ it('imports a year-scoped PYQ JSON paper without creating a test-series profile'
  fireEvent.click(screen.getByRole('button',{name:/Add GATE paper/}));
  fireEvent.click(screen.getByRole('button',{name:'Validate JSON'}));
  expect(screen.getByText(/Valid GATE 2025 data/)).toBeInTheDocument();
- fireEvent.click(screen.getByRole('button',{name:/Add GATE paper$/}));
+ fireEvent.click(screen.getAllByRole('button',{name:'Add GATE paper'}).at(-1)!);
  expect(onImport).toHaveBeenCalledTimes(1);
  expect(onImport.mock.calls[0][0]).toBe('2025');
  expect(onImport.mock.calls[0][1]).toHaveLength(2);
