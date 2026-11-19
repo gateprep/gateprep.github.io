@@ -68,7 +68,7 @@ describe('quiz profile import and reporting',()=>{
 
 describe('test-series report topic coverage',()=>{
  it('reports only subject/topic pairs present in the test and displays incorrect answers in red',()=>{
-  const questions=Array.from({length:30},(_,i)=>({id:'topic-report-'+i,subject:'Algorithms',topic:i===0?'Sorting':'Searching',type:'MCQ' as const,prompt:'Topic report question '+i,options:[{text:'Correct'},{text:'Wrong'}],answers:['A'],explanation:'',marks:1,negative:.33,isPYQ:false,year:'',difficulty:'Medium',locked:true}));
+  const questions=Array.from({length:30},(_,i)=>({id:'topic-report-'+i,subject:'Algorithms',topic:i===0?'Sorting / Quick Sort':'Searching',type:'MCQ' as const,prompt:'Topic report question '+i,options:[{text:'Correct'},{text:'Wrong'}],answers:['A'],explanation:'',marks:1,negative:.33,isPYQ:false,year:'',difficulty:'Medium',locked:true}));
   const test={id:'topic-report-test',title:'Topic coverage report',kind:'subject' as const,duration:90,questions,history:[]};
   render(<TestSeriesWorkspace tests={[test]} onTestsChange={vi.fn()} parseFile={vi.fn()} validateJson={vi.fn()} onRecord={vi.fn()} onUnlock={vi.fn()}/>);
   fireEvent.click(screen.getByRole('button',{name:/Start test/}));
@@ -76,8 +76,9 @@ describe('test-series report topic coverage',()=>{
   fireEvent.click(screen.getByRole('button',{name:/Save & Next/}));
   fireEvent.click(screen.getByRole('button',{name:'Submit test'}));
   fireEvent.click(screen.getByRole('button',{name:'Confirm submission'}));
-  expect(screen.getByText('Algorithms / Sorting')).toBeInTheDocument();
-  expect(screen.getByText('Algorithms / Searching')).toBeInTheDocument();
+  expect([...document.querySelectorAll('.gate-topic-grid strong')].some(el=>el.textContent?.includes('Algorithms / Sorting / Quick Sort'))).toBe(true);
+  expect(document.querySelector('.gate-topic-grid .topic-path-leaf')).toHaveTextContent('Quick Sort');
+  expect([...document.querySelectorAll('.gate-topic-grid strong')].some(el=>el.textContent?.includes('Algorithms / Searching'))).toBe(true);
   expect(screen.queryByText(/Unrelated topic/)).not.toBeInTheDocument();
   expect(screen.getByText('0 right · 1 wrong · 0 skipped')).toBeInTheDocument();
   expect(document.querySelector('.gate-topic-grid i em')).toHaveStyle({width:'100%'});
