@@ -1,1 +1,0 @@
-import {HashRouter} from 'react-router-dom';import {AppRouter} from './router';import {AppShell} from './layout/AppShell';export function App(){return <HashRouter><AppShell><AppRouter/></AppShell></HashRouter>;}

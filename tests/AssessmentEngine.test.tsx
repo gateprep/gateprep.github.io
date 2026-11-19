@@ -76,8 +76,9 @@ describe('test-series report topic coverage',()=>{
   fireEvent.click(screen.getByRole('button',{name:/Save & Next/}));
   fireEvent.click(screen.getByRole('button',{name:'Submit test'}));
   fireEvent.click(screen.getByRole('button',{name:'Confirm submission'}));
-  expect(screen.getByText('Algorithms / Sorting')).toBeInTheDocument();
-  expect(screen.getByText('Algorithms / Searching')).toBeInTheDocument();
+  expect([...document.querySelectorAll('.gate-topic-grid strong')].some(el=>el.textContent?.includes('Algorithms / Sorting'))).toBe(true);
+  expect(document.querySelector('.gate-topic-grid .topic-path-leaf')).toHaveTextContent('Sorting');
+  expect([...document.querySelectorAll('.gate-topic-grid strong')].some(el=>el.textContent?.includes('Algorithms / Searching'))).toBe(true);
   expect(screen.queryByText(/Unrelated topic/)).not.toBeInTheDocument();
   expect(screen.getByText('0 right · 1 wrong · 0 skipped')).toBeInTheDocument();
   expect(document.querySelector('.gate-topic-grid i em')).toHaveStyle({width:'100%'});
