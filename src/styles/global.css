@@ -1139,15 +1139,16 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 [data-theme="dark"] .knowledge-annotation-popover{background:#172033!important;color:#f8fafc!important;border-color:#64748b!important;box-shadow:0 14px 42px #000b!important}
 [data-theme="dark"] .knowledge-annotation-popover>span{color:#e2e8f0!important}
 [data-theme="dark"] .knowledge-annotation-popover .adm-secondary,[data-theme="dark"] .knowledge-annotation-popover .adm-icon-btn{background:#273449!important;color:#f8fafc!important;border-color:#64748b!important}
-.knowledge-sidebar-overlay{background:#f8fafc!important;opacity:1!important;isolation:isolate}
-.knowledge-sidebar{background:#f8fafc!important;opacity:1!important;box-shadow:none!important}
-.knowledge-sidebar>header,.knowledge-sidebar-search,.knowledge-sidebar-tabs,.knowledge-sidebar>footer{background:#e9eef5!important;opacity:1!important}
-.knowledge-sidebar-search input,.knowledge-sidebar-tabs button,.knowledge-sidebar-item,.knowledge-sidebar-reference-group{background:#ffffff!important;color:#172033!important;opacity:1!important}
-.knowledge-sidebar-content{background:#f8fafc!important}
-[data-theme="dark"] .knowledge-sidebar-overlay,[data-theme="dark"] .knowledge-sidebar{background:#111827!important;color:#f8fafc!important}
-[data-theme="dark"] .knowledge-sidebar>header,[data-theme="dark"] .knowledge-sidebar-search,[data-theme="dark"] .knowledge-sidebar-tabs,[data-theme="dark"] .knowledge-sidebar>footer{background:#1f2937!important}
-[data-theme="dark"] .knowledge-sidebar-search input,[data-theme="dark"] .knowledge-sidebar-tabs button,[data-theme="dark"] .knowledge-sidebar-item,[data-theme="dark"] .knowledge-sidebar-reference-group{background:#273449!important;color:#f8fafc!important}
-[data-theme="dark"] .knowledge-sidebar-content{background:#111827!important}
+/* Keep the annotation/bookmark navigator on the app's active light/dark theme. */
+.knowledge-sidebar-overlay{background:var(--surface)!important;color:var(--text)!important;opacity:1!important;isolation:isolate}
+.knowledge-sidebar{background:var(--surface)!important;color:var(--text)!important;opacity:1!important;box-shadow:none!important}
+.knowledge-sidebar>header,.knowledge-sidebar>footer{background:var(--surface-2)!important;color:var(--text)!important;opacity:1!important}
+.knowledge-sidebar-search,.knowledge-sidebar-content{background:var(--surface)!important;color:var(--text)!important;opacity:1!important}
+.knowledge-sidebar-tabs{background:var(--surface)!important;color:var(--text)!important;opacity:1!important}
+.knowledge-sidebar-search input,.knowledge-sidebar-tabs button,.knowledge-sidebar-item,.knowledge-sidebar-reference-group{background:var(--surface-2)!important;color:var(--text)!important;opacity:1!important;border-color:var(--border)!important}
+.knowledge-sidebar-item-open{color:var(--text)!important}
+.knowledge-sidebar-item-open small,.knowledge-sidebar>footer>span{color:var(--muted)!important}
+.knowledge-sidebar-tabs button.selected{background:var(--accent)!important;color:#fff!important;border-color:var(--accent)!important}
 @media(max-width:650px){.knowledge-annotation-popover{width:calc(100vw - 20px);justify-content:center;gap:6px;padding:9px!important}.knowledge-annotation-popover>span{max-width:100%;text-align:center}}
 
 
@@ -1191,3 +1192,17 @@ body:has(.app-shell[data-theme="light"]){background:#f4f6f9;color:#172235}body:h
 
 
 .knowledge-annotation-popover{max-height:calc(100dvh - 20px);overflow:auto;overscroll-behavior:contain}
+
+/* Dedicated PYQ paper management; visually consistent with the existing assessment editor. */
+.pyq-year-toolbar,.pyq-detail-actions,.pyq-card-actions{display:flex;align-items:center;gap:9px;flex-wrap:wrap}
+.pyq-year-toolbar{margin:4px 0 14px}
+.pyq-card-actions>.adm-primary,.pyq-card-actions>.adm-secondary{flex:1;justify-content:center}
+.pyq-detail-actions{justify-content:space-between}
+.pyq-import-window{width:min(980px,calc(100vw - 24px));max-height:min(92dvh,1000px);overflow:auto}
+.pyq-import-window .gate-json-editor{min-height:280px}
+.pyq-import-help{margin:12px 0;padding:12px 14px;border:1px solid var(--border);border-radius:10px;background:var(--surface-2);color:var(--text);font-size:11px;line-height:1.55}
+.pyq-import-help>strong{font-size:12px}
+.pyq-import-help ul{margin:7px 0 0;padding-left:19px}
+.pyq-import-help li{margin:4px 0}
+.pyq-import-window .gate-editor-toolbar{flex-wrap:wrap}
+@media(max-width:600px){.pyq-year-toolbar>*{flex:1;justify-content:center}.pyq-card-actions{display:grid;grid-template-columns:1fr}.pyq-detail-actions{align-items:stretch}.pyq-import-window .gate-editor-toolbar{align-items:stretch}}
