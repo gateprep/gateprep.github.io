@@ -11,14 +11,18 @@ self.addEventListener('install',event=>{
     if(manifestResponse){
       const manifest=await manifestResponse.json();
       const files=new Set();
-      const visit=entry=>{
+      const visited=new Set();
+      const visit=key=>{
+        if(visited.has(key))return;
+        visited.add(key);
+        const entry=manifest[key];
         if(!entry||typeof entry!=='object')return;
         if(entry.file)files.add('/'+entry.file.replace(/^\/+/,''));
         for(const file of entry.css||[])files.add('/'+file.replace(/^\/+/,''));
         for(const file of entry.assets||[])files.add('/'+file.replace(/^\/+/,''));
-        for(const key of [...(entry.imports||[]),...(entry.dynamicImports||[])])visit(manifest[key]);
+        for(const importedKey of [...(entry.imports||[]),...(entry.dynamicImports||[])])visit(importedKey);
       };
-      Object.values(manifest).forEach(visit);
+      Object.keys(manifest).forEach(visit);
       await Promise.all([...files].map(async path=>{try{await cache.add(path);}catch{}}));
     }
   })());
