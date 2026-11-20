@@ -1,1 +1,75 @@
-const CACHE='gate-prep-shell-v1';const SHELL=['/','/index.html','/manifest.webmanifest','/icons/gate-prep.svg'];self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE).then(c=>c.addAll(SHELL)).then(()=>self.skipWaiting())));self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));self.addEventListener('fetch',e=>{const r=e.request;if(r.method!=='GET'||new URL(r.url).origin!==self.location.origin)return;e.respondWith(caches.match(r).then(hit=>hit||fetch(r).then(res=>{if(res.ok&&['script','style','font','image'].includes(r.destination)){const copy=res.clone();void caches.open(CACHE).then(c=>c.put(r,copy));}return res;}).catch(()=>caches.match('/index.html'))));});
+const CACHE_PREFIX='gate-prep-shell-';
+const CACHE_NAME=CACHE_PREFIX+Date.now().toString(36);
+const APP_SHELL=['/','/index.html','/manifest.webmanifest','/manifest.json','/version.json','/icons/gate-prep.svg'];
+
+self.addEventListener('install',event=>{
+  event.waitUntil((async()=>{
+    const cache=await caches.open(CACHE_NAME);
+    await cache.addAll(APP_SHELL);
+    // Vite's build manifest lists entry points, shared chunks, lazy chunks, styles and assets.
+    const manifestResponse=await cache.match('/manifest.json');
+    if(manifestResponse){
+      const manifest=await manifestResponse.json();
+      const files=new Set();
+      const visited=new Set();
+      const visit=key=>{
+        if(visited.has(key))return;
+        visited.add(key);
+        const entry=manifest[key];
+        if(!entry||typeof entry!=='object')return;
+        if(entry.file)files.add('/'+entry.file.replace(/^\/+/,''));
+        for(const file of entry.css||[])files.add('/'+file.replace(/^\/+/,''));
+        for(const file of entry.assets||[])files.add('/'+file.replace(/^\/+/,''));
+        for(const importedKey of [...(entry.imports||[]),...(entry.dynamicImports||[])])visit(importedKey);
+      };
+      Object.keys(manifest).forEach(visit);
+      await Promise.all([...files].map(async path=>{try{await cache.add(path);}catch{}}));
+    }
+  })());
+});
+
+self.addEventListener('activate',event=>{
+  event.waitUntil((async()=>{
+    const keys=await caches.keys();
+    await Promise.all(keys.filter(key=>key.startsWith(CACHE_PREFIX)&&key!==CACHE_NAME).map(key=>caches.delete(key)));
+    await self.clients.claim();
+  })());
+});
+
+self.addEventListener('message',event=>{
+  if(event.data?.type==='SKIP_WAITING') self.skipWaiting();
+});
+
+self.addEventListener('fetch',event=>{
+  const request=event.request;
+  const url=new URL(request.url);
+  if(request.method!=='GET'||url.origin!==self.location.origin) return;
+
+  // Always fetch the deployment marker from the network; never serve a stale cached version.
+  if(url.pathname==='/version.json'){
+    event.respondWith(fetch(new Request(request,{cache:'no-store'})));
+    return;
+  }
+
+  if(request.mode==='navigate'){
+    event.respondWith((async()=>{
+      const cache=await caches.open(CACHE_NAME);
+      return (await cache.match(request))||(await cache.match('/index.html'))||(await cache.match('/'))||fetch(request);
+    })());
+    return;
+  }
+
+  event.respondWith((async()=>{
+    const cache=await caches.open(CACHE_NAME);
+    const cached=await cache.match(request);
+    if(cached) return cached;
+    try{
+      const response=await fetch(request);
+      if(response.ok) await cache.put(request,response.clone());
+      return response;
+    }catch(error){
+      if(request.destination==='image') return new Response('',{status:503,statusText:'Offline'});
+      throw error;
+    }
+  })());
+});
