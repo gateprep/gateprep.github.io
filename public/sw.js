@@ -7,6 +7,13 @@ self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
     const cache=await caches.open(CACHE_NAME);
     await cache.addAll(APP_SHELL);
+    // Precache the production entry bundles on first installation, before the page is controlled.
+    const indexResponse=await cache.match('/index.html');
+    if(indexResponse){
+      const html=await indexResponse.text();
+      const assets=[...html.matchAll(/(?:src|href)="([^\"]+\\.(?:js|css)(?:\\?[^\"]*)?)"/g)].map(match=>match[1]).filter(path=>path.startsWith('/'));
+      await Promise.all(assets.map(async path=>{try{await cache.add(path);}catch{}}));
+    }
     // Do not activate over an open app automatically: the user controls updates in Settings.
   })());
 });
