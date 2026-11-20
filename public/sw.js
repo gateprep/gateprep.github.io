@@ -1,18 +1,25 @@
 const CACHE_PREFIX='gate-prep-shell-';
 const CACHE_NAME=CACHE_PREFIX+Date.now().toString(36);
-const APP_SHELL=['/','/index.html','/manifest.webmanifest','/icons/gate-prep.svg'];
+const APP_SHELL=['/','/index.html','/manifest.webmanifest','/manifest.json','/icons/gate-prep.svg'];
 
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
     const cache=await caches.open(CACHE_NAME);
     await cache.addAll(APP_SHELL);
-    const indexResponse=await cache.match('/index.html');
-    if(indexResponse){
-      const html=await indexResponse.text();
-      const assets=[...html.matchAll(/(?:src|href)="([^"]+)"/g)]
-        .map(match=>match[1])
-        .filter(path=>path.startsWith('/')&&/\.(js|css)(\?|$)/.test(path));
-      await Promise.all(assets.map(async path=>{try{await cache.add(path);}catch{}}));
+    // Vite's build manifest lists entry points, shared chunks, lazy chunks, styles and assets.
+    const manifestResponse=await cache.match('/manifest.json');
+    if(manifestResponse){
+      const manifest=await manifestResponse.json();
+      const files=new Set();
+      const visit=entry=>{
+        if(!entry||typeof entry!=='object')return;
+        if(entry.file)files.add('/'+entry.file.replace(/^\/+/,''));
+        for(const file of entry.css||[])files.add('/'+file.replace(/^\/+/,''));
+        for(const file of entry.assets||[])files.add('/'+file.replace(/^\/+/,''));
+        for(const key of [...(entry.imports||[]),...(entry.dynamicImports||[])])visit(manifest[key]);
+      };
+      Object.values(manifest).forEach(visit);
+      await Promise.all([...files].map(async path=>{try{await cache.add(path);}catch{}}));
     }
   })());
 });
