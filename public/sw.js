@@ -1,6 +1,6 @@
 const CACHE_PREFIX='gate-prep-shell-';
 const CACHE_NAME=CACHE_PREFIX+Date.now().toString(36);
-const APP_SHELL=['/','/index.html','/manifest.webmanifest','/manifest.json','/icons/gate-prep.svg'];
+const APP_SHELL=['/','/index.html','/manifest.webmanifest','/manifest.json','/version.json','/icons/gate-prep.svg'];
 
 self.addEventListener('install',event=>{
   event.waitUntil((async()=>{
@@ -44,6 +44,12 @@ self.addEventListener('fetch',event=>{
   const request=event.request;
   const url=new URL(request.url);
   if(request.method!=='GET'||url.origin!==self.location.origin) return;
+
+  // Always fetch the deployment marker from the network; never serve a stale cached version.
+  if(url.pathname==='/version.json'){
+    event.respondWith(fetch(new Request(request,{cache:'no-store'})));
+    return;
+  }
 
   if(request.mode==='navigate'){
     event.respondWith((async()=>{
